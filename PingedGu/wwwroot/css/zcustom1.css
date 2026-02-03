@@ -1,0 +1,11 @@
+﻿#search--box ion-icon {
+    color: rgb(75, 85, 99) !important;
+}
+
+#search--box input::placeholder {
+    color: rgb(75, 85, 99) !important;
+}
+
+#search--box input {
+    color: rgb(75, 85, 99) !important;
+}
