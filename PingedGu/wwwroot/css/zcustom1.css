@@ -9,3 +9,15 @@
 #search--box input {
     color: rgb(75, 85, 99) !important;
 }
+
+#burger-sidebar ion-icon {
+    color: rgb(75, 85, 99) !important;
+}
+
+#sidenav_button {
+    padding-left: 12px !important;
+}
+
+#logo {
+    padding-left: 12px !important;
+}
