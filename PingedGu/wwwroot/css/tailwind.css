@@ -5220,6 +5220,10 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: 8rem;
 }
 
+.pb-4 {
+    padding-bottom: 1rem;
+}
+
 .pb-6 {
   padding-bottom: 1.5rem;
 }
@@ -5298,6 +5302,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .pr-4 {
   padding-right: 1rem;
+}
+
+.pr-6 {
+    padding-right: 1.5rem;
 }
 
 .pr-\[10px\] {
