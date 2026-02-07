@@ -104,7 +104,7 @@
                             
                                 @* REPORT BUTTON *@
                                 <form action="/" method="post">
-                                    <button type="submit" class="hover\:\!bg-red-50 icon-link text-gray-900">
+                                    <button type="submit" class="hover:!bg-red-50 icon-link text-gray-900">
                                         <ion-icon class="text-xl shrink-0" name="flag-outline"></ion-icon> Report
                                     </button>
                                 </form>
@@ -113,7 +113,7 @@
 
                                 @* ARCHIVE POST BUTTON *@
                                 <form action="/" method="post">
-                                    <button type="submit" class="hover\:\!bg-red-50 icon-link text-gray-900">
+                                    <button type="submit" class="hover:!bg-red-50 icon-link text-gray-900">
                                         <ion-icon class="text-xl" name="lock-closed-outline"></ion-icon> Archive Post
                                     </button>
                                 </form>
@@ -122,7 +122,7 @@
 
                                 @* DELETE POST BUTTON *@
                                 <form action="/" method="post">
-                                    <button type="submit" class="hover\:\!bg-red-50 icon-link text-gray-900">
+                                    <button type="submit" class="text-red-400 hover:!bg-red-50 icon-link text-gray-900">
                                         <ion-icon class="text-xl" name="trash-bin-outline"></ion-icon> Delete
                                     </button>
                                 </form> 
@@ -131,7 +131,63 @@
                         </div>
                     </div>
 
-                    @* OTHER POST STUFFS *@
+                    @* USER POST CONTENT *@
+                    <a>
+                        <div class="px-sm-4 p-2.5 pt-0 w-full">
+                            <p class="font-normal text-black">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            </p>
+                        </div>
+                    </a>
+
+                    <a>
+                        <div class="relative w-full lg:h-96 h-full sm:px-4">
+                            <img src="~/images/tempImgs/herobrine.jpg" class="sm:rounded-lg w-full h-full object-cover"/>
+                        </div>
+                    </a>
+
+                    @* USER POST LIKES, REPLIES, AND BOOKMARKS *@
+                    <div class="sm:p-4 p-2.5 flex items-center gap-4 text-xs font-semibold">
+
+                        @* LIKES COUNT *@
+                        <div class="flex items-center gap-2.5" style="color: rgb(75, 85, 99)">
+                            <a class="button-icon text-red-500 bg-red-100">
+                                <ion-icon name="heart" class="text-lg"></ion-icon>
+                            </a>
+                            <a href="">67</a>
+                        </div>
+
+                        @* REPLIES COUNT *@
+                        <div class="flex items-center gap-3" style="color: rgb(75, 85, 99)">
+                            <a class="button-icon">
+                                <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
+                            </a>
+                            <a href="">2</a>
+                        </div>
+                        <div class="ml-auto"></div>
+
+                        @* BOOKMARKS *@
+                        <div>
+                            <a class="button-icon ml-auto" style="color: rgb(75, 85, 99)">
+                                <ion-icon name="bookmark-outline" class="text-lg"></ion-icon>
+                            </a>
+                        </div>
+                    </div>
+
+                    @* USER REPLIES UNDER USER POSTS *@
+                    <div>
+                        <div class="sm:px-4 sm:py-3 p-2\.5 border-t border-gray-100 flex items-center gap-1">
+                            <img src="~/images/profilepic/temp-pfp.jpg" class="w-6 h-6 rounded-full" />
+                            <div class="flex-1 relative overflow-hidden h-10">
+                                <textarea placeholder="Post your reply" rows="1" class="w-full resize-none 
+                                !bg-transparent px-4 py-2 focus:!border-transparent focus:!ring-transparent !text-black" id="replyPlaceholder"></textarea>
+                            </div>
+
+                            <button class="text-sm rounded-full py-1 px-3.5 bg-secondery text-gray-700">Reply</button>
+
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
