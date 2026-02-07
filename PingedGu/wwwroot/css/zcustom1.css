@@ -1,4 +1,14 @@
-﻿#search--box ion-icon {
+﻿html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+#search--box ion-icon {
     color: rgb(75, 85, 99) !important;
 }
 
@@ -29,4 +39,28 @@
 /*Index.cshtml Create User Posts*/
 #whatshappening {
     color: rgb(75, 85, 99) !important;
+}
+
+/*Index.cshtml Comment Placeholder */
+#replyPlaceholder::placeholder {
+    color: rgb(107 114 128) !important;
+}
+
+
+/*Index.cshtml Form */
+/*For post option button*/
+form > button.icon-link {
+    width: 100%;
+    padding: 8px 10px;
+    display: flex;
+    align-tems: center;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+/*For post option button*/
+form > button.icon-link ion-icon {
+    margin-right: 8px;
 }
