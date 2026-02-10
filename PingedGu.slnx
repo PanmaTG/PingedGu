@@ -1,4 +1,4 @@
 <Solution>
   <Project Path="PingedGu/PingedGu.csproj" />
-  <Project Path="PingeGu.Data/PingeGu.Data.csproj" Id="55bdd354-558d-4538-9812-bbfa3f3232bd" />
+  <Project Path="PingeGu.Data/PingedGu.Data.csproj" Id="55bdd354-558d-4538-9812-bbfa3f3232bd" />
 </Solution>
