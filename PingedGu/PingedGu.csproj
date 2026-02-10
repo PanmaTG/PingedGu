@@ -19,6 +19,10 @@
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\PingeGu.Data\PingedGu.Data.csproj" />
+	</ItemGroup>
 	
 	
 </Project>
