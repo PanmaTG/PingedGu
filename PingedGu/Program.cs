@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
+using PingedGu.Data.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,14 +8,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(); 
 
 //Database related stuffs
-string dbConnectionString = builder.Configuration.GetConnectionString("Default");
+string dbConnectionString = builder.Configuration.GetConnectionString("Default") ?? "";
 
 //WebAppDbContext is the name of the class I created inside the Data folder
 builder.Services.AddDbContext<WebAppDbContext>(options => options.UseSqlServer(dbConnectionString));
 
-//---------------
+
 var app = builder.Build();
 
+//Seed the database with initial data
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<WebAppDbContext>();
+    await dbContext.Database.MigrateAsync();
+    await DbInitializer.SeedAsync(dbContext);
+}
+    
+//---------------
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
