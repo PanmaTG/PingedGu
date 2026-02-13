@@ -30,10 +30,5 @@ namespace PingedGu.Controllers
             //
             return View(allPosts); 
         } 
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
     }
 }
