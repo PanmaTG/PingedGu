@@ -1,4 +1,6 @@
-﻿<main id="site__main" class="2xl:ml-[--w-side] xl:ml-[--w-side-sm] p-2.5 h-[calc(100vh-var(--m-top))] mt-[--m-top]">
+﻿@model List<Post>
+
+<main id="site__main" class="2xl:ml-[--w-side] xl:ml-[--w-side-sm] p-2.5 h-[calc(100vh-var(--m-top))] mt-[--m-top]">
     <div class="lg:flex 2xl:gap-16 gap-1 max-w-[1065px] mx-auto" id="js-oversized">
         <div class="max-w-[680px] mx-auto">
             @* USER STORIES *@
@@ -52,6 +54,8 @@
 
             @* CREATE USER POSTS *@
             <div class="md:max-w-[580px] mx-auto flex-1 xl:space-y-6 space-y-3">
+
+
                 <div class="bg-white rounded-xl shadow-sm md:p-4 p-2 space-y-4 text-sm font-medium border1">
                     <div class="flex items-center md:gap-3 gap-1">
                         <div class="flex-1 bg-slate-100 hover:bg-opacity-80 transition-all rounded-lg cursor-pointer"
@@ -64,134 +68,28 @@
                         </div>
                     </div>
                 </div>
-            </div>
+           
 
             @* USER POSTS | TIMELINE *@
-            <div class="md:max-w-[580px] mx-auto flex-1 xl:space-y-6 space-y-3">
-
-                <div class="bg-white rounded-xl shadow-sm md:p-4 p-2 space-y-4 text-sm font-medium !border1 text-gray-500" 
-                style="width: 580px; margin-top: 1rem;">
-                    Currently, there are no posts available. Create one?
-                </div>
-
-                <div class="bg-white rounded-xl shadow-sm text-sm font-medium \!border-0">
-
-                    @* USER POST HEADING *@
-                    <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
-
-                        @* USER PROFILE PICTURE *@
-                        <a href="">
-                            <img src="~/images/profilepic/temp-pfp.jpg" class="w-9 h-9 rounded-full"/>
-                        </a>
-
-                        @* NAME & DATE OF POSTING *@
-                        <div class="flex-1">
-                            <a>
-                                <h4 class="!text-black">PanmaTG</h4>
-                                <div class="text-xs text-gray-500">2 days ago</div>
-                            </a>
-                        </div>
-
-                        @* MORE OPTIONS POSTS BUTTON *@
-                        <div class="-mr-1">
-                            <button type="button" class="button-icon w-8 h-8 text-gray-500">
-                                <ion-icon class="text-xl" name="ellipsis-horizontal"></ion-icon>
-                            </button>
-                        
-                            <div class="w-\[245px\]" uk-dropdown="pos: bottom-right; 
-                            animation: uk-animation-scale-up uk-transform-origin-top-right;
-                            animate-out: true; mode: click" style="background-color: #fff">
-                            
-                                @* REPORT BUTTON *@
-                                <form action="/" method="post">
-                                    <button type="submit" class="hover:!bg-red-50 icon-link text-gray-900">
-                                        <ion-icon class="text-xl shrink-0" name="flag-outline"></ion-icon> Report
-                                    </button>
-                                </form>
-
-                                <hr />
-
-                                @* ARCHIVE POST BUTTON *@
-                                <form action="/" method="post">
-                                    <button type="submit" class="hover:!bg-red-50 icon-link text-gray-900">
-                                        <ion-icon class="text-xl" name="lock-closed-outline"></ion-icon> Archive Post
-                                    </button>
-                                </form>
-
-                                <hr />
-
-                                @* DELETE POST BUTTON *@
-                                <form action="/" method="post">
-                                    <button type="submit" class="text-red-400 hover:!bg-red-50 icon-link text-gray-900">
-                                        <ion-icon class="text-xl" name="trash-bin-outline"></ion-icon> Delete
-                                    </button>
-                                </form> 
-
-                            </div>
-                        </div>
+                
+                @* IF THERE ARE NO POST SHOW THIS MESSAGE IN A SMALL SECTION *@
+                @if (Model.Count == 0)
+                {
+                    <div class="bg-white rounded-xl shadow-sm md:p-4 p-2 space-y-4 text-sm font-medium !border1 text-gray-500"
+                         style="width: 580px; margin-top: 1rem;">
+                        Currently, there are no posts available. Create one?
                     </div>
+                } else
+                {
+                    @* FOREACH LOOP *@
+                    @foreach(var post in Model)
+                    {
+                        <partial name="Timeline/_Post" model="post"></partial>
+                    }
+                }
 
-                    @* USER POST CONTENT *@
-                    <a>
-                        <div class="px-sm-4 p-2.5 pt-0 w-full">
-                            <p class="font-normal text-black">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            </p>
-                        </div>
-                    </a>
-
-                    <a>
-                        <div class="relative w-full lg:h-96 h-full sm:px-4">
-                            <img src="~/images/tempImgs/herobrine.jpg" class="sm:rounded-lg w-full h-full object-cover"/>
-                        </div>
-                    </a>
-
-                    @* USER POST LIKES, REPLIES, AND BOOKMARKS *@
-                    <div class="sm:p-4 p-2.5 flex items-center gap-4 text-xs font-semibold">
-
-                        @* LIKES COUNT *@
-                        <div class="flex items-center gap-2.5" style="color: rgb(75, 85, 99)">
-                            <a class="button-icon text-red-500 bg-red-100">
-                                <ion-icon name="heart" class="text-lg"></ion-icon>
-                            </a>
-                            <a href="">67</a>
-                        </div>
-
-                        @* REPLIES COUNT *@
-                        <div class="flex items-center gap-3" style="color: rgb(75, 85, 99)">
-                            <a class="button-icon">
-                                <ion-icon name="chatbubble-ellipses-outline" class="text-lg"></ion-icon>
-                            </a>
-                            <a href="">2</a>
-                        </div>
-                        <div class="ml-auto"></div>
-
-                        @* BOOKMARKS *@
-                        <div>
-                            <a class="button-icon ml-auto" style="color: rgb(75, 85, 99)">
-                                <ion-icon name="bookmark-outline" class="text-lg"></ion-icon>
-                            </a>
-                        </div>
-                    </div>
-
-                    @* USER REPLIES UNDER USER POSTS *@
-                    <div>
-                        <div class="sm:px-4 sm:py-3 p-2\.5 border-t border-gray-100 flex items-center gap-1">
-                            <img src="~/images/profilepic/temp-pfp.jpg" class="w-6 h-6 rounded-full" />
-                            <div class="flex-1 relative overflow-hidden h-10">
-                                <textarea placeholder="Post your reply" rows="1" class="w-full resize-none 
-                                !bg-transparent px-4 py-2 focus:!border-transparent focus:!ring-transparent !text-black" id="replyPlaceholder"></textarea>
-                            </div>
-
-                            <button class="text-sm rounded-full py-1 px-3.5 bg-secondery text-gray-700">Reply</button>
-
-                        </div>
-                    </div>
-
-                </div>
 
             </div>
-
         </div>
 
 
