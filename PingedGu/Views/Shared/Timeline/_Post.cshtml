@@ -1,5 +1,43 @@
 ﻿@model Post
 
+@{
+    TimeSpan timeSpanSincePosted = DateTime.UtcNow.Subtract(Model.DateCreated);
+
+    // string displayTime = "";
+
+    // if(timeSpanSincePosted.TotalDays >= 1)
+    // {
+    //     displayTime = $"{timeSpanSincePosted.Days} days ago";
+    // } 
+    // else if (timeSpanSincePosted.TotalHours >= 1) {
+    //     displayTime = $"{timeSpanSincePosted.Hours} hours ago";
+    // }
+    // else if (timeSpanSincePosted.TotalMinutes >= 1)
+    // {
+    //     displayTime = $"{timeSpanSincePosted.Minutes} minutes ago";
+    // } else
+    // {
+    //     displayTime = "Just now";
+    // }
+
+    string displayTime = timeSpanSincePosted switch
+    {
+        var t when t.TotalDays > 730 => $"{(int)t.Days} years ago",
+        var t when t.TotalDays == 365 => $"a year ago",
+        var t when t.TotalDays > 60 => $"{(int)t.Days} months ago",
+        var t when t.TotalDays == 31 => $"a month ago",
+        var t when t.TotalDays > 1 => $"{(int)t.Days} days ago",
+        var t when t.TotalDays == 1 => $"a day ago",
+        var t when t.TotalHours > 1 => $"{(int)t.Hours} hours ago",
+        var t when t.TotalHours == 1 => $"an hour ago",
+        var t when t.TotalMinutes > 1 => $"{(int)t.Minutes} minutes ago",
+        var t when t.TotalMinutes == 1 => $"a minute ago",
+        _ => "Just now"
+    };
+    }
+
+}
+
 <div class="bg-white rounded-xl shadow-sm text-sm font-medium \!border-0">
 
     @* USER POST HEADING *@
@@ -18,7 +56,7 @@
         <div class="flex-1">
             <a>
                 <h4 class="!text-black">@Model.User.FullName</h4>
-                <div class="text-xs text-gray-500">@Model.DateCreated.ToString("MMMM, dd yyyy HH:mm")</div>
+                <div class="text-xs text-gray-500" title="@Model.DateCreated.ToString("MMM. dd, yyyy HH:mmtt")">@displayTime</div>
             </a>
         </div>
 
