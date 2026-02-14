@@ -2,6 +2,8 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
+using PingedGu.Data.Models;
+using PingedGu.ViewModels.Timeline;
 
 namespace PingedGu.Controllers
 {
@@ -26,9 +28,32 @@ namespace PingedGu.Controllers
             //1. The code here is for loading data from the database to the web app
             var allPosts = await _context.Posts
                 .Include(n => n.User)
+                .OrderByDescending(n => n.DateCreated)
                 .ToListAsync();
             //
             return View(allPosts); 
-        } 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePost(PostViewModel post)
+        {
+            //Get the logged in user
+            int loggedInUser = 1;
+
+            var newPost = new Post
+            {
+                Content = post.Content,
+                DateCreated = DateTime.UtcNow,
+                DateUpdated = DateTime.UtcNow,
+                ImageUrl = "",
+                NumOfReports = 0,
+                UserId = loggedInUser
+            };
+
+            await _context.Posts.AddAsync(newPost);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
 }
