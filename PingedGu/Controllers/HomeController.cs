@@ -36,7 +36,7 @@ namespace PingedGu.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreatePost(PostViewModel post)
-        {
+        { 
             //Get the logged in user
             int loggedInUser = 1;
 
@@ -50,6 +50,29 @@ namespace PingedGu.Controllers
                 UserId = loggedInUser
             };
 
+            //For checking and saving of image
+            if(post.Image != null && post.Image.Length > 0)
+            {
+                string rootFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                if(post.Image.ContentType.Contains("image"))
+                {
+                    string rootFolderPathImages = Path.Combine(rootFolderPath, "images/uploaded");
+                    Directory.CreateDirectory(rootFolderPathImages);
+
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(post.Image.FileName);
+                    string filePath = Path.Combine(rootFolderPathImages, fileName);
+
+                    using(var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await post.Image.CopyToAsync(stream);
+                    }
+
+                    //Set the ImageUrl property of the new post to the relative path of the saved image
+                    newPost.ImageUrl = "/images/uploaded/" + fileName;
+                }
+            }
+
+            //Adds the post to the database and saves the changes
             await _context.Posts.AddAsync(newPost);
             await _context.SaveChangesAsync();
 
