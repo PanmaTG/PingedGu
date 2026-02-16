@@ -78,5 +78,36 @@ namespace PingedGu.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> TogglePostLike(PostLikeViewModel postLikeViewModel)
+        {
+            int loggedInUserId = 1;
+            
+            //Check if user has already liked the post
+            var like = await _context.Likes
+                .Where(l => l.PostId == postLikeViewModel.PostId && l.UserId == loggedInUserId)
+                .FirstOrDefaultAsync();
+
+            if (like != null)
+            {
+                _context.Likes.Remove(like);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var newLike = new Like()
+                {
+                    PostId = postLikeViewModel.PostId,
+                    UserId = loggedInUserId
+                };
+
+                await _context.Likes.AddAsync(newLike);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
