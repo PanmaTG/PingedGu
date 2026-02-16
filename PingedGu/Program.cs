@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews(); 
 
-//Database related stuffs
+//Database Config
 string dbConnectionString = builder.Configuration.GetConnectionString("Default") ?? "";
 
 //WebAppDbContext is the name of the class I created inside the Data folder
