@@ -10,7 +10,8 @@ namespace PingedGu.Data.Models
         public string FullName { get; set; }
         public string? PfpUrl { get; set; }
 
-        //Nav Properties
+        // Nav Properties
         public ICollection<Post> Posts { get; set; } = new List<Post>();
+        public ICollection<Like> Likes { get; set; } = new List<Like>();
     }
 }

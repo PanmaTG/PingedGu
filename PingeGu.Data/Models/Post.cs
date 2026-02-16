@@ -17,5 +17,8 @@ namespace PingedGu.Data.Models
         public int UserId { get; set; }
 
         public User User {  get; set; }
+
+        // Nav Properties
+        public ICollection<Like> Likes { get; set; } = new List<Like>();
     }
 }
