@@ -53,7 +53,7 @@ namespace PingedGu.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("PingedGu.Data.Models.User", b =>
@@ -73,7 +73,7 @@ namespace PingedGu.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("PingedGu.Data.Models.Post", b =>
