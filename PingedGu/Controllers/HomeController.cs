@@ -28,6 +28,7 @@ namespace PingedGu.Controllers
             //1. The code here is for loading data from the database to the web app
             var allPosts = await _context.Posts
                 .Include(n => n.User)
+                .Include(n => n.Likes)
                 .OrderByDescending(n => n.DateCreated)
                 .ToListAsync();
             //
