@@ -22,6 +22,39 @@ namespace PingedGu.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PingedGu.Data.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUploaded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("PingedGu.Data.Models.Like", b =>
                 {
                     b.Property<int>("PostId")
@@ -94,6 +127,25 @@ namespace PingedGu.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("PingedGu.Data.Models.Comment", b =>
+                {
+                    b.HasOne("PingedGu.Data.Models.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PingedGu.Data.Models.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PingedGu.Data.Models.Like", b =>
                 {
                     b.HasOne("PingedGu.Data.Models.Post", "Post")
@@ -126,11 +178,15 @@ namespace PingedGu.Migrations
 
             modelBuilder.Entity("PingedGu.Data.Models.Post", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("PingedGu.Data.Models.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Likes");
 
                     b.Navigation("Posts");
