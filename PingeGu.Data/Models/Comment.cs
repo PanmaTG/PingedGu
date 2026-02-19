@@ -10,7 +10,7 @@ namespace PingedGu.Data.Models
         public string Content { get; set; }
 
         public DateTime DateCreated { get; set; }
-        public DateTime DateUploaded { get; set; }
+        public DateTime DateUpdated { get; set; }
 
         //FK = Foreign Key
         public int PostId { get; set; }
