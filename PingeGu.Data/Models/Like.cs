@@ -7,6 +7,8 @@ namespace PingedGu.Data.Models
     public class Like
     {
         public int Id { get; set; }
+
+        //FK = Foreign Key
         public int PostId { get; set; }
         public int UserId { get; set; }
 
