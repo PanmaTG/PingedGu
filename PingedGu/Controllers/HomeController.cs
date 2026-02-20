@@ -80,7 +80,7 @@ namespace PingedGu.Controllers
             return RedirectToAction("Index");
         }
 
-
+        //Post Like
         [HttpPost]
         public async Task<IActionResult> TogglePostLike(PostLikeViewModel postLikeViewModel)
         {
@@ -107,6 +107,27 @@ namespace PingedGu.Controllers
                 await _context.Likes.AddAsync(newLike);
                 await _context.SaveChangesAsync();
             }
+
+            return RedirectToAction("Index");
+        }
+
+        // Post Comment
+        [HttpPost]
+        public async Task<IActionResult> AddPostComment(PostCommentViewModel postCommentViewModel)
+        {
+            int loggedInUserId = 1;
+
+            var newComment = new Comment()
+            {
+                UserId = loggedInUserId,
+                PostId = postCommentViewModel.PostId,
+                Content = postCommentViewModel.Content,
+                DateCreated = DateTime.UtcNow,
+                DateUpdated = DateTime.UtcNow
+            };
+
+            await _context.Comments.AddAsync(newComment);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
