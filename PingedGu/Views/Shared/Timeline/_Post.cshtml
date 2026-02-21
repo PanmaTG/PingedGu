@@ -156,7 +156,7 @@
 
         <div class="p-2.5 border-t border-gray-100 font-normal space-y-3 relative">
 
-            @foreach(var comment in Model.Comments)
+            @foreach(var comment in Model.Comments.OrderByDescending(n => n.DateCreated))
             {
                 TimeSpan commentTimeSpanSincePosted = DateTime.UtcNow.Subtract(comment.DateCreated);
 
