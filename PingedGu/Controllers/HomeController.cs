@@ -132,5 +132,19 @@ namespace PingedGu.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemovePostComment(RemoveCommentViewModel removeCommentViewModel)
+        {
+            var commentDb = await _context.Comments.FirstOrDefaultAsync(c => c.Id == removeCommentViewModel.CommentId);
+
+            if (commentDb != null)
+            {
+                _context.Comments.Remove(commentDb);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
