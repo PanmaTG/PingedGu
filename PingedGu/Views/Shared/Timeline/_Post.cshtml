@@ -34,6 +34,9 @@
         var t when t.TotalMinutes == 1 => $"a minute ago",
         _ => "Just now"
     };
+
+    bool isLiked = Model.Likes.Any(n => n.UserId == 1);
+    bool isFavorited = Model.Favorites.Any(n => n.UserId == 1);
 }
 
 <div class="bg-white rounded-xl shadow-sm text-sm font-medium \!border-0">
@@ -126,8 +129,8 @@
         <div class="flex items-center gap-2.5" style="color: rgb(75, 85, 99)">
             <form asp-controller="Home" asp-action="TogglePostLike">
                 <input type="hidden" name="postId" value="@Model.Id"/>
-                <button type="submit" class="button-icon @(Model.Likes.Any(n => n.UserId == 1) ? "text-red-500 bg-red-100" : "")">
-                    <ion-icon name="@(Model.Likes.Any(n => n.UserId == 1) ? "heart" : "heart-outline")" class="text-lg"></ion-icon>
+                <button type="submit" class="button-icon @(isLiked ? "text-red-500 bg-red-100" : "")">
+                    <ion-icon name="@(isLiked ? "heart" : "heart-outline")" class="text-lg"></ion-icon>
                 </button>
             </form>
 
@@ -152,14 +155,14 @@
             }
             <form asp-controller="Home" asp-action="TogglePostFavorite">
                 <input type="hidden" name="postId" value="@Model.Id"/>
-                <button type="submit" class="button-icon ml-auto @(Model.Favorites.Any(n => n.UserId == 1) ? "text-blue-500 bt-blue-100" : "text-gray-600")">
-                    <ion-icon name="@(Model.Favorites.Any(n => n.UserId == 1) ? "bookmark" : "bookmark-outline")" class="text-lg"></ion-icon>
+                <button type="submit" class="button-icon ml-auto @(isFavorited ? "text-blue-500 bt-blue-100" : "text-gray-600")">
+                    <ion-icon name="@(isFavorited ? "bookmark" : "bookmark-outline")" class="text-lg"></ion-icon>
                 </button>
 
               @*   <button type="submit" class="button-icon ml-auto">
-                    <ion-icon name="@(Model.Favorites.Any(n => n.UserId == 1) ? "bookmark" : "bookmark-outline")"
+                    <ion-icon name="@(isFavorited ? "bookmark" : "bookmark-outline")"
                               class="text-lg"
-                              style="color: @(Model.Favorites.Any(n => n.UserId == 1) ? "#3b82f6" : "#6b7280")">
+                              style="color: @(isFavorited ? "#3b82f6" : "#6b7280")">
                     </ion-icon>
                 </button> *@
 
