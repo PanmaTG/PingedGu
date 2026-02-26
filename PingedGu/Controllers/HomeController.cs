@@ -112,6 +112,36 @@ namespace PingedGu.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> TogglePostFavorite(PostFavoriteViewModel postFavoriteViewModel)
+        {
+            int loggedInUserId = 1;
+
+            //Check if user has already favorited/bookmarked the post
+            var favorite = await _context.Favorites
+                .Where(l => l.PostId == postFavoriteViewModel.PostId && l.UserId == loggedInUserId)
+                .FirstOrDefaultAsync();
+
+            if (favorite != null)
+            {
+                _context.Favorites.Remove(favorite);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var newFavorite = new Favorite()
+                {
+                    PostId = postFavoriteViewModel.PostId,
+                    UserId = loggedInUserId
+                };
+
+                await _context.Favorites.AddAsync(newFavorite);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
         // Post Comment
         [HttpPost]
         public async Task<IActionResult> AddPostComment(PostCommentViewModel postCommentViewModel)
