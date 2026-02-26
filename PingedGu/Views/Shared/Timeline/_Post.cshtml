@@ -141,16 +141,30 @@
             </a>
             <a href="">@Model.Comments.Count</a>
         </div>
+
         <div class="ml-auto"></div>
 
         @* FAVORITES/BOOKMARKS *@
-        <div>
+        <div class="flex items-center gap-2">
+            @if (Model.Favorites.Count > 0)
+            {
+                <a href="#" class="text-gray-500">@Model.Favorites.Count</a>
+            }
             <form asp-controller="Home" asp-action="TogglePostFavorite">
                 <input type="hidden" name="postId" value="@Model.Id"/>
-                <button type="submit" class="button-icon ml-auto" style="color: rgb(75, 85, 99)">
-                    <ion-icon name="bookmark-outline" class="text-lg"></ion-icon>
+                <button type="submit" class="button-icon ml-auto @(Model.Favorites.Any(n => n.UserId == 1) ? "text-blue-500 bt-blue-100" : "text-gray-600")">
+                    <ion-icon name="@(Model.Favorites.Any(n => n.UserId == 1) ? "bookmark" : "bookmark-outline")" class="text-lg"></ion-icon>
                 </button>
+
+              @*   <button type="submit" class="button-icon ml-auto">
+                    <ion-icon name="@(Model.Favorites.Any(n => n.UserId == 1) ? "bookmark" : "bookmark-outline")"
+                              class="text-lg"
+                              style="color: @(Model.Favorites.Any(n => n.UserId == 1) ? "#3b82f6" : "#6b7280")">
+                    </ion-icon>
+                </button> *@
+
             </form>
+
         </div>
     </div>
 
