@@ -41,7 +41,7 @@ namespace PingedGu.Data
                 .HasForeignKey(l => l.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //Comments
+            //Comments || Replies
             modelBuilder.Entity<Comment>()
                 .HasOne(l => l.Post)
                 .WithMany(p => p.Comments)
