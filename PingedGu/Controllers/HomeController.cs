@@ -39,6 +39,7 @@ namespace PingedGu.Controllers
             return View(allPosts); 
         }
 
+        //Creating Post
         [HttpPost]
         public async Task<IActionResult> CreatePost(PostViewModel post)
         { 
@@ -166,7 +167,7 @@ namespace PingedGu.Controllers
             return RedirectToAction("Index");
         }
 
-        // Post Comment
+        // Post Comment/Reply
         [HttpPost]
         public async Task<IActionResult> AddPostComment(PostCommentViewModel postCommentViewModel)
         {
@@ -187,6 +188,7 @@ namespace PingedGu.Controllers
             return RedirectToAction("Index");
         }
 
+        // Remove Comment/Reply
         [HttpPost]
         public async Task<IActionResult> RemovePostComment(RemoveCommentViewModel removeCommentViewModel)
         {
