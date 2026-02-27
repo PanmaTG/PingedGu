@@ -10,6 +10,7 @@ namespace PingedGu.Data.Models
         public string Content { get; set; }
         public string? ImageUrl { get; set; }
         public int NumOfReports { get; set; }
+        public bool IsPrivate { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
 
