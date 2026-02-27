@@ -37,6 +37,7 @@
 
     bool isLiked = Model.Likes.Any(n => n.UserId == 1);
     bool isFavorited = Model.Favorites.Any(n => n.UserId == 1);
+    bool isPrivate = Model.IsPrivate == true && Model.UserId == 1;
 }
 
 <div class="bg-white rounded-xl shadow-sm text-sm font-medium \!border-0">
@@ -81,14 +82,18 @@
 
                 <hr />
 
-                @* SET AS PRIVATE BUTTON *@
-                <form asp-controller="Home" asp-action="TogglePostVisibility">
-                    <input type="hidden" name="postId" value="@Model.Id"/>
-                    <button type="submit" class="hover:!bg-red-50 icon-link text-gray-900">
-                        <ion-icon class="text-xl" name="lock-closed-outline"></ion-icon> Set As Private
-                    </button>
-                </form>
+                @if(Model.UserId == 1)
+                {
+                    @* SET AS PRIVATE BUTTON *@
+                    <form asp-controller="Home" asp-action="TogglePostVisibility">
+                        <input type="hidden" name="postId" value="@Model.Id" />
+                        <button type="submit" class="hover:!bg-red-50 icon-link text-gray-900">
+                            <ion-icon name="@(isPrivate ? "lock-open-outline" : "lock-closed-outline")" class="text-xl"></ion-icon> Set As @(isPrivate ? "Public" : "Private")
+                        </button>
+                    </form>
+                }
 
+                
                 <hr />
 
                 @* DELETE POST BUTTON *@
