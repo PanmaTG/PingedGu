@@ -113,6 +113,27 @@ namespace PingedGu.Controllers
             return RedirectToAction("Index");
         }
 
+        // Post - Set As Private
+        [HttpPost]
+        public async Task<IActionResult> TogglePostVisibility(PostVisibilityViewModel postVisibilityViewModel)
+        {
+            int loggedInUserId = 1;
+
+            // Get post id and loggedin user id
+            var post = await _context.Posts
+                .FirstOrDefaultAsync(l => l.Id == postVisibilityViewModel.PostId && l.UserId == loggedInUserId);
+
+            if (post != null)
+            {
+                post.IsPrivate = !post.IsPrivate;
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // Post Favorite/Bookmark
         [HttpPost]
         public async Task<IActionResult> TogglePostFavorite(PostFavoriteViewModel postFavoriteViewModel)
         {
