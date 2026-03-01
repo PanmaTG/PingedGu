@@ -116,6 +116,25 @@ namespace PingedGu.Controllers
             return RedirectToAction("Index");
         }
 
+        // Post - Report
+        [HttpPost]
+        public async Task<IActionResult> AddPostReport(PostReportViewModel postReportViewModel)
+        {
+            int loggedInUserId = 1;
+
+            var newReport = new Report()
+            {
+                UserId = loggedInUserId,
+                PostId = postReportViewModel.PostId,
+                DateCreated = DateTime.UtcNow,
+            };
+
+            await _context.Reports.AddAsync(newReport);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
         // Post - Set As Private
         [HttpPost]
         public async Task<IActionResult> TogglePostVisibility(PostVisibilityViewModel postVisibilityViewModel)
