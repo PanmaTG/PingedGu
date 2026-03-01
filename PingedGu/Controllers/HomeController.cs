@@ -28,7 +28,7 @@ namespace PingedGu.Controllers
             int loggedInUserId = 1;
             //1. The code here is for loading data from the database to the web app
             var allPosts = await _context.Posts
-                .Where(n => !n.IsPrivate || n.UserId == loggedInUserId)
+                .Where(n => (!n.IsPrivate || n.UserId == loggedInUserId) && n.Reports.Count < 5)
                 .Include(n => n.User)
                 .Include(n => n.Likes)
                 .Include(n => n.Favorites)
