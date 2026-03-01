@@ -33,6 +33,7 @@ namespace PingedGu.Controllers
                 .Include(n => n.Likes)
                 .Include(n => n.Favorites)
                 .Include(n => n.Comments).ThenInclude(n => n.User)
+                .Include(n => n.Reports)
                 .OrderByDescending(n => n.DateCreated)
                 .ToListAsync();
             //

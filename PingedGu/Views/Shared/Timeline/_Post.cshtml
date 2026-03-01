@@ -38,6 +38,7 @@
     bool isLiked = Model.Likes.Any(n => n.UserId == 1);
     bool isFavorited = Model.Favorites.Any(n => n.UserId == 1);
     bool isPrivate = Model.IsPrivate == true && Model.UserId == 1;
+    bool isReported = Model.Reports.Any(n => n.UserId == 1);
 }
 
 <div class="bg-white rounded-xl shadow-sm text-sm font-medium \!border-0">
@@ -72,16 +73,6 @@
                                     animation: uk-animation-scale-up uk-transform-origin-top-right;
                                     animate-out: true; mode: click" style="background-color: #fff">
 
-                @* REPORT BUTTON *@
-                <form asp-controller="Home" asp-action="AddPostReport">
-                    <input type="hidden" name="postId" value="@Model.Id"/>
-                    <button type="submit" class="hover:!bg-red-50 icon-link text-gray-900">
-                        <ion-icon class="text-xl shrink-0" name="flag-outline"></ion-icon> Report
-                    </button>
-                </form>
-
-                <hr /> 
-
                 @if(Model.UserId == 1)
                 {
                     @* SET AS PRIVATE BUTTON *@
@@ -91,18 +82,27 @@
                             <ion-icon name="@(isPrivate ? "lock-open-outline" : "lock-closed-outline")" class="text-xl"></ion-icon> Set As @(isPrivate ? "Public" : "Private")
                         </button>
                     </form>
+                    <hr />
+
+                    @* DELETE POST BUTTON *@
+                    <form asp-controller="Home" asp-action="Delete">
+                        <input type="hidden" name="postId" />
+                        <button type="submit" class="text-red-400 hover:!bg-red-50 icon-link text-gray-900">
+                            <ion-icon class="text-xl" name="trash-bin-outline"></ion-icon> Delete
+                        </button>
+                    </form>
                 }
 
-                
-                <hr />
-
-                @* DELETE POST BUTTON *@
-                <form action="/" method="post">
-                    <input type="hidden" name="postId" />
-                    <button type="submit" class="text-red-400 hover:!bg-red-50 icon-link text-gray-900">
-                        <ion-icon class="text-xl" name="trash-bin-outline"></ion-icon> Delete
-                    </button>
-                </form>
+                @* REPORT BUTTON *@
+                @if(!isReported) 
+                {
+                    <form asp-controller="Home" asp-action="AddPostReport">
+                        <input type="hidden" name="postId" value="@Model.Id" />
+                        <button type="submit" class="hover:!bg-red-50 icon-link text-gray-900">
+                            <ion-icon class="text-xl shrink-0" name="flag-outline"></ion-icon> Report
+                        </button>
+                    </form>
+                }
 
             </div>
         </div>
