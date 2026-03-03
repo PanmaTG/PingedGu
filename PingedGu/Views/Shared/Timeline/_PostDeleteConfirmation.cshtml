@@ -1,0 +1,25 @@
+﻿
+@* POST DELETE DIALOG CONFIRMATION *@
+<div id="postDeleteDialog" uk-modal>
+    <div class="uk-modal-dialog relative mx-auto bg-white rounded-lg shadow-xl w-[400px]">
+
+        <!-- MODAL HEADER -->
+        <div class="p-6">
+            <h2 class="text-xl font-semibold" id="confirmDeleteH2">Confirm Delete</h2>
+        </div>
+
+        <!-- MODAL BODY -->
+        <div class="p-6 py-0 text-gray-500">
+            <p>Are you sure you want to delete this post?</p>
+        </div>
+
+        <!-- MODAL FOOTER -->
+        <div class="flex justify-end p-6 text-sm font-medium">
+            <form asp-controller="Home" asp-action="PostDelete">
+                <input type="hidden" name="postId" id="postId" value="" />
+                <button type="button" class="px-4 py-1.5 rounded-md uk-modal-close text-gray-800">Cancel</button>
+                <button type="submit" class="px-5 py-1.5 bg-gray-200 rounded-md text-gray-800">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>

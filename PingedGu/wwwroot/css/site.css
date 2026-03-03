@@ -29,3 +29,18 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+form > button.icon-link, button.delete-post-btn {
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+}
+
+    form > button.icon-link > ion-icon, button.delete-post-btn > ion-icon {
+        margin-right: 8px;
+    }

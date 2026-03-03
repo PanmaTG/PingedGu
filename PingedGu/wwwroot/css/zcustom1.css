@@ -64,3 +64,8 @@ form > button.icon-link {
 form > button.icon-link ion-icon {
     margin-right: 8px;
 }
+
+/*_PostDeleteConfirmation.cshtml*/
+#confirmDeleteH2 {
+    color: black !important;
+}
