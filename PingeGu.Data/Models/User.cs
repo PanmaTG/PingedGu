@@ -9,6 +9,7 @@ namespace PingedGu.Data.Models
         public int Id { get; set; }
         public string FullName { get; set; }
         public string? PfpUrl { get; set; }
+        public bool IsDeleted { get; set; }
 
         // Nav Properties
         public ICollection<Post> Posts { get; set; } = new List<Post>();
