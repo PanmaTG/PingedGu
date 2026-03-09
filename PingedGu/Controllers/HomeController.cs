@@ -63,7 +63,7 @@ namespace PingedGu.Controllers
                 string rootFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
                 if(post.Image.ContentType.Contains("image"))
                 {
-                    string rootFolderPathImages = Path.Combine(rootFolderPath, "images/uploaded");
+                    string rootFolderPathImages = Path.Combine(rootFolderPath, "images/posts");
                     Directory.CreateDirectory(rootFolderPathImages);
 
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(post.Image.FileName);
@@ -75,7 +75,7 @@ namespace PingedGu.Controllers
                     }
 
                     //Set the ImageUrl property of the new post to the relative path of the saved image
-                    newPost.ImageUrl = "/images/uploaded/" + fileName;
+                    newPost.ImageUrl = "/images/posts/" + fileName;
                 }
             }
 
