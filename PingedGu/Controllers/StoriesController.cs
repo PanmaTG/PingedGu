@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
 using PingedGu.Data.Models;
 using PingedGu.ViewModels.Stories;
@@ -15,7 +16,8 @@ namespace PingedGu.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View();
+            var allStories = await _context.Stories.Include(s => s.User).ToListAsync();
+            return View(allStories);
         }
 
         [HttpPost]
