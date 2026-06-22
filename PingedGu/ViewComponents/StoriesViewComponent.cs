@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
 
 namespace PingedGu.ViewComponents
@@ -11,9 +12,10 @@ namespace PingedGu.ViewComponents
             _context = context;
         }
 
-        public async Task<IViewComponentResult> Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View();
+            var allStories = await _context.Stories.Include(s => s.User).ToListAsync();
+            return View(allStories);
         }
     }
 }
