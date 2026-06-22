@@ -22,12 +22,12 @@
 
     string displayTime = timeSpanSincePosted switch
     {
-        var t when t.TotalDays > 730 => $"{(int)t.Days} years ago",
+        var t when t.TotalDays > 730 => $"{(int)t.Days / 365} years ago",
         var t when t.TotalDays == 365 => $"a year ago",
-        var t when t.TotalDays > 60 => $"{(int)t.Days} months ago",
-        var t when t.TotalDays == 31 => $"a month ago",
-        var t when t.TotalDays > 1 => $"{(int)t.Days} days ago",
-        var t when t.TotalDays == 1 => $"a day ago",
+        var t when t.TotalDays >= 60 => $"{(int)t.Days / 30} months ago",
+        var t when t.TotalDays >= 30 => $"a month ago",
+        var t when t.TotalDays >= 2 => $"{(int)t.Days} days ago",
+        var t when t.TotalDays >= 1 => $"a day ago",
         var t when t.TotalHours > 1 => $"{(int)t.Hours} hours ago",
         var t when t.TotalHours == 1 => $"an hour ago",
         var t when t.TotalMinutes > 1 => $"{(int)t.Minutes} minutes ago",
@@ -187,7 +187,8 @@
 
                 string commentDisplayTime = commentTimeSpanSincePosted switch
                 {
-                    var t when t.TotalDays > 365 => $"{(int)t.Days}y",
+                    var t when t.TotalDays >= 365 => $"{(int)t.Days / 365}y ago",
+                    var t when t.TotalDays >= 60 => $"{(int)t.Days / 30}mos ago",
                     var t when t.TotalDays >= 1 => $"{(int)t.Days}d ago",
                     var t when t.TotalHours >= 1 => $"{(int)t.Hours}h ago",
                     var t when t.TotalMinutes >= 1 => $"{(int)t.Minutes}m ago",
