@@ -58,7 +58,7 @@
 
                 @* NOW TRENDING SECTION *@
                 <div class="box p-5 px-6" style="background-color: #fff">
-                    <partial name="RightSideBar/_NowTrending"></partial>
+                    @await Component.InvokeAsync("Trendings")
                 </div>
             </div>
         </div>
