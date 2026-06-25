@@ -1,9 +1,10 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
+using PingedGu.Data.Helpers;
 using PingedGu.Data.Models;
 using PingedGu.ViewModels.Timeline;
+using System.Diagnostics;
 
 namespace PingedGu.Controllers
 {
@@ -43,7 +44,7 @@ namespace PingedGu.Controllers
         //Creating Post
         [HttpPost]
         public async Task<IActionResult> CreatePost(PostViewModel post)
-        { 
+        {
             //Get the logged in user
             int loggedInUser = 1;
 
@@ -58,10 +59,10 @@ namespace PingedGu.Controllers
             };
 
             //For checking and saving of image
-            if(post.Image != null && post.Image.Length > 0)
+            if (post.Image != null && post.Image.Length > 0)
             {
                 string rootFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                if(post.Image.ContentType.Contains("image"))
+                if (post.Image.ContentType.Contains("image"))
                 {
                     string rootFolderPathImages = Path.Combine(rootFolderPath, "images/posts");
                     Directory.CreateDirectory(rootFolderPathImages);
@@ -69,7 +70,7 @@ namespace PingedGu.Controllers
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(post.Image.FileName);
                     string filePath = Path.Combine(rootFolderPathImages, fileName);
 
-                    using(var stream = new FileStream(filePath, FileMode.Create))
+                    using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await post.Image.CopyToAsync(stream);
                     }
@@ -82,6 +83,33 @@ namespace PingedGu.Controllers
             //Adds the post to the database and saves the changes
             await _context.Posts.AddAsync(newPost);
             await _context.SaveChangesAsync();
+
+            //Searches for hashtags in a post and stores them in the database
+            var postTrendings = TrendingHelper.GetTrendings(post.Content);
+            foreach (var trending in postTrendings)
+            {
+                var trendingDb = await _context.Trendings.FirstOrDefaultAsync(n => n.Name == trending);
+                if(trendingDb != null)
+                {
+                    trendingDb.Count += 1;
+                    trendingDb.DateUpdated = DateTime.UtcNow.AddHours(8);
+
+                    _context.Trendings.Update(trendingDb);
+                    await _context.SaveChangesAsync();
+                } else
+                {
+                    var newTrending = new Trending()
+                    {
+                        Name = trending,
+                        Count = 1,
+                        DateCreated = DateTime.UtcNow.AddHours(8),
+                        DateUpdated = DateTime.UtcNow.AddHours(8)
+                    };
+
+                    await _context.Trendings.AddAsync(newTrending);
+                    await _context.SaveChangesAsync();
+                }
+            }
 
             return RedirectToAction("Index");
         }

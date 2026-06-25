@@ -11,7 +11,7 @@ namespace PingedGu.Data.Helpers
         {
             var trendingPattern = new Regex(@"#\w+");
             var matches = trendingPattern.Matches(postText)
-                .Select(match => match.Value.TrimEnd('.', ',', '!', '?'))
+                .Select(match => match.Value.TrimEnd('.', ',', '!', '?').ToLower())
                 .Distinct()
                 .ToList();
 
