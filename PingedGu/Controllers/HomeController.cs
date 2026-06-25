@@ -261,6 +261,23 @@ namespace PingedGu.Controllers
                 postDb.IsDeleted = true;
                 _context.Posts.Update(postDb);
                 await _context.SaveChangesAsync();
+
+                //Update trendings count if post is deleted
+                var postTrendings = TrendingHelper.GetTrendings(postDb.Content);
+                foreach(var trending in postTrendings)
+                {
+                    var trendingDb = await _context.Trendings.FirstOrDefaultAsync(n => n.Name == trending);
+                    if (trendingDb != null)
+                    {
+                        trendingDb.Count -= 1;
+                        trendingDb.DateUpdated = DateTime.UtcNow;
+                        trendingDb.DateUpdated = DateTime.UtcNow;
+
+                        _context.Trendings.Update(trendingDb);
+                        await _context.SaveChangesAsync();
+                    }
+
+                }
             }
 
             return RedirectToAction("Index");
