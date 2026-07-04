@@ -154,5 +154,19 @@ namespace PingedGu.Data.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task TogglePostVisibilityAsync(int postId, int userId)
+        {
+            // Get post id and loggedin user id
+            var post = await _context.Posts
+                .FirstOrDefaultAsync(l => l.Id == postId && l.UserId == userId);
+
+            if (post != null)
+            {
+                post.IsPrivate = !post.IsPrivate;
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }
