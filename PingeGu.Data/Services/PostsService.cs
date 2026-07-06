@@ -61,7 +61,7 @@ namespace PingedGu.Data.Services
             return post;
         }
 
-        public async Task RemovePostAsync(int postId)
+        public async Task<Post> RemovePostAsync(int postId)
         {
             var postDb = await _context.Posts.FirstOrDefaultAsync(n => n.Id == postId);
 
@@ -72,6 +72,8 @@ namespace PingedGu.Data.Services
                 _context.Posts.Update(postDb);
                 await _context.SaveChangesAsync();
             }
+
+            return postDb;
         }
 
         public async Task AddPostCommentAsync(Comment comment)

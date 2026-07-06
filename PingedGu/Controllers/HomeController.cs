@@ -14,15 +14,17 @@ namespace PingedGu.Controllers
         //1. The code here is for loading data from the database to the web app
 
         private readonly ILogger<HomeController> _logger;
-        private readonly WebAppDbContext _context;
         private readonly IPostsService _postsService;
+        private readonly ITrendingsService _trendingsService;
 
         //Constructor
-        public HomeController(ILogger<HomeController> logger, WebAppDbContext context, IPostsService postsService)
+        public HomeController(ILogger<HomeController> logger, 
+            IPostsService postsService, 
+            ITrendingsService trendingsService)
         {
             _logger = logger;
-            _context = context;
             _postsService = postsService;
+            _trendingsService = trendingsService;
         }
 
         //-------------------
@@ -55,33 +57,8 @@ namespace PingedGu.Controllers
             };
 
             await _postsService.CreatePostAsync(newPost, post.Image);
-
-            //Searches for hashtags in a post and stores them in the database
-            var postTrendings = TrendingHelper.GetTrendings(post.Content);
-            foreach (var trending in postTrendings)
-            {
-                var trendingDb = await _context.Trendings.FirstOrDefaultAsync(n => n.Name == trending);
-                if(trendingDb != null)
-                {
-                    trendingDb.Count += 1;
-                    trendingDb.DateUpdated = DateTime.UtcNow.AddHours(8);
-
-                    _context.Trendings.Update(trendingDb);
-                    await _context.SaveChangesAsync();
-                } else
-                {
-                    var newTrending = new Trending()
-                    {
-                        Name = trending,
-                        Count = 1,
-                        DateCreated = DateTime.UtcNow.AddHours(8),
-                        DateUpdated = DateTime.UtcNow.AddHours(8)
-                    };
-
-                    await _context.Trendings.AddAsync(newTrending);
-                    await _context.SaveChangesAsync();
-                }
-            }
+            await _trendingsService.ProcessTrendingsForNewPostAsync(post.Content);
+            
 
             return RedirectToAction("Index");
         }
@@ -163,24 +140,9 @@ namespace PingedGu.Controllers
         public async Task<IActionResult> PostRemove(PostRemoveViewModel postRemoveViewModel)
         {
 
-            await _postsService.RemovePostAsync(postRemoveViewModel.PostId);
+            var postRemoved = await _postsService.RemovePostAsync(postRemoveViewModel.PostId);
+            await _trendingsService.ProcessTrendingsForRemovedPostAsync(postRemoved.Content);
 
-                //Update trendings count if post is deleted
-                //var postTrendings = TrendingHelper.GetTrendings(postDb.Content);
-                //foreach(var trending in postTrendings)
-                //{
-                //    var trendingDb = await _context.Trendings.FirstOrDefaultAsync(n => n.Name == trending);
-                //    if (trendingDb != null)
-                //    {
-                //        trendingDb.Count -= 1;
-                //        trendingDb.DateUpdated = DateTime.UtcNow;
-                //        trendingDb.DateUpdated = DateTime.UtcNow;
-
-                //        _context.Trendings.Update(trendingDb);
-                //        await _context.SaveChangesAsync();
-                //    }
-
-                //}
 
             return RedirectToAction("Index");
         }
