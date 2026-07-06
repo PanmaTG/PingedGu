@@ -154,7 +154,7 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> RemovePostComment(RemoveCommentViewModel removeCommentViewModel)
         {
-            await _postsService.RemovePostAsync(removeCommentViewModel.CommentId);
+            await _postsService.RemovePostCommentAsync(removeCommentViewModel.CommentId);
 
             return RedirectToAction("Index");
         }
