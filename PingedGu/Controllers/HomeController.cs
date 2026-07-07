@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
 using PingedGu.Data.Helpers;
+using PingedGu.Data.Helpers.Enums;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 using PingedGu.ViewModels.Timeline;
@@ -16,15 +17,17 @@ namespace PingedGu.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IPostsService _postsService;
         private readonly ITrendingsService _trendingsService;
-
+        private readonly IFilesService _filesService;
         //Constructor
         public HomeController(ILogger<HomeController> logger, 
             IPostsService postsService, 
-            ITrendingsService trendingsService)
+            ITrendingsService trendingsService,
+            IFilesService filesService)
         {
             _logger = logger;
             _postsService = postsService;
             _trendingsService = trendingsService;
+            _filesService = filesService;
         }
 
         //-------------------
@@ -45,18 +48,20 @@ namespace PingedGu.Controllers
             //Get the logged in user
             int loggedInUser = 1;
 
+            var imageUploadPath = await _filesService.UploadImageAsync(post.Image, ImageFileType.PostImage);
+
             //Create a new post
             var newPost = new Post
             {
                 Content = post.Content,
                 DateCreated = DateTime.UtcNow,
                 DateUpdated = DateTime.UtcNow,
-                ImageUrl = "",
+                ImageUrl = imageUploadPath,
                 NumOfReports = 0,
                 UserId = loggedInUser
             };
 
-            await _postsService.CreatePostAsync(newPost, post.Image);
+            await _postsService.CreatePostAsync(newPost);
             await _trendingsService.ProcessTrendingsForNewPostAsync(post.Content);
             
 

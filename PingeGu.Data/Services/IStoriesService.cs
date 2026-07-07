@@ -9,6 +9,6 @@ namespace PingedGu.Data.Services
     public interface IStoriesService
     {
         Task<List<Story>> GetAllStoriesAsync();
-        Task<Story> CreateStoryAsync(Story post, IFormFile Image);
+        Task<Story> CreateStoryAsync(Story post);
     }
 }

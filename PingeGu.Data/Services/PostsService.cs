@@ -31,29 +31,9 @@ namespace PingedGu.Data.Services
             return allPosts;
         }
 
-        public async Task<Post> CreatePostAsync(Post post, IFormFile image)
+        public async Task<Post> CreatePostAsync(Post post)
         {
-            //For checking and saving of image
-            if (image != null && image.Length > 0)
-            {
-                string rootFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                if (image.ContentType.Contains("image"))
-                {
-                    string rootFolderPathImages = Path.Combine(rootFolderPath, "images/posts");
-                    Directory.CreateDirectory(rootFolderPathImages);
 
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-                    string filePath = Path.Combine(rootFolderPathImages, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await image.CopyToAsync(stream);
-                    }
-
-                    //Set the ImageUrl property of the new post to the relative path of the saved image
-                    post.ImageUrl = "/images/posts/" + fileName;
-                }
-            }
 
             await _context.Posts.AddAsync(post);
             await _context.SaveChangesAsync();
