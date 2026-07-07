@@ -38,15 +38,16 @@ namespace PingedGu.Data.Services
         {
             var allFavoritedPosts = await _context.Favorites
                 .Include(f => f.Post.Reports)
+                .Include(f => f.Post.User)
+                .Include(f => f.Post.Comments)
+                    .ThenInclude(c => c.User)
+                .Include(f => f.Post.Likes)
+                .Include(f => f.Post.Favorites)
                 .Where(n => n.UserId == loggedInUserId
                     && !n.Post.IsDeleted
                     && n.Post.Reports.Count < 5)
-                .Include(n => n.Post)
+                .OrderByDescending(f => f.DateCreated)
                 .Select(n => n.Post)
-                    .Include(p => p.User)
-                    .Include(p => p.Comments)
-                        .ThenInclude(c => c.User)
-                    .Include(p => p.Likes)
                 .ToListAsync();
 
             return allFavoritedPosts;
@@ -125,7 +126,8 @@ namespace PingedGu.Data.Services
                 var newFavorite = new Favorite()
                 {
                     PostId = postId,
-                    UserId = userId
+                    UserId = userId,
+                    DateCreated = DateTime.UtcNow
                 };
 
                 await _context.Favorites.AddAsync(newFavorite);
