@@ -14,10 +14,10 @@ namespace PingedGu.Data.Services
         {
             string filePathUpload = imageFileType switch
             {
-                ImageFileType.PostImage => "/images/posts",
-                ImageFileType.StoryImage => "/images/stories",
-                ImageFileType.ProfilePicture => "/images/profilePictures",
-                ImageFileType.CoverImage => "/images/covers",
+                ImageFileType.PostImage => Path.Combine("images", "posts"),
+                ImageFileType.StoryImage => Path.Combine("images", "stories"),
+                ImageFileType.ProfilePicture => Path.Combine("images", "profilePictures"),
+                ImageFileType.CoverImage => Path.Combine("images", "covers"),
                 _ => throw new ArgumentException("Invalid file type")
             };
 
@@ -33,12 +33,10 @@ namespace PingedGu.Data.Services
                     string filePath = Path.Combine(rootFolderPathImages, fileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
                         await file.CopyToAsync(stream);
-                    }
 
                     //Set the ImageUrl property of the new post to the relative path of the saved image
-                    return $"{filePathUpload}/{fileName}";
+                    return $"{filePathUpload}\\{fileName}";
                 }
             }
 
