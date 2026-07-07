@@ -2,16 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
 using PingedGu.Data.Models;
+using PingedGu.Data.Services;
 using PingedGu.ViewModels.Stories;
 
 namespace PingedGu.Controllers
 {
     public class StoriesController : Controller
     {
-        private readonly WebAppDbContext _context;
-        public StoriesController(WebAppDbContext context) 
+        private readonly IStoriesService _storiesService;
+        public StoriesController(IStoriesService storiesService) 
         {
-            _context = context;
+            _storiesService = storiesService;
         }
 
         [HttpPost]
@@ -27,29 +28,8 @@ namespace PingedGu.Controllers
             };
 
             //For checking and saving of image
-            if (storyViewModel.Image != null && storyViewModel.Image.Length > 0)
-            {
-                string rootFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                if (storyViewModel.Image.ContentType.Contains("image"))
-                {
-                    string rootFolderPathImages = Path.Combine(rootFolderPath, "images/stories");
-                    Directory.CreateDirectory(rootFolderPathImages);
 
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(storyViewModel.Image.FileName);
-                    string filePath = Path.Combine(rootFolderPathImages, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await storyViewModel.Image.CopyToAsync(stream);
-                    }
-
-                    //Set the ImageUrl property of the new post to the relative path of the saved image
-                    newStory.ImageUrl = "/images/stories/" + fileName;
-                }
-            }
-
-            await _context.Stories.AddAsync(newStory);
-            await _context.SaveChangesAsync();
+            await _storiesService.CreateStoryAsync(newStory, storyViewModel.Image);
 
             return RedirectToAction("Index", "Home");
         }

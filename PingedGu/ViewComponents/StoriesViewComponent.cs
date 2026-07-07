@@ -1,23 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
+using PingedGu.Data.Services;
 
 namespace PingedGu.ViewComponents
 {
     public class StoriesViewComponent : ViewComponent
     {
-        private readonly WebAppDbContext _context;
-        public StoriesViewComponent(WebAppDbContext context)
+        private readonly IStoriesService _storiesService;
+        public StoriesViewComponent(IStoriesService storiesService)
         {
-            _context = context;
+            _storiesService = storiesService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var allStories = await _context.Stories
-                .Where(n => n.DateCreated >= DateTime.UtcNow.AddHours(-24))
-                .Include(s => s.User)
-                .ToListAsync();
+            var allStories = await _storiesService.GetAllStoriesAsync();
             return View(allStories);
         }
     }
