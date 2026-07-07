@@ -19,7 +19,7 @@ namespace PingedGu.ViewComponents
             var top3Trendings = await _context.Trendings
                 .Where(h => h.DateCreated > oneWeekAgoNow)
                 .OrderByDescending(n => n.Count)
-                .Take(3)
+                .Take(6)
                 .ToListAsync();
 
             return View(top3Trendings);
