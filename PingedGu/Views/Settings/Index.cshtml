@@ -10,10 +10,11 @@
             @* Header Section of User Settings - Profile Picture/Name/Change Profile Picture button/Save button *@
             <div class="flex items-center justify-between p-6 p-4">
 
-                <form id="updateProfilePictureForm" class="flex items-center gap-4 w-full">
+                <form id="updateProfilePictureForm" class="flex items-center gap-4 w-full" 
+                asp-controller="Settings" asp-action="UpdateProfilePicture" enctype="multipart/form-data">
 
                     <div class="relative w-12 h-12 shrink-0">
-                        <label class="cursor-pointer">
+                        <label for="imageUpload" class="cursor-pointer">
                             <img id="imagePreview" src="@(Model.PfpUrl ?? "~/images/avatar/user.png")" 
                               class="object-cover w-full h-full rounded-full" 
                               alt="Profile Picture Placeholder"/>
@@ -33,7 +34,7 @@
                         <p class="text-sm text-blue-600 mt-1 font-normal">@@PanmaTG</p>
                     </div>
                     <button type="submit" id="saveButton" class="hidden button bg-blue-500 text-white px-4 py-1 rounded ml-auto">
-
+                        Save
                     </button>
 
                 </form>
@@ -135,3 +136,27 @@
     </div>
 
 </main>
+
+
+<script>
+
+    const imageUpload = document.getElementById('imageUpload');
+    const imagePreview = document.getElementById('imagePreview');
+    const saveButton = document.getElementById('saveButton');
+
+    imageUpload.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                saveButton.classList.remove('hidden');
+            }
+            reader.readAsDataURL(file);
+        } else {
+            saveButton.classList.add('hidden');
+        }
+    });
+
+</script>
