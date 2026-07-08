@@ -8,5 +8,6 @@ namespace PingedGu.Data.Services
     public interface IUsersService
     {
         Task<User> GetUser(int loggedInUserId);
+        Task UpdateUserProfilePicture(int loggedInUserId, string pfpUrl);
     }
 }

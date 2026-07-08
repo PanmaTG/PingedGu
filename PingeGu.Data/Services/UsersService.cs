@@ -19,5 +19,17 @@ namespace PingedGu.Data.Services
         {
             return await _webAppDbContext.Users.FirstOrDefaultAsync(n => n.Id == loggedInUserId) ?? new User();
         }
+
+        public async Task UpdateUserProfilePicture(int loggedInUserId, string pfpUrl)
+        {
+            var userDb = await _webAppDbContext.Users.FirstOrDefaultAsync(n => n.Id == loggedInUserId);
+
+            if (userDb != null)
+            {
+                userDb.PfpUrl = pfpUrl;
+                _webAppDbContext.Users.Update(userDb);
+                await _webAppDbContext.SaveChangesAsync();
+            }
+        }
     }
 }
