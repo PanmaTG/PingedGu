@@ -33,5 +33,11 @@ namespace PingedGu.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(ProfileViewModel profileViewModel)
+        {
+            return RedirectToAction("Index");
+        }
     }
 }
