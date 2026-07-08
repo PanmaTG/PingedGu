@@ -1411,8 +1411,8 @@ h1, h2, h3, h4, h5, h6 {
   --tw-text-opacity: 1;
   color: rgb(var(--color-primary) / var(--tw-text-opacity));
 }
-/*
-@media (prefers-color-scheme: dark) {
+
+/*@media (prefers-color-scheme: dark) {
   #side a.active svg , 
     #side a.uk-active svg ,
     #side .active  a , 
