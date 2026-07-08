@@ -16,6 +16,7 @@ builder.Services.AddScoped<IPostsService, PostsService>();
 builder.Services.AddScoped<ITrendingsService, TrendingsService>();
 builder.Services.AddScoped<IStoriesService, StoriesService>();
 builder.Services.AddScoped<IFilesService, FilesService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 //WebAppDbContext is the name of the class I created inside the Data folder
 builder.Services.AddDbContext<WebAppDbContext>(options => options.UseSqlServer(dbConnectionString));
