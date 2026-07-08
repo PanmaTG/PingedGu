@@ -23,7 +23,7 @@ namespace PingedGu.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateProfilePicture(ProfilePictureViewModel profilePictureViewModel)
+        public async Task<IActionResult> UpdateProfilePicture(UpdateProfilePictureViewModel profilePictureViewModel)
         {
             var loggedInUser = 1;
             var uploadedProfilePictureUrl = await _filesService
@@ -35,7 +35,13 @@ namespace PingedGu.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateProfile(ProfileViewModel profileViewModel)
+        public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel profileViewModel)
+        {
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePassword(UpdatePasswordViewModel updatePasswordViewModel)
         {
             return RedirectToAction("Index");
         }

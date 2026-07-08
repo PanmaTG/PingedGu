@@ -1,6 +1,6 @@
 ﻿namespace PingedGu.ViewModels.Settings
 {
-    public class ProfileViewModel
+    public class UpdateProfileViewModel
     {
         public string FullName { get; set; }
         public string UserName { get; set; }

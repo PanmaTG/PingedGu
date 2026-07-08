@@ -63,8 +63,8 @@
             
             @* Body Section of User Settings - User Information *@
             <div id="setting_tab" class="uk-switcher py-12 px-20 overflow-hidden !text-black text-sm">
-                <div>
 
+                <div>
                     @* (1) User Info *@
                     <form asp-controller="Settings" asp-action="UpdateProfile">
                         <div class="space-y-6">
@@ -101,38 +101,40 @@
 
                         </div>
                     </form>
-
                 </div>
 
-                @* (2) Password Info *@
+                
                 <div>
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-10">
-                            <label class="w-32 text-right">Current Password</label>
-                            <div class="flex-1">
-                                <input type="password" name="currentPassword" placeholder="Enter your current password" class="w-full" />
+                    @* (2) Password Info *@
+                    <form asp-controller="Settings" asp-action="UpdatePassword">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-10">
+                                <label class="w-32 text-right">Current Password</label>
+                                <div class="flex-1">
+                                    <input type="password" name="currentPassword" placeholder="Enter your current password" class="w-full" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-10">
-                            <label class="w-32 text-right">New Password</label>
-                            <div class="flex-1">
-                                <input type="password" name="newPassword" placeholder="Enter your new password" class="w-full" />
+                            <div class="flex items-center gap-10">
+                                <label class="w-32 text-right">New Password</label>
+                                <div class="flex-1">
+                                    <input type="password" name="newPassword" placeholder="Enter your new password" class="w-full" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-10">
-                            <label class="w-32 text-right">Confirm Password</label>
-                            <div class="flex-1">
-                                <input type="password" name="confirmPassword" placeholder="Confirm your new password" class="w-full" />
+                            <div class="flex items-center gap-10">
+                                <label class="w-32 text-right">Confirm Password</label>
+                                <div class="flex-1">
+                                    <input type="password" name="confirmPassword" placeholder="Confirm your new password" class="w-full" />
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="flex items-center gap-4 mt-16 pl-[10.5rem]">
-                            <button class="button px-6 bg-secondary">Cancel</button>
-                            <button type="submit" class="button px-10 bg-primary text-white">Save</button>
+                            <div class="flex items-center gap-4 mt-16 pl-[10.5rem]">
+                                <button class="button px-6 bg-secondary">Cancel</button>
+                                <button type="submit" class="button px-10 bg-primary text-white">Save</button>
+                            </div>
                         </div>
-
-                    </div>
+                    </form>
                 </div>
+
             </div>
 
         </div>

@@ -1,6 +1,6 @@
 ﻿namespace PingedGu.ViewModels.Settings
 {
-    public class ProfilePictureViewModel
+    public class UpdateProfilePictureViewModel
     {
         public IFormFile ProfilePictureImage { get; set; }
     }
