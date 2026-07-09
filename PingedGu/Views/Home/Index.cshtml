@@ -41,7 +41,8 @@
                     @* FOREACH LOOP *@
                     @foreach(var post in Model)
                     {
-                        <partial name="Timeline/_Post" model="post"></partial>
+                        <partial name="Timeline/_Post" model="post" view-data='new ViewDataDictionary(ViewData)
+                        { { "ShowAllComment", false } }'/>
                     }
                 }
 
