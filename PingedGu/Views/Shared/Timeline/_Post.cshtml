@@ -39,6 +39,8 @@
     bool isFavorited = Model.Favorites.Any(n => n.UserId == 1);
     bool isPrivate = Model.IsPrivate == true && Model.UserId == 1;
     bool isReported = Model.Reports.Any(n => n.UserId == 1);
+
+    string defaultUserPfp = "~/images/avatar/user.png";
 }
 
 <div class="bg-white rounded-xl shadow-sm text-sm font-medium \!border-0">
@@ -49,7 +51,7 @@
         @* USER PROFILE PICTURE *@
         <a href="">
             @* 2 '?' *@
-            <img src="@(Model.User.PfpUrl ?? "~/images/profilepic/temp-pfp.jpg")" class="w-9 h-9 rounded-full" />
+            <img src="@(!string.IsNullOrEmpty(Model.User.PfpUrl) ? Url.Content("~/" + Model.User.PfpUrl) : defaultUserPfp)" class="w-9 h-9 rounded-full" />
 
             @* 1 '?' *@
             @* or <img src="@(string.IsNullOrEmpty(post.User.PfpUrl) ? "~/images/profilepic/temp-pfp.jpg" : post.User.PfpUrl) class="w-9 h-9 rounded-full" /> *@
@@ -119,8 +121,8 @@
     @if (!string.IsNullOrEmpty(Model.ImageUrl))
     {
         <a asp-controller="Home" asp-action="Details" asp-route-postId="@Model.Id">
-            <div class="relative w-full lg:h-96 h-full sm:px-4">
-                <img src="@Model.ImageUrl" class="sm:rounded-lg w-full h-full object-cover" />
+            <div class="relative w-full h-full">
+                <img src="@Url.Content("~/"+Model.ImageUrl)" class="sm:rounded-lg w-full h-full object-cover" />
             </div>
         </a>
     }
@@ -197,7 +199,7 @@
 
                 <div class="flex items-start gap-3 relative">
                     <a>
-                        <img src="@(comment.User.PfpUrl ?? "~/images/profilepic/temp-pfp.jpg")" class="w-6 h-6 mt-1 rounded-full" />
+                        <img src="@(!string.IsNullOrEmpty(comment.User.PfpUrl) ? Url.Content("~/" + comment.User.PfpUrl) : defaultUserPfp)" class="w-6 h-6 mt-1 rounded-full" />
                     </a>
                     <div class="flex-1">
                         <div class="flex justify-content-between">
@@ -235,7 +237,7 @@
 
         <form asp-controller="Home" asp-action="AddPostComment">
             <div class="sm:px-4 sm:py-3 p-2.5 border-t border-gray-100 flex items-center gap-1">
-                <img src="~/images/profilepic/temp-pfp.jpg" class="w-6 h-6 rounded-full" />
+                <img src="@Url.Content(defaultUserPfp)" class="w-6 h-6 rounded-full" />
 
             
                     <input type="hidden" name="postId" value="@Model.Id"/>
