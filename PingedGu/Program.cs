@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
 using PingedGu.Data.Helpers;
+using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,7 @@ builder.Services.AddScoped<IFilesService, FilesService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 
 //Identity Config - Auth
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<WebAppDbContext>()
                 .AddDefaultTokenProviders();
 

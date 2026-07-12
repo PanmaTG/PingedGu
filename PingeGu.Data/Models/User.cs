@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace PingedGu.Data.Models
 {
-    public class User
+    public class User:IdentityUser<int>
     {
-        public int Id { get; set; }
         public string FullName { get; set; }
         public string? PfpUrl { get; set; }
         public bool IsDeleted { get; set; }
