@@ -1,3 +1,63 @@
 ﻿@* LOGIN VIEW *@
 
-<h1>LOGIN VIEW</h1>
+<div>
+    @* Left Side - Form for Login *@
+    <div class="relative lg:w-[580px] md:w-96 w-full p-10 min-h-screen bg-white shadow-xl flex items-center pt-10 z-10">
+
+        <div class="w-full lg:max-w-sm mx-auto space-y-10">
+
+            <div>
+                <h2 class="text-2xl font-semibold mb-1.5">Sign in to PingeGu</h2>
+                <p class="text-sm text-gray-700 font-normal">If you haven't signed up yet. 
+                    <a asp-controller="Authentication" asp-action="Register" class="text-blue-700">Register here!</a></p>
+            </div>
+
+            <form method="post" class="space-y-7 text-sm text-black font-medium">
+                <div>
+                    <label for="email">Email Address</label>
+                    <div class="mt-2.5">
+                        <input id="email" name="email" type="email" placeholder="Email" required="" class="!w-full"/>
+                    </div>
+                </div>
+
+                 <div>
+                    <label for="password">Password</label>
+                    <div class="mt-2.5">
+                        <input id="password" name="password" type="password" placeholder="****" required="" class="!w-full"/>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <input id="rememberme" name="rememberme" type="checkbox"/>
+                        <label for="rememberme" class="font-normal">Remember Me</label>
+                    </div>
+                    <a href="#" class="text-blue-700">Forget Password</a>
+                </div>
+
+                <div>
+                    <button type="submit" class="button bg-primary text-white w-full" >Sign in</button>
+                </div>
+
+                <div class="text-center flex items-center gap-6">
+                    <hr class="flex-1 border-slate-200"/>
+                    Or continue with
+                    <hr class="flex-1 border-slate-200"/>
+                </div>
+
+                <div class="flex gap-2">
+                    <a href="#" class="button flex-1 flex items-center gap-2 bg-primary text-white text-sm">
+                        <ion-icon name="logo-google" class="text-lg"></ion-icon> Google 
+                    </a>
+                    <a href="#" class="button flex-1 flex items-center gap-2 bg-black text-white text-sm">
+                        <ion-icon name="logo-github" class="text-lg"></ion-icon> Github
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    @* Right Side - Image Slider *@
+    <div></div>
+</div>
