@@ -1,6 +1,6 @@
-﻿@* REGISTER VIEW *@
+﻿@model RegisterViewModel;
 
-@* LOGIN VIEW *@
+@* REGISTER VIEW *@
 
 <div class="sm:flex h-screen overflow-hidden">
     @* Left Side - Form for Login *@
@@ -16,39 +16,39 @@
                 </p>
             </div>
 
-            <form method="post" class="space-y-7 text-sm text-black font-medium">
+            <form asp-controller="Authentication" asp-action="Register" method="post" class="space-y-7 text-sm text-black font-medium">
 
                 <div class="grid grid-cols-2 gap-4 gap-y-7">
 
                     <div>
-                        <label for="firstName">First Name</label>
+                        <label asp-for="FirstName">First Name</label>
                         <div class="mt-2.5">
-                            <input id="firstName" name="firstName" type="text" placeholder="First Name" required="" class="!w-full" />
+                            <input asp-for="FirstName" id="firstName" name="firstName" type="text" placeholder="First Name" required="" class="!w-full" />
                         </div>
                     </div>
                     <div>
-                        <label for="lastName">Last Name</label>
+                        <label asp-for="LastName">Last Name</label>
                         <div class="mt-2.5">
-                            <input id="lastName" name="lastName" type="text" placeholder="Last Name" required="" class="!w-full" />
+                            <input asp-for="LastName" id="lastName" name="lastName" type="text" placeholder="Last Name" required="" class="!w-full" />
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <label for="email">Email Address</label>
+                        <label asp-for="Email">Email Address</label>
                         <div class="mt-2.5">
-                            <input id="email" name="email" type="email" placeholder="Email" required="" class="!w-full" />
+                            <input asp-for="Email" id="email" name="email" type="email" placeholder="Email" required="" class="!w-full" />
                         </div>
                     </div>
 
                     <div>
-                        <label for="password">Password</label>
+                        <label asp-for="Password">Password</label>
                         <div class="mt-2.5">
-                            <input id="password" name="password" type="password" placeholder="****" required="" class="!w-full" />
+                            <input asp-for="Password" id="password" name="password" type="password" placeholder="****" required="" class="!w-full" />
                         </div>
                     </div>
                     <div>
-                        <label for="confirmPassword">Confirm Password</label>
+                        <label asp-for="ConfirmPassword">Confirm Password</label>
                         <div class="mt-2.5">
-                            <input id="confirmPassword" name="confirmPassword" type="password" placeholder="****" required="" class="!w-full" />
+                            <input asp-for="ConfirmPassword" id="confirmPassword" name="confirmPassword" type="password" placeholder="****" required="" class="!w-full" />
                         </div>
                     </div>
 
