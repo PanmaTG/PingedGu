@@ -11,6 +11,7 @@
 		<Folder Include="wwwroot\images\uploaded\" />
 		<Folder Include="wwwroot\images\tempImgs\" />
 		<Folder Include="wwwroot\images\profilepic\" />
+		<Folder Include="wwwroot\images\slider\" />
 	</ItemGroup>
 
 	<ItemGroup>
