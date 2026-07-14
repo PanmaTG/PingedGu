@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 
 namespace PingedGu.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         //1. The code here is for loading data from the database to the web app

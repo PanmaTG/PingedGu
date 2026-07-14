@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
@@ -35,7 +36,20 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
                 .AddEntityFrameworkStores<WebAppDbContext>()
                 .AddDefaultTokenProviders();
 
-builder.Services.AddAuthentication();
+//Cookie Config - Auth
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Authentication/Login";
+    options.AccessDeniedPath = "/Authentication/AccessDenied";
+});
+
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//                .AddCookie(options =>
+//                {
+//                    options.LoginPath = "/Authentication/Login";
+//                    options.AccessDeniedPath = "/Authentication/AccessDenied";
+//                });
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();

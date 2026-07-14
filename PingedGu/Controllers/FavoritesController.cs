@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PingedGu.Data.Services;
 
 namespace PingedGu.Controllers
 {
+    [Authorize]
     public class FavoritesController : Controller
     {
         private readonly IPostsService _postsService;

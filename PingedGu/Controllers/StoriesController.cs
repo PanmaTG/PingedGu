@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
 using PingedGu.Data.Helpers.Enums;
@@ -8,6 +9,7 @@ using PingedGu.ViewModels.Stories;
 
 namespace PingedGu.Controllers
 {
+    [Authorize]
     public class StoriesController : Controller
     {
         private readonly IStoriesService _storiesService;
