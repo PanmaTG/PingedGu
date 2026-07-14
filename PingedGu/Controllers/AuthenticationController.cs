@@ -30,12 +30,22 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
+            if (!ModelState.IsValid)
+                return View(registerViewModel);
+
             var newUser = new User()
             {
                 FullName = $"{registerViewModel.FirstName} {registerViewModel.LastName}",
                 Email = registerViewModel.Email,
                 UserName = registerViewModel.Email
             };
+
+            var existingUser = await _userManager.FindByEmailAsync(registerViewModel.Email);
+            if (existingUser != null) 
+            {
+                ModelState.AddModelError("Email", "Email already exists");
+                return View(registerViewModel);
+            }
 
             var result = await _userManager.CreateAsync(newUser, registerViewModel.Password);
 
