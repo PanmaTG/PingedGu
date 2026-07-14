@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Models;
 using PingedGu.ViewModels.Authentication;
+using PingedGu.ViewModels.Settings;
 using System.Security.Claims;
 
 namespace PingedGu.Controllers
@@ -104,6 +105,41 @@ namespace PingedGu.Controllers
 
 
             return View(registerViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePassword(UpdatePasswordViewModel updatePasswordViewModel)
+        {
+            if (updatePasswordViewModel.NewPassword != updatePasswordViewModel.ConfirmPassword)
+            {
+                TempData["PasswordError"] = "Passwords do not match!";
+                TempData["ActiveTab"] = "Password";
+
+                return RedirectToAction("Index", "Settings");
+            }
+
+            var loggedInUser = await _userManager.GetUserAsync(User);
+            var isCurrentPasswordValid = await _userManager.CheckPasswordAsync(loggedInUser, updatePasswordViewModel.CurrentPassword);
+
+            if (!isCurrentPasswordValid)
+            {
+                TempData["PasswordError"] = "Passwords do not match!";
+                TempData["ActiveTab"] = "Password";
+
+                return RedirectToAction("Index", "Settings");
+            }
+
+            var result = await _userManager.ChangePasswordAsync(loggedInUser, updatePasswordViewModel.CurrentPassword, updatePasswordViewModel.NewPassword);
+
+            if(result.Succeeded)
+            {
+                TempData["PasswordSuccess"] = "Password updated successfully";
+                TempData["ActiveTab"] = "Password";
+
+                await _signInManager.RefreshSignInAsync(loggedInUser);
+            }
+
+            return RedirectToAction("Index", "Settings");
         }
 
         [Authorize]

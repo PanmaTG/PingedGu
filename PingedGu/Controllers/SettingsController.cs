@@ -41,11 +41,5 @@ namespace PingedGu.Controllers
         {
             return RedirectToAction("Index");
         }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdatePassword(UpdatePasswordViewModel updatePasswordViewModel)
-        {
-            return RedirectToAction("Index");
-        }
     }
 }
