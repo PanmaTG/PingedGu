@@ -31,7 +31,10 @@ namespace PingedGu.Controllers
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (!ModelState.IsValid)
+            {
                 return View(registerViewModel);
+            }
+                
 
             var newUser = new User()
             {
@@ -41,7 +44,7 @@ namespace PingedGu.Controllers
             };
 
             var existingUser = await _userManager.FindByEmailAsync(registerViewModel.Email);
-            if (existingUser != null) 
+            if (existingUser != null)
             {
                 ModelState.AddModelError("Email", "Email already exists");
                 return View(registerViewModel);
@@ -55,10 +58,15 @@ namespace PingedGu.Controllers
 
                 await _signInManager.SignInAsync(newUser, isPersistent: false);
                 return RedirectToAction("Index", "Home");
-            }   
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
 
 
-            return View();
+            return View(registerViewModel);
         }
     }
 }
