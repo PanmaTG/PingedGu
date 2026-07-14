@@ -6,7 +6,7 @@ namespace PingedGu.ViewModels.Authentication
     {
         [Required(ErrorMessage = "First Name is required")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "First Name must be between 2 and 50 characters")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Firt Name must only contain letters")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "First Name must only contain letters")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name is required")]
