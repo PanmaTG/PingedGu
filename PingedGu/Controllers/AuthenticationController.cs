@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Models;
 using PingedGu.ViewModels.Authentication;
+using System.Security.Claims;
 
 namespace PingedGu.Controllers
 {
@@ -34,6 +35,21 @@ namespace PingedGu.Controllers
             if(!ModelState.IsValid)
             {
                 return View(loginViewModel);
+            }
+
+            var existingUser = await _userManager.FindByEmailAsync(loginViewModel.Email);
+
+            if (existingUser == null) 
+            {
+                ModelState.AddModelError("", "Invalid Email or Password. Please try again");
+                return View(loginViewModel);
+            }
+
+            var existingUserClaims = await _userManager.GetClaimsAsync(existingUser);
+
+            if(!existingUserClaims.Any(c => c.Type == CustomClaim.FullName))
+            {
+                await _userManager.AddClaimAsync(existingUser, new Claim(CustomClaim.FullName, existingUser.FullName));
             }
 
             var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false);
@@ -76,6 +92,7 @@ namespace PingedGu.Controllers
             {
                 await _userManager.AddToRoleAsync(newUser, AppRoles.User);
 
+                await _userManager.AddClaimAsync(newUser, new Claim(CustomClaim.FullName, newUser.FullName));
                 await _signInManager.SignInAsync(newUser, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
