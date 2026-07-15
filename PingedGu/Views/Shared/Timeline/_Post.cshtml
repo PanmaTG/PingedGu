@@ -54,9 +54,9 @@
     <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
 
         @* USER PROFILE PICTURE *@
-        <a href="">
+        <a asp-controller="Users" asp-action="Details" asp-route-userId="@Model.UserId">
             @* 2 '?' *@
-            <img src="@(!string.IsNullOrEmpty(Model.User.PfpUrl) ? Url.Content("~/" + Model.User.PfpUrl) : defaultUserPfp)" class="w-9 h-9 rounded-full" />
+            <img src="@(!string.IsNullOrEmpty(Model.User.PfpUrl) ? Url.Content("~/" + Model.User.PfpUrl) : Url.Content(defaultUserPfp))" class="w-9 h-9 rounded-full" />
 
             @* 1 '?' *@
             @* or <img src="@(string.IsNullOrEmpty(post.User.PfpUrl) ? "~/images/profilepic/temp-pfp.jpg" : post.User.PfpUrl) class="w-9 h-9 rounded-full" /> *@
@@ -64,7 +64,7 @@
 
         @* NAME & DATE OF POSTING *@
         <div class="flex-1">
-            <a>
+            <a asp-controller="Users" asp-action="Details" asp-route-userId="@Model.UserId">
                 <h4 class="!text-black">@Model.User.FullName</h4>
                 <div class="text-xs text-gray-500" title="@Model.DateCreated.ToString("MMM. dd, yyyy HH:mmtt")">@displayTime</div>
             </a>
@@ -205,12 +205,12 @@
                 };
 
                 <div class="flex items-start gap-3 relative">
-                    <a>
-                        <img src="@(!string.IsNullOrEmpty(comment.User.PfpUrl) ? Url.Content("~/" + comment.User.PfpUrl) : defaultUserPfp)" class="w-6 h-6 mt-1 rounded-full" />
+                    <a asp-controller="Users" asp-action="Details" asp-route-userId="@comment.UserId">
+                        <img src="@(!string.IsNullOrEmpty(comment.User.PfpUrl) ? Url.Content("~/" + comment.User.PfpUrl) : Url.Content(defaultUserPfp))" class="w-6 h-6 mt-1 rounded-full" />
                     </a>
                     <div class="flex-1">
                         <div class="flex justify-content-between">
-                            <a class="text-black font-medium inline-block flex-grow">
+                            <a asp-controller="Users" asp-action="Details" asp-route-userId="@comment.UserId" class="text-black font-medium inline-block flex-grow">
                                 @comment.User.FullName
                             </a>
                             <small class="text-gray-500">@commentDisplayTime</small>
@@ -243,10 +243,12 @@
         </div>
 
         <form asp-controller="Home" asp-action="AddPostComment">
-            <div class="sm:px-4 sm:py-3 p-2.5 border-t border-gray-100 flex items-center gap-1">
-                <img src="@Url.Content(defaultUserPfp)" class="w-6 h-6 rounded-full" />
 
-            
+            <div class="sm:px-4 sm:py-3 p-2.5 border-t border-gray-100 flex items-center gap-1">
+                <a asp-controller="Users" asp-action="Details" asp-route-userId="@Model.UserId">
+                    <img src="@(string.IsNullOrEmpty(Model.User.PfpUrl) ? Url.Content(defaultUserPfp) : Url.Content(Model.User.PfpUrl))" class="w-6 h-6 rounded-full" />
+                </a>
+               
                     <input type="hidden" name="postId" value="@Model.Id"/>
 
                     <div class="flex-1 relative overflow-hidden h-10">
