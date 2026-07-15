@@ -9,5 +9,6 @@ namespace PingedGu.Data.Services
     {
         Task<User> GetUser(int loggedInUserId);
         Task UpdateUserProfilePicture(int loggedInUserId, string pfpUrl);
+        Task<List<Post>> GetUserPosts(int userId);
     }
 }

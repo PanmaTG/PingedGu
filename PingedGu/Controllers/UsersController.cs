@@ -1,18 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
+using PingedGu.Data.Services;
 
 namespace PingedGu.Controllers
 {
     public class UsersController : BaseController
     {
+        private readonly IUsersService _usersService;
+
+        public UsersController(IUsersService usersService)
+        {
+            _usersService = usersService;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public async Task<IActionResult> Details(string userId)
+        public async Task<IActionResult> Details(int userId)
         {
-            return View();
+            var userPosts = await _usersService.GetUserPosts(userId);
+
+            return View(userPosts);
         }
     }
 }

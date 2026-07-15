@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Post>
 
 <main id="site__main" class="2xl:ml-[--w-side] xl:ml-[--w-side-sm] p-2.5 h-[calc(100vh-var(--m-top))] mt-[--m-top]">
     
@@ -28,7 +28,11 @@
         <div class="flex 2xl:gap-12 gap-10 mt-8 max-lg:flex-col" id="js-oversized">
             @* OWN USER POSTS SECTION *@
             <div class="flex-1 xl\:space-y-6 space-y-3">
-
+                @foreach(var post in Model)
+                {
+                    <partial name="Timeline/_Post" model="post" 
+                        view-data='new ViewDataDictionary(ViewData) { { "ShowAllComment", false } }' />
+                }
             </div>
 
             @* USER FRIENDS SECTION *@
