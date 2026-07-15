@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 using PingedGu.ViewModels.Settings;
+using System.Security.Claims;
 
 namespace PingedGu.Controllers
 {
@@ -10,18 +13,23 @@ namespace PingedGu.Controllers
     {
         private readonly IUsersService _usersService;
         private readonly IFilesService _filesService;
+        private readonly UserManager<User> _userManager;
 
-        public SettingsController(IUsersService usersService, IFilesService filesService)
+        public SettingsController(IUsersService usersService, IFilesService filesService, UserManager<User> userManager)
         {
             _usersService = usersService;
             _filesService = filesService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            var loggedInUserId = 1;
-            var userDb = await _usersService.GetUser(loggedInUserId);
-            return View(userDb);
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userDb = await _usersService.GetUser(int.Parse(loggedInUserId));
+
+            var loggedInUser = await _userManager.GetUserAsync(User);
+
+            return View(loggedInUser);
         }
 
         [HttpPost]
