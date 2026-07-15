@@ -53,7 +53,7 @@ namespace PingedGu.Controllers
                 await _userManager.AddClaimAsync(existingUser, new Claim(CustomClaim.FullName, existingUser.FullName));
             }
 
-            var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(existingUser.UserName, loginViewModel.Password, false, false);
 
             if (result.Succeeded)
             {
@@ -139,6 +139,31 @@ namespace PingedGu.Controllers
                 await _signInManager.RefreshSignInAsync(loggedInUser);
             }
 
+            return RedirectToAction("Index", "Settings");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel profileViewModel)
+        {
+            var loggeddInUser = await _userManager.GetUserAsync(User);
+            if (loggeddInUser == null) 
+            {
+                return RedirectToAction("Login");
+            }
+
+            loggeddInUser.FullName = profileViewModel.FullName;
+            loggeddInUser.UserName = profileViewModel.UserName;
+            loggeddInUser.Bio = profileViewModel.Bio;
+
+            var result = await _userManager.UpdateAsync(loggeddInUser);
+            if (!result.Succeeded)
+            {
+                TempData["UserProfileError"] = "User profile could not be updated";
+                TempData["ActiveTab"] = "Profile";
+            }
+
+            await _signInManager.RefreshSignInAsync(loggeddInUser);
             return RedirectToAction("Index", "Settings");
         }
 

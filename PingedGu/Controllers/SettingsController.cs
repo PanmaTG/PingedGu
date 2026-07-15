@@ -35,11 +35,5 @@ namespace PingedGu.Controllers
 
             return RedirectToAction("Index");
         }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdateProfile(UpdateProfileViewModel profileViewModel)
-        {
-            return RedirectToAction("Index");
-        }
     }
 }

@@ -66,24 +66,27 @@
 
                 <div>
                     @* (1) User Info *@
-                    <form asp-controller="Settings" asp-action="UpdateProfile">
+                    <form asp-controller="Authentication" asp-action="UpdateProfile">
                         <div class="space-y-6">
+
+                            @if (TempData["UserProfileError"] != null)
+                            {
+                                <div class="text-red-500 mb-4">
+                                    @TempData["UserProfileError"]
+                                </div>
+                            }
+
+
                             <div class="flex items-center gap-10">
                                 <label class="w-32 text-right">Full Name</label>
                                 <div class="flex-1">
-                                    <input type="text" name="fullName" placeholder="Enter your full name" value="@Model.FullName" class="w-full" />
+                                    <input type="text" name="fullName" placeholder="Enter your full name" class="w-full" />
                                 </div>
                             </div>
                             <div class="flex items-center gap-10">
                                 <label class="w-32 text-right">Username</label>
                                 <div class="flex-1">
-                                    <input type="text" name="username" placeholder="Enter your Username" value="@@PanmaTG" class="w-full" />
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-10">
-                                <label class="w-32 text-right">E-mail</label>
-                                <div class="flex-1">
-                                    <input type="email" name="emailAddress" placeholder="Enter your E-mail address" value="" class="w-full" />
+                                    <input type="text" name="username" placeholder="Enter your Username" class="w-full" />
                                 </div>
                             </div>
 

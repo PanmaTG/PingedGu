@@ -9,6 +9,7 @@ namespace PingedGu.Data.Models
     {
         public string FullName { get; set; }
         public string? PfpUrl { get; set; }
+        public string? Bio {  get; set; }
         public bool IsDeleted { get; set; }
 
         // Nav Properties
