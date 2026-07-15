@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
@@ -54,6 +55,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                     options.ClientId = builder.Configuration["Auth:GitHub:ClientId"] ?? "";
                     options.ClientSecret = builder.Configuration["Auth:GitHub:ClientSecret"] ?? "";
                     options.CallbackPath = "/signin-github";
+                    options.Scope.Add("user:email");
                 });
 
 builder.Services.AddAuthorization();
