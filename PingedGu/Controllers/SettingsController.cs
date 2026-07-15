@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using PingedGu.Controllers.Base;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 using PingedGu.ViewModels.Settings;
@@ -9,7 +10,7 @@ using System.Security.Claims;
 namespace PingedGu.Controllers
 {
     [Authorize]
-    public class SettingsController : Controller
+    public class SettingsController : BaseController
     {
         private readonly IUsersService _usersService;
         private readonly IFilesService _filesService;
@@ -24,9 +25,6 @@ namespace PingedGu.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userDb = await _usersService.GetUser(int.Parse(loggedInUserId));
-
             var loggedInUser = await _userManager.GetUserAsync(User);
 
             return View(loggedInUser);
@@ -35,11 +33,13 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProfilePicture(UpdateProfilePictureViewModel profilePictureViewModel)
         {
-            var loggedInUser = 1;
+            var loggedInUserId = GetUserId();
+            if (loggedInUserId == null) return RedirectToLogin();
+
             var uploadedProfilePictureUrl = await _filesService
                 .UploadImageAsync(profilePictureViewModel.ProfilePictureImage, Data.Helpers.Enums.ImageFileType.ProfilePicture);
 
-            await _usersService.UpdateUserProfilePicture(loggedInUser, uploadedProfilePictureUrl);
+            await _usersService.UpdateUserProfilePicture(loggedInUserId.Value, uploadedProfilePictureUrl);
 
             return RedirectToAction("Index");
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PingedGu.Data.Services;
+using System.Security.Claims;
 
 namespace PingedGu.Controllers
 {
@@ -16,8 +17,8 @@ namespace PingedGu.Controllers
 
         public async Task<IActionResult> Index()
         {
-            int loggedInUserId = 1;
-            var myFavoritePosts = await _postsService.GetAllFavoritedPostsAsync(loggedInUserId);
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myFavoritePosts = await _postsService.GetAllFavoritedPostsAsync(int.Parse(loggedInUserId));
 
             return View(myFavoritePosts);
         }

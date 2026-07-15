@@ -1,18 +1,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PingedGu.Data;
-using PingedGu.Data.Helpers;
+using PingedGu.Controllers.Base;
 using PingedGu.Data.Helpers.Enums;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 using PingedGu.ViewModels.Timeline;
-using System.Diagnostics;
 
 namespace PingedGu.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         //1. The code here is for loading data from the database to the web app
 
@@ -36,9 +33,11 @@ namespace PingedGu.Controllers
 
         public async Task<IActionResult> Index()
         {
-            int loggedInUserId = 1;
+            var loggedInUserId = GetUserId();
+            if (loggedInUserId == null) return RedirectToLogin();
+
             // The code here is for loading data from the database to the web app
-            var allPosts = await _postsService.GetAllPostsAsync(loggedInUserId);
+            var allPosts = await _postsService.GetAllPostsAsync(loggedInUserId.Value);
             //
             return View(allPosts); 
         }
@@ -55,7 +54,8 @@ namespace PingedGu.Controllers
         public async Task<IActionResult> CreatePost(PostViewModel post)
         {
             //Get the logged in user
-            int loggedInUser = 1;
+            var loggedInUserId = GetUserId();
+            if (loggedInUserId == null) return RedirectToLogin();
 
             var imageUploadPath = await _filesService.UploadImageAsync(post.Image, ImageFileType.PostImage);
 
@@ -67,7 +67,7 @@ namespace PingedGu.Controllers
                 DateUpdated = DateTime.UtcNow,
                 ImageUrl = imageUploadPath,
                 NumOfReports = 0,
-                UserId = loggedInUser
+                UserId = loggedInUserId.Value
             };
 
             await _postsService.CreatePostAsync(newPost);
@@ -81,9 +81,10 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> TogglePostLike(PostLikeViewModel postLikeViewModel)
         {
-            int loggedInUserId = 1;
+            var loggedInUserId = GetUserId();
+            if (loggedInUserId == null) return RedirectToLogin();
 
-            await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, loggedInUserId);
+            await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, loggedInUserId.Value);
 
             return RedirectToAction("Index");
         }
@@ -92,9 +93,10 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPostReport(PostReportViewModel postReportViewModel)
         {
-            int loggedInUserId = 1;
+            var loggedInUserId = GetUserId();
+            if (loggedInUserId == null) return RedirectToLogin();
 
-            await _postsService.ReportPostAsync(postReportViewModel.PostId, loggedInUserId);
+            await _postsService.ReportPostAsync(postReportViewModel.PostId, loggedInUserId.Value);
 
             return RedirectToAction("Index");
         }
@@ -103,9 +105,10 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> TogglePostVisibility(PostVisibilityViewModel postVisibilityViewModel)
         {
-            int loggedInUserId = 1;
+            var loggedInUserId = GetUserId();
+            if (loggedInUserId == null) return RedirectToLogin();
 
-            await _postsService.TogglePostVisibilityAsync(postVisibilityViewModel.PostId, loggedInUserId);
+            await _postsService.TogglePostVisibilityAsync(postVisibilityViewModel.PostId, loggedInUserId.Value);
 
             return RedirectToAction("Index");
         }
@@ -114,9 +117,10 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> TogglePostFavorite(PostFavoriteViewModel postFavoriteViewModel)
         {
-            int loggedInUserId = 1;
-                
-            await _postsService.TogglePostFavoriteAsync(postFavoriteViewModel.PostId, loggedInUserId);
+            var loggedInUserId = GetUserId();
+            if (loggedInUserId == null) return RedirectToLogin();
+
+            await _postsService.TogglePostFavoriteAsync(postFavoriteViewModel.PostId, loggedInUserId.Value);
 
             return RedirectToAction("Index");
         }
@@ -125,11 +129,12 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPostComment(PostCommentViewModel postCommentViewModel)
         {
-            int loggedInUserId = 1;
+            var loggedInUserId = GetUserId();
+            if (loggedInUserId == null) return RedirectToLogin();
 
             var newComment = new Comment()
             {
-                UserId = loggedInUserId,
+                UserId = loggedInUserId.Value,
                 PostId = postCommentViewModel.PostId,
                 Content = postCommentViewModel.Content,
                 DateCreated = DateTime.UtcNow,
