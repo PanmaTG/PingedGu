@@ -46,6 +46,7 @@
     string defaultUserPfp = "~/images/avatar/user.png";
 
     bool showAllComments = ViewData["ShowAllComment"] as bool ? ?? false;
+    bool showDetails = ViewData["ShowDetails"] as bool ? ?? true;
 }
 
 <div class="bg-white rounded-xl shadow-sm text-sm font-medium \!border-0">
@@ -183,7 +184,9 @@
         </div>
     </div>
 
-    @* USER COMMENTS/REPLIES UNDER USER POSTS *@
+    @if(showDetails)
+    {
+        @* USER COMMENTS/REPLIES UNDER USER POSTS *@
     <div>
 
         <div class="p-2.5 border-t border-gray-100 font-normal space-y-3 relative">
@@ -263,4 +266,7 @@
             </div>
         </form>
     </div>
+    }
+
+    
 </div>
