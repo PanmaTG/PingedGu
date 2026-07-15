@@ -1,4 +1,4 @@
-﻿@model List<Post>
+﻿@model GetUserProfileViewModel;
 
 <main id="site__main" class="2xl:ml-[--w-side] xl:ml-[--w-side-sm] p-2.5 h-[calc(100vh-var(--m-top))] mt-[--m-top]">
     
@@ -12,14 +12,16 @@
                 <div class="flex-shrink-0 mr-4">
                     <div class="relative h-28 w-28">
                         <div class="relative overflow-hidden rounded-full md:border-[6px] border-gray-100 shrink-0 h-full w-full">
-                            <img src="~/images/avatar/user.png"/>
+                            <img src="@(string.IsNullOrEmpty(Model.User.PfpUrl)  
+                                ? Url.Content("~/images/avatar/user.png") 
+                                : Url.Content("~/" + Model.User.PfpUrl))" />
                         </div>
                     </div> 
                 </div>
 
                 <div>
-                    <h3 class="md:text-3xl ml-4 text-base font-bold text-black">UserProfile Details</h3>
-                    <p class="mt-2 ml-4 text-gray-500">UserProfile@details.com</p>
+                    <h3 class="md:text-3xl ml-4 text-base font-bold text-black">@Model.User.FullName</h3>
+                    <p class="mt-2 ml-4 text-gray-500">@Model.User.UserName</p>
                 </div>
             </div>
         </div>
@@ -28,7 +30,7 @@
         <div class="flex 2xl:gap-12 gap-10 mt-8 max-lg:flex-col" id="js-oversized">
             @* OWN USER POSTS SECTION *@
             <div class="flex-1 xl\:space-y-6 space-y-3">
-                @foreach(var post in Model)
+                @foreach(var post in Model.Posts)
                 {
                     <partial name="Timeline/_Post" model="post" 
                         view-data='new ViewDataDictionary(ViewData) 

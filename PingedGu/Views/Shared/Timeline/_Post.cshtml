@@ -57,7 +57,9 @@
         @* USER PROFILE PICTURE *@
         <a asp-controller="Users" asp-action="Details" asp-route-userId="@Model.UserId">
             @* 2 '?' *@
-            <img src="@(!string.IsNullOrEmpty(Model.User.PfpUrl) ? Url.Content("~/" + Model.User.PfpUrl) : Url.Content(defaultUserPfp))" class="w-9 h-9 rounded-full" />
+            <img src="@(!string.IsNullOrEmpty(Model.User.PfpUrl) 
+                ? Url.Content("~/" + Model.User.PfpUrl) 
+                : Url.Content(defaultUserPfp))" class="w-9 h-9 rounded-full" />
 
             @* 1 '?' *@
             @* or <img src="@(string.IsNullOrEmpty(post.User.PfpUrl) ? "~/images/profilepic/temp-pfp.jpg" : post.User.PfpUrl) class="w-9 h-9 rounded-full" /> *@
