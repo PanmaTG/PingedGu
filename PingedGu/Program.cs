@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PingedGu.Data;
 using PingedGu.Data.Helpers;
+using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,8 @@ builder.Services.AddControllersWithViews();
 
 //Database Config
 string dbConnectionString = builder.Configuration.GetConnectionString("Default") ?? "";
+//WebAppDbContext is the name of the class I created inside the Data folder
+builder.Services.AddDbContext<WebAppDbContext>(options => options.UseSqlServer(dbConnectionString));
 
 //Services Config
 builder.Services.AddScoped<IPostsService, PostsService>();
@@ -18,9 +23,34 @@ builder.Services.AddScoped<IStoriesService, StoriesService>();
 builder.Services.AddScoped<IFilesService, FilesService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 
-//WebAppDbContext is the name of the class I created inside the Data folder
-builder.Services.AddDbContext<WebAppDbContext>(options => options.UseSqlServer(dbConnectionString));
+//Identity Config - Auth
+builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+{
+    //Password Settings
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true; 
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequiredLength = 8;
+})
+                .AddEntityFrameworkStores<WebAppDbContext>()
+                .AddDefaultTokenProviders();
 
+//Cookie Config - Auth
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Authentication/Login";
+    options.AccessDeniedPath = "/Authentication/AccessDenied";
+});
+
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//                .AddCookie(options =>
+//                {
+//                    options.LoginPath = "/Authentication/Login";
+//                    options.AccessDeniedPath = "/Authentication/AccessDenied";
+//                });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -30,6 +60,10 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<WebAppDbContext>();
     await dbContext.Database.MigrateAsync();
     await DbInitializer.SeedAsync(dbContext);
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+     await DbInitializer.SeedUsersAndRolesAsync(userManager, roleManager);
 }
     
 //---------------
@@ -42,8 +76,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

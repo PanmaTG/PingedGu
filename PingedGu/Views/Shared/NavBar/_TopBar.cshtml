@@ -1,4 +1,13 @@
-﻿<header class="z-[100] h-[--m-top] fixed top-0 left-0 w-full flex items-center bg-white/80 sky-50
+﻿@inject UserManager<User> UserManager;
+
+@{
+    var loggedInUser = await UserManager.GetUserAsync(User);
+    var userName = loggedInUser?.UserName;
+    var fullName = loggedInUser?.FullName;
+    var pfpUrl = loggedInUser?.PfpUrl;
+}
+
+<header class="z-[100] h-[--m-top] fixed top-0 left-0 w-full flex items-center bg-white/80 sky-50
         backdrop-blur-xl border-b border-slate-200">
 
     @* LOGO | WEBSITE NAME*@
@@ -66,7 +75,7 @@
 
                 @* PROFILE *@
                 <div class="rounded-full relative bg-secondery cursor-pointer shrink-0">
-                    <img src="~/images/avatar/user.png" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0" />
+                    <img src="@(string.IsNullOrEmpty(pfpUrl) ? Url.Content("~/images/avatar/user.png") : Url.Content(pfpUrl))" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0" />
                 </div>
 
                 @* PROFILE HOVER SECTION *@
@@ -75,11 +84,11 @@
 
                     <a>
                         <div class="p-4 py-5 flex items-center gap-4">
-                            <img src="~/images/avatar/user.png" class="w-10 h-10 rounded-full shadow" />
+                            <img src="@(string.IsNullOrEmpty(pfpUrl) ? Url.Content("~/images/avatar/user.png") : Url.Content(pfpUrl))" class="w-10 h-10 rounded-full shadow" />
 
                             <div class="flex-1">
-                                <h4 class="text-sm font-medium !text-black">Panma</h4>
-                                <div class="text-sm mt-1 text-blue-600 font-light/70">Panma</div>
+                                <h4 class="text-sm font-medium !text-black">@fullName</h4>
+                                <div class="text-sm mt-1 text-blue-600 font-light/70">@userName</div>
                             </div>
                         </div>
                     </a>
@@ -92,7 +101,7 @@
                             </div>
                         </a>
                         <hr />
-                        <a>
+                        <a asp-controller="Authentication" asp-action="Logout">
                             <div class="flex items-center gap-2.5 hover:bg-secondery p-2 px-2.5 rounded-md">
                                 <ion-icon name="exit-outline" class="text-lg"></ion-icon>Log Out
                             </div>

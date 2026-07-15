@@ -1,4 +1,6 @@
-﻿using PingedGu.Data.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using PingedGu.Data.Helpers.Constants;
+using PingedGu.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +9,54 @@ namespace PingedGu.Data.Helpers
 {
     public static class DbInitializer
     {
+        public static async Task SeedUsersAndRolesAsync(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
+        {
+            // ROLES
+            if (!roleManager.Roles.Any())
+            {
+                foreach(var roleName in AppRoles.All)
+                {
+                    if(!await roleManager.RoleExistsAsync(roleName))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole<int>(roleName));
+                    }
+                }
+            }
+
+            // USER W/ ROLES
+            if(!userManager.Users.Any(n => !string.IsNullOrEmpty(n.Email)))
+            {
+                var userPassword = "SPTTarkov123!";
+                var newUser = new User()
+                {
+                    UserName = "panmatg",
+                    Email = "panma.tg@gmail.com",
+                    FullName = "Panma TG",
+                    PfpUrl = "https://preview.redd.it/whos-your-favorite-sora-v0-2g7mjaz3t64f1.jpg?width=554&format=pjpg&auto=webp&s=47aa5e4e7c0dd58d91743a1841db9308bd1c505a",
+                    EmailConfirmed = true,
+                };
+
+                var result = await userManager.CreateAsync(newUser, userPassword);
+                if (result.Succeeded)
+                    await userManager.AddToRoleAsync(newUser, AppRoles.User);
+
+
+                var newAdmin = new User()
+                {
+                    UserName = "zefi.admin",
+                    Email = "zefi@gmail.com",
+                    FullName = "Zefi Admin",
+                    PfpUrl = "https://preview.redd.it/whos-your-favorite-sora-v0-2g7mjaz3t64f1.jpg?width=554&format=pjpg&auto=webp&s=47aa5e4e7c0dd58d91743a1841db9308bd1c505a",
+                    EmailConfirmed = true,
+                };
+
+                var resultNewAdmin = await userManager.CreateAsync(newAdmin, userPassword);
+                if (resultNewAdmin.Succeeded)
+                    await userManager.AddToRoleAsync(newAdmin, AppRoles.Admin);
+
+            }
+        }
+
         //To make this an async change void → Task
         //add async keyword before "Task" — public static async Task SeedAsync();
         //& change Seed → SeedAsync

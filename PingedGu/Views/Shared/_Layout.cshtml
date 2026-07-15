@@ -21,11 +21,16 @@
 
     <div id="wrapper">
 
-        @* TOP BAR *@
-        <partial name="NavBar/_TopBar"></partial>
+        @if (User.Identity.IsAuthenticated)
+            {
+                @* TOP NAV BAR *@
+                <partial name="NavBar/_TopBar"></partial>
 
-        @* SIDEBAR *@
-        <partial name="NavBar/_SideBar"></partial>
+                @* LEFT SIDEBAR *@
+                <partial name="NavBar/_SideBar"></partial>
+            }
+
+
 
         @RenderBody()
     </div>

@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PingedGu.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace PingedGu.Data
 {
-    public class WebAppDbContext:DbContext
+    public class WebAppDbContext:IdentityDbContext<User, IdentityRole<int>, int>
     {
         // Constructor Method. WebAppDbContext used as a parameter inside <>.
         // :base keyword points to the :DbContext 
@@ -97,7 +99,17 @@ namespace PingedGu.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
+
+            //ASP.NET Identity Model Table
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole<int>>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
+            modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
+
         }
     }
 }
- 
+  
