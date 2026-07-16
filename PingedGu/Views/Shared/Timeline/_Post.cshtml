@@ -44,6 +44,7 @@
     bool isReported = Model.Reports.Any(n => n.UserId == loggedInUserId);
 
     string defaultUserPfp = "~/images/avatar/user.png";
+    string currentUserPfp = ViewData["CurrentUserPfp"] as string ?? defaultUserPfp;
 
     bool showAllComments = ViewData["ShowAllComment"] as bool ? ?? false;
     bool showDetails = ViewData["ShowDetails"] as bool ? ?? true;
@@ -226,8 +227,10 @@
                                 @comment.Content
                             </p>
 
-                            <form asp-controller="Home" asp-action="RemovePostComment">
+                            <form asp-controller="Home" asp-action="RemovePostComment" class="remove-comment-form">
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" name="commentId" value="@comment.Id"/>
+                                    <input type="hidden" name="postId" value="@comment.PostId" />
                                 <button type="submit" class="text-red-500 text-xs ml-2" title="Remove post comment">
                                     <ion-icon name="trash-outline"></ion-icon>
                                 </button>
@@ -251,8 +254,10 @@
         <form asp-controller="Home" asp-action="AddPostComment" class="add-comment-form">
             @Html.AntiForgeryToken()
             <div class="sm:px-4 sm:py-3 p-2.5 border-t border-gray-100 flex items-center gap-1">
-                <a asp-controller="Users" asp-action="Details" asp-route-userId="@Model.UserId">
-                    <img src="@(string.IsNullOrEmpty(Model.User.PfpUrl) ? Url.Content(defaultUserPfp) : Url.Content(Model.User.PfpUrl))" class="w-6 h-6 rounded-full" />
+                <a asp-controller="Users" asp-action="Details" asp-route-userId="@loggedInUserId">
+                    <img src="@(string.IsNullOrEmpty(currentUserPfp) 
+                        ? Url.Content(defaultUserPfp)
+                        : Url.Content(currentUserPfp))" class="w-6 h-6 rounded-full" />
                 </a>
                
                     <input type="hidden" name="postId" value="@Model.Id"/>

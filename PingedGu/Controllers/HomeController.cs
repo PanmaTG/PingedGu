@@ -152,11 +152,13 @@ namespace PingedGu.Controllers
 
         // Remove Comment/Reply
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemovePostComment(RemoveCommentViewModel removeCommentViewModel)
         {
             await _postsService.RemovePostCommentAsync(removeCommentViewModel.CommentId);
 
-            return RedirectToAction("Index");
+            var post = await _postsService.GetPostByIdAsync(removeCommentViewModel.PostId);
+            return PartialView("Timeline/_Post", post);
         }
 
         [HttpPost]
