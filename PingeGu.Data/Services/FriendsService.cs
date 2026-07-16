@@ -109,5 +109,16 @@ namespace PingedGu.Data.Services
 
             return friendRequestsSent;
         }
+
+        public async Task<List<FriendRequest>> GetReceivedFriendRequestAsync(int userId)
+        {
+            var friendRequestsSent = await _context.FriendRequests
+                .Include(n => n.Sender)
+                .Include(n => n.Receiver)
+                .Where(f => f.ReceiverId == userId && f.Status == FriendshipStatus.Pending)
+                .ToListAsync();
+
+            return friendRequestsSent;
+        }
     }
 }

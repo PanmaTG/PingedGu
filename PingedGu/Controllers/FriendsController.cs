@@ -24,7 +24,8 @@ namespace PingedGu.Controllers
 
             var friendsData = new FriendshipViewModel()
             {
-                FriendRequestSent = await _friendsService.GetSentFriendRequestsAsync(userId.Value)
+                FriendRequestsSent = await _friendsService.GetSentFriendRequestsAsync(userId.Value),
+                FriendRequestsReceived = await _friendsService.GetReceivedFriendRequestAsync(userId.Value)
             };
 
             return View(friendsData);
