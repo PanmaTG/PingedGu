@@ -79,6 +79,7 @@ namespace PingedGu.Controllers
 
         //Post Like
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> TogglePostLike(PostLikeViewModel postLikeViewModel)
         {
             var loggedInUserId = GetUserId();
@@ -86,7 +87,8 @@ namespace PingedGu.Controllers
 
             await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, loggedInUserId.Value);
 
-            return RedirectToAction("Index");
+            var post = await _postsService.GetPostByIdAsync(postLikeViewModel.PostId);
+            return PartialView("Timeline/_Post", post);
         }
 
         // Post - Report
