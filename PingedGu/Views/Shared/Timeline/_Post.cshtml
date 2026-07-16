@@ -96,9 +96,13 @@
                     <hr />
 
                     @* DELETE POST BUTTON *@
-                    <button type="button" onclick="openPostDeleteConfirmation('@Model.Id')" class="text-red-400 hover:!bg-red-50 delete-post-btn text-gray-900">
-                        <ion-icon class="text-xl" name="trash-bin-outline"></ion-icon> Delete
-                    </button>
+                    <form asp-controller="Home" asp-action="PostRemove">
+                        <input type="hidden" name="postId" value="@Model.Id" />
+                        <button type="submit" class="text-red-400 hover:!bg-red-50 delete-post-btn text-gray-900">
+                            <ion-icon class="text-xl" name="trash-bin-outline"></ion-icon> Delete
+                        </button>
+                    </form>
+                    
                 }
 
                 @* REPORT BUTTON *@
