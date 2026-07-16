@@ -81,16 +81,18 @@
                             </a>
                         </div>
 
-                        <form asp-controller="Friends" asp-action="RejectFriendRequest" method="post">
+                        <form asp-controller="Friends" asp-action="UpdateFriendRequest" method="post">
                             <input type="hidden" name="requestId" value="@request.Id" />
+                            <input type="hidden" name="status" value="@FriendshipStatus.Rejected" />
                             <button type="submit" class="button bg-red-soft text-red gap-1 max-md:hidden">
                                 <ion-icon name="remove-circle-outline" class="text-xl -ml-1"></ion-icon>
                                 Reject
                             </button>
                         </form>
 
-                        <form asp-controller="Friends" asp-action="AcceptFriendRequest" method="post">
+                        <form asp-controller="Friends" asp-action="UpdateFriendRequest" method="post">
                             <input type="hidden" name="requestId" value="@request.Id" />
+                            <input type="hidden" name="status" value="@FriendshipStatus.Accepted" />
                             <button type="submit" class="button bg-primary-soft text-primary gap-1 max-md:hidden">
                                 <ion-icon name="checkbox-outline" class="text-xl -ml-1"></ion-icon>
                                 Accept
@@ -130,8 +132,9 @@
                             </a>
                         </div>
 
-                        <form asp-controller="Friends" asp-action="CancelFriendRequest" method="post">
+                        <form asp-controller="Friends" asp-action="UpdateFriendRequest" method="post">
                             <input type="hidden" name="requestId" value="@request.Id"/>
+                            <input type="hidden" name="status" value="@FriendshipStatus.Canceled" />
                             <button type="submit" class="button text-primary gap-1 max-md:hidden">
                                 <ion-icon name="remove-circle-outline" class="text-xl -ml-1"></ion-icon>
                                 Cancel
