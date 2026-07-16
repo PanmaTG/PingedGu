@@ -121,10 +121,10 @@ namespace PingedGu.Controllers
         {
             var loggedInUserId = GetUserId();
             if (loggedInUserId == null) return RedirectToLogin();
-
             await _postsService.TogglePostFavoriteAsync(postFavoriteViewModel.PostId, loggedInUserId.Value);
 
-            return RedirectToAction("Index");
+            var post = await _postsService.GetPostByIdAsync(postFavoriteViewModel.PostId);
+            return PartialView("Timeline/_Post", post);
         }
 
         // Post Comment/Reply
