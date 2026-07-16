@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PingedGu.Data.Dtos;
 using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Models;
 using System;
@@ -16,7 +17,7 @@ namespace PingedGu.Data.Services
             _context = context;
         }
 
-        public async Task<List<User>> GetSuggestedFriendsAsync(int userId)
+        public async Task<List<UserWithFriendsCountDto>> GetSuggestedFriendsAsync(int userId)
         {
             //Get existing follower ids
             var existingFriendsIds = await _context.Friendships
@@ -35,6 +36,12 @@ namespace PingedGu.Data.Services
                 .Where(n => n.Id != userId &&
                 !existingFriendsIds.Contains(n.Id) && 
                 !pendingRequestsIds.Contains(n.Id))
+                .Select(u => new UserWithFriendsCountDto() 
+                {
+                    User = u,
+                    FriendsCount = _context.Friendships
+                        .Count(f => f.SenderId == u.Id || f.ReceiverId == u.Id)
+                })
                 .Take(5)
                 .ToListAsync();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PingedGu.Data.Services;
+using PingedGu.ViewModels.Friends;
 using System.Security.Claims;
 
 namespace PingedGu.ViewComponents
@@ -19,7 +20,15 @@ namespace PingedGu.ViewComponents
             var userId = int.Parse(loggedInUserId);
 
             var suggestedFriends = await _friendsService.GetSuggestedFriendsAsync(userId);
-            return View(suggestedFriends);
+            var suggestedFriendsViewModel = suggestedFriends.Select(n => new UserWithFriendsCountViewModel()
+            {
+                UserId = n.User.Id,
+                FullName = n.User.FullName,
+                PfpUrl = n.User.PfpUrl,
+                FriendsCount = n.FriendsCount
+            }).ToList();
+
+            return View(suggestedFriendsViewModel);
         }
     }
 }
