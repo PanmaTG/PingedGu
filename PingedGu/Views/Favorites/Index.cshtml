@@ -57,7 +57,7 @@
 
                 @* SUGGESTED FOR YOU SECTION *@
                 <div class="box p-5 px-6" style="background-color: #fff">
-                    <partial name="RightSideBar/_SuggestedForYou"></partial>
+                    @await Component.InvokeAsync("SuggestedForYou")
                 </div>
 
                 @* NOW TRENDING SECTION *@
