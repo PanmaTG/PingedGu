@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
 using PingedGu.Data.Services;
+using PingedGu.ViewModels.Friends;
 
 namespace PingedGu.Controllers
 {
@@ -13,8 +14,19 @@ namespace PingedGu.Controllers
             _friendsService = friendsService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var userId = GetUserId();
+            if (!userId.HasValue)
+            {
+                RedirectToLogin();
+            }
+
+            var friendsData = new FriendshipViewModel()
+            {
+                FriendRequestSent = await _friendsService.GetSentFriendRequestsAsync(userId.Value)
+            };
+
             return View();
         }
 
