@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PingedGu.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,5 +11,6 @@ namespace PingedGu.Data.Services
 
         Task UpdateRequestAsync(int requestId, string status);
         Task RemoveFriendAsync(int friendshipId);
+        Task<List<User>> GetSuggestedFriendsAsync(int userId);
     }
 }

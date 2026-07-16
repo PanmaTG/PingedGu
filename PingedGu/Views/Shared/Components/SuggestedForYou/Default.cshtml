@@ -1,64 +1,33 @@
-﻿
+﻿@model List<User>
 
 <div class="flex items-baseline justify-between text-black">
     <h3 class="font-bold text-base !text-black">Suggested for you</h3>
 </div>
 
 <div class="side-list">
-    <div class="side-list-item">
-        <a asp-controller="Users" asp-action="Details" asp-route-userId="1">
-            <img src="~/images/tempImgs/dave.png" class="side-list-image rounded-full" />
-        </a>
-        <div class="flex-1">
-            <a>
-                <h4 class="side-list-title !text-black">
-                    Dave The Diver
-                </h4>
-            </a>
-            <div class="side-list-info text-gray-700">52 followers</div>
-        </div>
-        <form>
-            <button type="submit" class="button bg-primary-soft text-primary">
-                Follow
-            </button>
-        </form>
-    </div>
 
-    <div class="side-list-item">
-        <a>
-            <img src="~/images/tempImgs/howard.png" class="side-list-image rounded-full" />
-        </a>
-        <div class="flex-1">
-            <a>
-                <h4 class="side-list-title !text-black">
-                    Howard the Duck
-                </h4>
+    @foreach(var user in Model)
+    {
+        <div class="side-list-item">
+            <a asp-controller="Users" asp-action="Details" asp-route-userId="1">
+                <img src="@(string.IsNullOrEmpty(user.PfpUrl) 
+                    ? Url.Content("~/images/avatar/user.png") 
+                    : Url.Content("~/" + user.PfpUrl))" class="side-list-image rounded-full" />
             </a>
-            <div class="side-list-info text-gray-700">199 followers</div>
+            <div class="flex-1">
+                <a>
+                    <h4 class="side-list-title !text-black">
+                        @user.FullName
+                    </h4>
+                </a>
+                <div class="side-list-info text-gray-700">52 followers</div>
+            </div>
+            <form>
+                <button type="submit" class="button bg-primary-soft text-primary">
+                    Follow
+                </button>
+            </form>
         </div>
-        <form>
-            <button type="submit" class="button bg-primary-soft text-primary">
-                Follow
-            </button>
-        </form>
-    </div>
+    }
 
-    <div class="side-list-item">
-        <a>
-            <img src="~/images/tempImgs/titus.png" class="side-list-image rounded-full" />
-        </a>
-        <div class="flex-1">
-            <a>
-                <h4 class="side-list-title !text-black">
-                    Titus
-                </h4>
-            </a>
-            <div class="side-list-info text-gray-700">500 followers</div>
-        </div>
-        <form>
-            <button type="submit" class="button bg-primary-soft text-primary">
-                Follow
-            </button>
-        </form>
-    </div>
-</div>
+</div>  
