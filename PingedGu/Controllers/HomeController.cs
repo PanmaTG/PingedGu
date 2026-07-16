@@ -129,6 +129,7 @@ namespace PingedGu.Controllers
 
         // Post Comment/Reply
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPostComment(PostCommentViewModel postCommentViewModel)
         {
             var loggedInUserId = GetUserId();
@@ -145,7 +146,8 @@ namespace PingedGu.Controllers
 
             await _postsService.AddPostCommentAsync(newComment);
 
-            return RedirectToAction("Index");
+            var post = await _postsService.GetPostByIdAsync(postCommentViewModel.PostId);
+            return PartialView("Timeline/_Post", post);
         }
 
         // Remove Comment/Reply
