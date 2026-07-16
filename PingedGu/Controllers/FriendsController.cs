@@ -59,5 +59,12 @@ namespace PingedGu.Controllers
             await _friendsService.UpdateRequestAsync(requestId, FriendshipStatus.Accepted);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RejectFriendRequest(int requestId)
+        {
+            await _friendsService.UpdateRequestAsync(requestId, FriendshipStatus.Rejected);
+            return RedirectToAction("Index");
+        }
     }
 }

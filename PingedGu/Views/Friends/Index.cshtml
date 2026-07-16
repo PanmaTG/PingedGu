@@ -24,8 +24,8 @@
 
                         <div class="w-14 h-14 flex-shrink-0 rounded-lg relative">
                             <img src="@(string.IsNullOrEmpty(request.Receiver.PfpUrl)
-                                ? Url.Content("~/images/avatar/user.png")
-                                : Url.Content(request.Receiver.PfpUrl))" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
+                                                                 ? Url.Content("~/images/avatar/user.png")
+                                                                 : Url.Content(request.Receiver.PfpUrl))" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
                         </div>
 
                         <div class="flex-1">
@@ -65,7 +65,7 @@
 
                         <div class="w-14 h-14 flex-shrink-0 rounded-lg relative">
                             <img src="@(string.IsNullOrEmpty(request.Sender.PfpUrl)
-                                ? Url.Content("~/images/avatar/user.png")
+                                                                 ? Url.Content("~/images/avatar/user.png")
                                                                  : Url.Content(request.Sender.PfpUrl))" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
                         </div>
 
@@ -75,7 +75,8 @@
                             </a>
                         </div>
 
-                        <form>
+                        <form asp-controller="Friends" asp-action="RejectFriendRequest" method="post">
+                            <input type="hidden" name="requestId" value="@request.Id" />
                             <button type="submit" class="button bg-red-soft text-red gap-1 max-md:hidden">
                                 <ion-icon name="remove-circle-outline" class="text-xl -ml-1"></ion-icon>
                                 Reject
@@ -83,7 +84,7 @@
                         </form>
 
                         <form asp-controller="Friends" asp-action="AcceptFriendRequest" method="post">
-                            <input type="hidden" name="requestId" value="@request.Id"/>
+                            <input type="hidden" name="requestId" value="@request.Id" />
                             <button type="submit" class="button bg-primary-soft text-primary gap-1 max-md:hidden">
                                 <ion-icon name="checkbox-outline" class="text-xl -ml-1"></ion-icon>
                                 Accept
@@ -97,7 +98,7 @@
 
 
         @* Friend/Follower Requests Sent Section *@
-        @if(Model.FriendRequestsSent.Count > 0)
+        @if (Model.FriendRequestsSent.Count > 0)
         {
             <div class="sm:my-6 my-3 flex items-center justify-between">
                 <div>
@@ -107,14 +108,14 @@
             </div>
 
             <div class="grid grid-cols-2 gap-2">
-                @foreach(var request in Model.FriendRequestsSent)
+                @foreach (var request in Model.FriendRequestsSent)
                 {
                     <div class="flex md:items-center space-x-4 p-4 rounded-md box">
 
                         <div class="w-14 h-14 flex-shrink-0 rounded-lg relative">
-                            <img src="@(string.IsNullOrEmpty(request.Receiver.PfpUrl) 
-                                ? Url.Content("~/images/avatar/user.png") 
-                                : Url.Content(request.Receiver.PfpUrl))" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm"/>
+                            <img src="@(string.IsNullOrEmpty(request.Receiver.PfpUrl)
+                                                                ? Url.Content("~/images/avatar/user.png")
+                                                                : Url.Content(request.Receiver.PfpUrl))" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
                         </div>
 
                         <div class="flex-1">
