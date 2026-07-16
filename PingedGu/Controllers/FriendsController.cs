@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
+using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Services;
 using PingedGu.ViewModels.Friends;
 
@@ -42,6 +43,13 @@ namespace PingedGu.Controllers
 
             await _friendsService.SendRequestAsync(userId.Value, receiverId);
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelFriendRequest(int requestId)
+        {
+            await _friendsService.UpdateRequestAsync(requestId, FriendshipStatus.Canceled);
+            return RedirectToAction("Index");
         }
     }
 }
