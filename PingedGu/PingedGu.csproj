@@ -6,8 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Views\Shared\RightSideBar\**" />
+    <Content Remove="Views\Shared\RightSideBar\**" />
+    <EmbeddedResource Remove="Views\Shared\RightSideBar\**" />
+    <None Remove="Views\Shared\RightSideBar\**" />
+  </ItemGroup>
+
 	<ItemGroup>
-		<Folder Include="Views\Shared\RightSideBar\" />
 		<Folder Include="wwwroot\images\avatar\" />
 		<Folder Include="wwwroot\images\uploaded\" />
 		<Folder Include="wwwroot\images\tempImgs\" />
