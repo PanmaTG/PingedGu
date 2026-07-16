@@ -27,7 +27,7 @@ namespace PingedGu.Controllers
                 FriendRequestSent = await _friendsService.GetSentFriendRequestsAsync(userId.Value)
             };
 
-            return View();
+            return View(friendsData);
         }
 
         [HttpPost]
