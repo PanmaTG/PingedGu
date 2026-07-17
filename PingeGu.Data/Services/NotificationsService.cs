@@ -28,7 +28,7 @@ namespace PingedGu.Data.Services
                 Message = GetPostMessage(notificationType, userFullname),
                 Type = notificationType,
                 IsRead = false,
-                PostId = postId,
+                PostId = postId.HasValue ? postId.Value : null,
                 DateCreated = DateTime.UtcNow,
                 DateUpdated = DateTime.UtcNow
             };

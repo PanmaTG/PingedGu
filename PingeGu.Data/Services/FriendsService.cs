@@ -48,7 +48,7 @@ namespace PingedGu.Data.Services
             return suggestedFriends;
         }
 
-        public async Task UpdateRequestAsync(int requestId, string newStatus)
+        public async Task<FriendRequest> UpdateRequestAsync(int requestId, string newStatus)
         {
             var requestDb = await _context.FriendRequests.FirstOrDefaultAsync(n => n.Id == requestId);
 
@@ -72,6 +72,8 @@ namespace PingedGu.Data.Services
                 await _context.Friendships.AddAsync(friendship);
                 await _context.SaveChangesAsync();
             }
+
+            return requestDb;
         }
 
         public async Task SendRequestAsync(int senderId, int receiverId)
