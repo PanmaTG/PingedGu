@@ -22,8 +22,8 @@ namespace PingedGu.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCount()
         {
-            var userId = GetUserId();
-            if (!userId.HasValue) RedirectToLogin();
+            var userId = GetUserId() ;
+            if (!userId.HasValue) return RedirectToLogin();
 
             var count = await _notificationsService.GetUnreadNotificationsCountAsync(userId.Value);
 
@@ -33,7 +33,7 @@ namespace PingedGu.Controllers
         public async Task<IActionResult> GetNotifications()
         {
             var userId = GetUserId();
-            if (!userId.HasValue) RedirectToLogin();
+            if (!userId.HasValue) return RedirectToLogin();
 
             var notifications = await _notificationsService.GetNotifications(userId.Value);
             return PartialView("Notifications/_Notifications", notifications);
@@ -43,7 +43,7 @@ namespace PingedGu.Controllers
         public async Task<IActionResult> SetNotificationAsRead(int notificationId)
         {
             var userId = GetUserId();
-            if (!userId.HasValue) RedirectToLogin();
+            if (!userId.HasValue) return RedirectToLogin();
 
             await _notificationsService.SetNotificationAsReadAsync(notificationId);
 
