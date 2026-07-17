@@ -1,4 +1,5 @@
 ﻿using PingedGu.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,15 @@ namespace PingedGu.Data.Services
 
             await _context.Notifications.AddAsync(newNotification);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> GetUnreadNotificationsCountAsync(int userId)
+        {
+            var count = await _context.Notifications
+                .Where(n => n.UserId == userId && !n.IsRead)
+                .CountAsync();
+
+            return count;
         }
     }
 }
