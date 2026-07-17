@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using PingedGu.Controllers.Base;
 using PingedGu.Data.Helpers.Enums;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
+using PingedGu.Hubs;
 using PingedGu.ViewModels.Timeline;
 
 namespace PingedGu.Controllers
@@ -17,16 +19,20 @@ namespace PingedGu.Controllers
         private readonly IPostsService _postsService;
         private readonly ITrendingsService _trendingsService;
         private readonly IFilesService _filesService;
+        private readonly IHubContext<NotificationHub> _hubContext;
+
         //Constructor
         public HomeController(ILogger<HomeController> logger,
             IPostsService postsService,
             ITrendingsService trendingsService,
-            IFilesService filesService)
+            IFilesService filesService,
+            IHubContext<NotificationHub> hubContext)
         {
             _logger = logger;
             _postsService = postsService;
             _trendingsService = trendingsService;
             _filesService = filesService;
+            _hubContext = hubContext;
         }
 
         //-------------------
@@ -89,6 +95,10 @@ namespace PingedGu.Controllers
             await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, loggedInUserId.Value);
 
             var post = await _postsService.GetPostByIdAsync(postLikeViewModel.PostId);
+
+            await _hubContext.Clients.User(post.UserId.ToString())
+                .SendAsync("ReceiveNotification", "New");
+
             return PartialView("Timeline/_Post", post);
         }
 
