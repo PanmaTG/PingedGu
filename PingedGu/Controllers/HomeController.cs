@@ -93,8 +93,8 @@ namespace PingedGu.Controllers
 
             var result = await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, userId.Value);
 
-            if (result.SendNotification)
-                await _notificationsService.AddNewNotificationAsync(userId.Value, "Liked", "Like");
+            //if (result.SendNotification)
+            //    await _notificationsService.AddNewNotificationAsync(userId.Value, "Liked", "Like");
 
             var post = await _postsService.GetPostByIdAsync(postLikeViewModel.PostId);
 

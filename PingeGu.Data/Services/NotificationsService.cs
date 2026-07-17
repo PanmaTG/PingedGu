@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.SignalR;
 using PingedGu.Data.Hubs;
+using PingedGu.Data.Helpers.Constants;
 
 namespace PingedGu.Data.Services
 {
@@ -19,14 +20,15 @@ namespace PingedGu.Data.Services
             _hubContext = hubContext;
         }
 
-        public async Task AddNewNotificationAsync(int userId, string message, string notificationType)
+        public async Task AddNewNotificationAsync(int userId, string notificationType, string userFullname, int? postId)
         {
             var newNotification = new Notification()
             {
                 UserId = userId,
-                Message = message,
+                Message = GetPostMessage(notificationType, userFullname),
                 Type = notificationType,
                 IsRead = false,
+                PostId = postId,
                 DateCreated = DateTime.UtcNow,
                 DateUpdated = DateTime.UtcNow
             };
@@ -47,6 +49,40 @@ namespace PingedGu.Data.Services
                 .CountAsync();
 
             return count;
+        }
+
+        private string GetPostMessage(string notificationType, string userFullname)
+        {
+            var message = "";
+
+            switch (notificationType)
+            {
+                case NotificationType.Like:
+                    message = $"{userFullname} liked your post";
+                    break;
+
+                case NotificationType.Favorite:
+                    message = $"{userFullname} favorited your post";
+                    break;
+
+                case NotificationType.Comment:
+                    message = $"{userFullname} posted a reply in your post";
+                    break;
+
+                case NotificationType.FriendRequest:
+                    message = $"{userFullname} sent you a follow request";
+                    break;
+
+                case NotificationType.FriendRequestApproved:
+                    message = $"{userFullname} accepted your follow request";
+                    break;
+
+                default:
+                    message = "";
+                    break;
+            }
+
+            return message;
         }
     }
 }
