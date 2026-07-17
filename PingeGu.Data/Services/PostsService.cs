@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PingedGu.Data.Dtos;
 using PingedGu.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -151,8 +152,14 @@ namespace PingedGu.Data.Services
             }
         }
 
-        public async Task TogglePostLikeAsync(int postId, int userId)
+        public async Task<GetNotificationDto> TogglePostLikeAsync(int postId, int userId)
         {
+            var response = new GetNotificationDto()
+            {
+                Success = false,
+                SendNotification = false
+            };
+
             //Check if user has already liked the post
             var like = await _context.Likes
                 .Where(l => l.PostId == postId && l.UserId == userId)
@@ -174,10 +181,13 @@ namespace PingedGu.Data.Services
                 await _context.Likes.AddAsync(newLike);
                 await _context.SaveChangesAsync();
 
-                //add notification to db
-                await _notificationsService.AddNewNotificationAsync(userId, "A user liked your post", "Like");
+                response.SendNotification = true;
 
             }
+
+            response.Success = true;
+
+            return response;
         }
 
         public async Task TogglePostVisibilityAsync(int postId, int userId)

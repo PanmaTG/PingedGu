@@ -5,7 +5,6 @@ using PingedGu.Controllers.Base;
 using PingedGu.Data.Helpers.Enums;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
-using PingedGu.Hubs;
 using PingedGu.ViewModels.Timeline;
 
 namespace PingedGu.Controllers
@@ -19,7 +18,6 @@ namespace PingedGu.Controllers
         private readonly IPostsService _postsService;
         private readonly ITrendingsService _trendingsService;
         private readonly IFilesService _filesService;
-        private readonly IHubContext<NotificationHub> _hubContext;
         private readonly INotificationsService _notificationsService;
 
         //Constructor
@@ -27,14 +25,12 @@ namespace PingedGu.Controllers
             IPostsService postsService,
             ITrendingsService trendingsService,
             IFilesService filesService,
-            IHubContext<NotificationHub> hubContext,
             INotificationsService notificationsService)
         {
             _logger = logger;
             _postsService = postsService;
             _trendingsService = trendingsService;
             _filesService = filesService;
-            _hubContext = hubContext;
             _notificationsService = notificationsService;
         }
 
@@ -95,13 +91,12 @@ namespace PingedGu.Controllers
             var userId = GetUserId();
             if (userId == null) return RedirectToLogin();
 
-            await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, userId.Value);
+            var result = await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, userId.Value);
+
+            if (result.SendNotification)
+                await _notificationsService.AddNewNotificationAsync(userId.Value, "Liked", "Like");
 
             var post = await _postsService.GetPostByIdAsync(postLikeViewModel.PostId);
-
-            var notificationNumber = await _notificationsService.GetUnreadNotificationsCountAsync(userId.Value);
-            await _hubContext.Clients.User(post.UserId.ToString())
-                .SendAsync("ReceiveNotification", notificationNumber);
 
             return PartialView("Timeline/_Post", post);
         }

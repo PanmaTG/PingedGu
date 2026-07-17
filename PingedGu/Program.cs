@@ -6,7 +6,7 @@ using PingedGu.Data;
 using PingedGu.Data.Helpers;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
-using PingedGu.Hubs;
+using PingedGu.Data.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 

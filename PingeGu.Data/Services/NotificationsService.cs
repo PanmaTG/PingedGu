@@ -3,16 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.SignalR;
+using PingedGu.Data.Hubs;
 
 namespace PingedGu.Data.Services
 {
     public class NotificationsService : INotificationsService
     {
         private readonly WebAppDbContext _context;
+        private readonly IHubContext<NotificationHub> _hubContext;
 
-        public NotificationsService(WebAppDbContext context)
+        public NotificationsService(WebAppDbContext context, IHubContext<NotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         public async Task AddNewNotificationAsync(int userId, string message, string notificationType)
@@ -29,6 +33,11 @@ namespace PingedGu.Data.Services
 
             await _context.Notifications.AddAsync(newNotification);
             await _context.SaveChangesAsync();
+
+            var notificationNumber = await GetUnreadNotificationsCountAsync(userId);
+
+            await _hubContext.Clients.User(userId.ToString())
+                .SendAsync("ReceiveNotification", notificationNumber);
         }
 
         public async Task<int> GetUnreadNotificationsCountAsync(int userId)

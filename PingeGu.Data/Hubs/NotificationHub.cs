@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace PingedGu.Hubs
+namespace PingedGu.Data.Hubs
 {
     public class NotificationHub:Hub
     {
