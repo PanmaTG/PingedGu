@@ -147,9 +147,9 @@
             .build();
 
         connection.on("ReceiveNotification", (message) => {
-            console.log("message");
+            console.log("message ===>", message);
 
-            document.getElementById("notificationsCount").innerHTML = "new";
+            document.getElementById("notificationsCount").innerHTML = message;
         });
 
         connection.start()
