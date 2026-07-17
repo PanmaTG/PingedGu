@@ -89,6 +89,7 @@ namespace PingedGu.Controllers
         public async Task<IActionResult> TogglePostLike(PostLikeViewModel postLikeViewModel)
         {
             var userId = GetUserId();
+            var userName = GetUserFullName();
             if (userId == null) return RedirectToLogin();
 
             var result = await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, userId.Value);
