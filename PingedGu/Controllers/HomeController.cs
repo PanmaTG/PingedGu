@@ -18,8 +18,8 @@ namespace PingedGu.Controllers
         private readonly ITrendingsService _trendingsService;
         private readonly IFilesService _filesService;
         //Constructor
-        public HomeController(ILogger<HomeController> logger, 
-            IPostsService postsService, 
+        public HomeController(ILogger<HomeController> logger,
+            IPostsService postsService,
             ITrendingsService trendingsService,
             IFilesService filesService)
         {
@@ -39,7 +39,7 @@ namespace PingedGu.Controllers
             // The code here is for loading data from the database to the web app
             var allPosts = await _postsService.GetAllPostsAsync(loggedInUserId.Value);
             //
-            return View(allPosts); 
+            return View(allPosts);
         }
 
         public async Task<IActionResult> Details(int postId)
@@ -72,7 +72,7 @@ namespace PingedGu.Controllers
 
             await _postsService.CreatePostAsync(newPost);
             await _trendingsService.ProcessTrendingsForNewPostAsync(post.Content);
-            
+
 
             return RedirectToAction("Index");
         }
@@ -105,6 +105,7 @@ namespace PingedGu.Controllers
 
         // Post - Set As Private
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> TogglePostVisibility(PostVisibilityViewModel postVisibilityViewModel)
         {
             var loggedInUserId = GetUserId();
@@ -112,7 +113,8 @@ namespace PingedGu.Controllers
 
             await _postsService.TogglePostVisibilityAsync(postVisibilityViewModel.PostId, loggedInUserId.Value);
 
-            return RedirectToAction("Index");
+            var post = await _postsService.GetPostByIdAsync(postVisibilityViewModel.PostId);
+            return PartialView("Timeline/_Post", post);
         }
 
         // Post Favorite/Bookmark
