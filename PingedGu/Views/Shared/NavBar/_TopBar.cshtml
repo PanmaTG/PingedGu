@@ -177,6 +177,11 @@
                 .then(respo => respo.text())
                 .then(html => {
                     document.getElementById('notification-dropdown').innerHTML = html;
+                    return fetch("Notifications/GetCount", { method: 'GET' });
                 })
+                .then(respo => respo.json())
+                .then(count => {
+                    document.getElementById("notificationsCount").innerHTML = count;
+                });
         }
 </script>
