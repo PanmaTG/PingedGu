@@ -126,9 +126,7 @@
                         postContainer.outerHTML = html;
                     })
                     .catch(error => console.error('Error: ', error))
-            }
-
-            if(form.classList.contains('remove-comment-form')) {
+            } else if(form.classList.contains('remove-comment-form')) {
                 event.preventDefault();
 
                 var postId = form.querySelector('input[name="postId"]').value;
@@ -145,9 +143,7 @@
                         postContainer.outerHTML = html;
                     })
                     .catch(error => console.error('Error: ', error))
-            }
-
-            if(form.classList.contains('toggle-post-visibility-form')) {
+            } else if(form.classList.contains('toggle-post-visibility-form')) {
                 event.preventDefault();
 
                 var postId = form.querySelector('input[name="postId"]').value;
@@ -163,9 +159,7 @@
                         postContainer.outerHTML = html;
                     })
                     .catch(error => console.error('Error: ', error))
-            }
-
-            if(form.classList.contains('remove-post-form')) {
+            } else if(form.classList.contains('remove-post-form')) {
                 event.preventDefault();
 
                 var postId = form.querySelector('input[name="postId"]').value;
@@ -181,9 +175,7 @@
                         postContainer.outerHTML = html;
                     })
                     .catch(error => console.error('Error: ', error))
-            }
-
-            if(form.classList.contains('add-post-report-form')) {
+            } else if(form.classList.contains('add-post-report-form')) {
                 event.preventDefault();
 
                 var postId = form.querySelector('input[name="postId"]').value;
