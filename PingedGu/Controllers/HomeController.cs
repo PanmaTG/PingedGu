@@ -93,6 +93,7 @@ namespace PingedGu.Controllers
 
         // Post - Report
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPostReport(PostReportViewModel postReportViewModel)
         {
             var loggedInUserId = GetUserId();
@@ -100,7 +101,8 @@ namespace PingedGu.Controllers
 
             await _postsService.ReportPostAsync(postReportViewModel.PostId, loggedInUserId.Value);
 
-            return RedirectToAction("Index");
+            var post = await _postsService.GetPostByIdAsync(postReportViewModel.PostId);
+            return PartialView("Timeline/_Post", post);
         }
 
         // Post - Set As Private
