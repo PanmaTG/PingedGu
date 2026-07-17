@@ -72,7 +72,7 @@ namespace PingedGu.Data.Services
                     break;
 
                 case NotificationType.Favorite:
-                    message = $"{userFullname} favorited your post";
+                    message = $"{userFullname} saved your post";
                     break;
 
                 case NotificationType.Comment:
