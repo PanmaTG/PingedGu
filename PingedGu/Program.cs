@@ -6,6 +6,7 @@ using PingedGu.Data;
 using PingedGu.Data.Helpers;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
+using PingedGu.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +62,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 
+// Register SignalR services
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 //Seed the database with initial data
@@ -99,5 +103,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Hub for SignalR
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();
