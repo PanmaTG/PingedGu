@@ -83,7 +83,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const postsContainer = document.getElementById('posts-container');
 
-        document.getElementById('posts-container').addEventListener('click', function(event) {
+        postsContainer.addEventListener('click', function(event) {
 
             const button = event.target.closest('.like-button, .favorite-button')
 
@@ -107,7 +107,7 @@
             }
         });
 
-        document.getElementById('posts-container').addEventListener('submit', function(event) {
+        postsContainer.addEventListener('submit', function(event) {
             var form = event.target;
 
             if(form.classList.contains('add-comment-form')) {
