@@ -12,7 +12,8 @@
             </button>
         </div>
 
-        <form asp-controller="Home" asp-action="CreatePost" enctype="multipart/form-data">
+        <form asp-controller="Home" asp-action="CreatePost" enctype="multipart/form-data" class="create-post-form">
+            @Html.AntiForgeryToken()
             <div class="space-y-5 mt-3 p-2">
                 <textarea class="w-full !text-black placeholder:!text-gray-600 !bg-white !border-transparent focus:!border-transparent focus:!ring-transparent !font-normal !text-xl !text-left" 
                 name="content"

@@ -51,6 +51,7 @@ namespace PingedGu.Controllers
 
         //Creating Post
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost(PostViewModel post)
         {
             //Get the logged in user
@@ -73,8 +74,8 @@ namespace PingedGu.Controllers
             await _postsService.CreatePostAsync(newPost);
             await _trendingsService.ProcessTrendingsForNewPostAsync(post.Content);
 
-
-            return RedirectToAction("Index");
+            var createdPost = await _postsService.GetPostByIdAsync(newPost.Id);
+            return PartialView("Timeline/_Post", createdPost);
         }
 
         //Post Like
