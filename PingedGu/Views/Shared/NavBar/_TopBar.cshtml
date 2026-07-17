@@ -126,7 +126,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
 
-        fetch("Notifications/GetCount", {
+        fetch("/Notifications/GetCount", {
             method: 'GET',
             headers: {
                 'Content-Type':'application/json'
@@ -142,7 +142,7 @@
             })
 
         document.getElementById('notificationsBtn').addEventListener('click', () => {
-            fetch('Notifications/GetNotifications')
+            fetch('/Notifications/GetNotifications')
                 .then(respo => respo.text())
                 .then(html => {
                     document.getElementById('notification-dropdown').innerHTML = html;
@@ -168,7 +168,7 @@
     function setNotificationAsRead(notificationId){
             console.log('Mark as read => notification => ', notificationId);
 
-            fetch(`Notifications/SetNotificationAsRead?notificationId=${notificationId}`, { 
+            fetch(`/Notifications/SetNotificationAsRead?notificationId=${notificationId}`, { 
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json'
@@ -177,11 +177,20 @@
                 .then(respo => respo.text())
                 .then(html => {
                     document.getElementById('notification-dropdown').innerHTML = html;
-                    return fetch("Notifications/GetCount", { method: 'GET' });
+                    return fetch("/Notifications/GetCount", { method: 'GET' });
                 })
                 .then(respo => respo.json())
                 .then(count => {
                     document.getElementById("notificationsCount").innerHTML = count;
                 });
         }
+
+    function markReadOnNavigate(notificationId) {
+
+    fetch(`/Notifications/SetNotificationAsRead?notificationId=${notificationId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: true 
+    });
+}
 </script>

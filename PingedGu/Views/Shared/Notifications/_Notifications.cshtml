@@ -34,7 +34,7 @@
             <ion-icon name="@iconName" class="text-2xl"></ion-icon>
             <div>
                 <p>
-                    <a href="@redirectUrl">
+                    <a href="@redirectUrl" onclick="markReadOnNavigate(@notification.Id)">
                         @if (notification.IsRead)
                         {
                             @notification.Message
