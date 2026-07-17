@@ -45,7 +45,7 @@ namespace PingedGu.Controllers
         public async Task<IActionResult> Details(int postId)
         {
             var post = await _postsService.GetPostByIdAsync(postId);
-
+            if (post == null) return RedirectToAction("Index");
             return View(post);
         }
 
