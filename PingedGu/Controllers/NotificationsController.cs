@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
+using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 
 namespace PingedGu.Controllers
@@ -33,6 +34,18 @@ namespace PingedGu.Controllers
         {
             var userId = GetUserId();
             if (!userId.HasValue) RedirectToLogin();
+
+            var notifications = await _notificationsService.GetNotifications(userId.Value);
+            return PartialView("Notifications/_Notifications", notifications);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetNotificationAsRead(int notificationId)
+        {
+            var userId = GetUserId();
+            if (!userId.HasValue) RedirectToLogin();
+
+            await _notificationsService.SetNotificationAsReadAsync(notificationId);
 
             var notifications = await _notificationsService.GetNotifications(userId.Value);
             return PartialView("Notifications/_Notifications", notifications);

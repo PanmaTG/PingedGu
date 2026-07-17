@@ -9,6 +9,8 @@ namespace PingedGu.Data.Services
     {
         Task AddNewNotificationAsync(int userId, string notificationType, string userFullname, int? postId);
         Task<int> GetUnreadNotificationsCountAsync(int userId); 
-        Task<List<Notification>> GetNotifications(int userId); 
+        Task<List<Notification>> GetNotifications(int userId);
+
+        Task SetNotificationAsReadAsync(int notificationId);
     }
 }
