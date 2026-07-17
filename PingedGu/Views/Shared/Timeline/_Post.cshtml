@@ -97,7 +97,8 @@
                     <hr />
 
                     @* DELETE POST BUTTON *@
-                    <form asp-controller="Home" asp-action="PostRemove">
+                    <form asp-controller="Home" asp-action="PostRemove" class="remove-post-form">
+                        @Html.AntiForgeryToken()
                         <input type="hidden" name="postId" value="@Model.Id" />
                         <button type="submit" class="text-red-400 hover:!bg-red-50 delete-post-btn text-gray-900">
                             <ion-icon class="text-xl" name="trash-bin-outline"></ion-icon> Delete

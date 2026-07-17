@@ -163,15 +163,16 @@ namespace PingedGu.Controllers
             return PartialView("Timeline/_Post", post);
         }
 
+        // Remove/Delete Post
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostRemove(PostRemoveViewModel postRemoveViewModel)
         {
 
             var postRemoved = await _postsService.RemovePostAsync(postRemoveViewModel.PostId);
             await _trendingsService.ProcessTrendingsForRemovedPostAsync(postRemoved.Content);
 
-
-            return RedirectToAction("Index");
+            return Ok();
         }
     }
 }
