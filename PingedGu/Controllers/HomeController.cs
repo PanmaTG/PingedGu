@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using PingedGu.Controllers.Base;
+using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Helpers.Enums;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
@@ -17,16 +20,20 @@ namespace PingedGu.Controllers
         private readonly IPostsService _postsService;
         private readonly ITrendingsService _trendingsService;
         private readonly IFilesService _filesService;
+        private readonly INotificationsService _notificationsService;
+
         //Constructor
         public HomeController(ILogger<HomeController> logger,
             IPostsService postsService,
             ITrendingsService trendingsService,
-            IFilesService filesService)
+            IFilesService filesService,
+            INotificationsService notificationsService)
         {
             _logger = logger;
             _postsService = postsService;
             _trendingsService = trendingsService;
             _filesService = filesService;
+            _notificationsService = notificationsService;
         }
 
         //-------------------
@@ -83,12 +90,16 @@ namespace PingedGu.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TogglePostLike(PostLikeViewModel postLikeViewModel)
         {
-            var loggedInUserId = GetUserId();
-            if (loggedInUserId == null) return RedirectToLogin();
+            var userId = GetUserId();
+            var userName = GetUserFullName();
+            if (userId == null) return RedirectToLogin();
 
-            await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, loggedInUserId.Value);
-
+            var result = await _postsService.TogglePostLikeAsync(postLikeViewModel.PostId, userId.Value);
             var post = await _postsService.GetPostByIdAsync(postLikeViewModel.PostId);
+
+            if (result.SendNotification && userId != post.UserId)
+                await _notificationsService.AddNewNotificationAsync(post.UserId, NotificationType.Like, userName, postLikeViewModel.PostId);
+
             return PartialView("Timeline/_Post", post);
         }
 
@@ -124,11 +135,16 @@ namespace PingedGu.Controllers
         [HttpPost]
         public async Task<IActionResult> TogglePostFavorite(PostFavoriteViewModel postFavoriteViewModel)
         {
-            var loggedInUserId = GetUserId();
-            if (loggedInUserId == null) return RedirectToLogin();
-            await _postsService.TogglePostFavoriteAsync(postFavoriteViewModel.PostId, loggedInUserId.Value);
+            var userId = GetUserId();
+            var userName = GetUserFullName();
+            if (userId == null) return RedirectToLogin();
+            var result = await _postsService.TogglePostFavoriteAsync(postFavoriteViewModel.PostId, userId.Value);
 
             var post = await _postsService.GetPostByIdAsync(postFavoriteViewModel.PostId);
+
+            if (result.SendNotification && userId != post.UserId)
+                await _notificationsService.AddNewNotificationAsync(post.UserId, NotificationType.Favorite, userName, postFavoriteViewModel.PostId);
+
             return PartialView("Timeline/_Post", post);
         }
 
@@ -137,12 +153,13 @@ namespace PingedGu.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPostComment(PostCommentViewModel postCommentViewModel)
         {
-            var loggedInUserId = GetUserId();
-            if (loggedInUserId == null) return RedirectToLogin();
+            var userId = GetUserId();
+            var userName = GetUserFullName();
+            if (userId == null) return RedirectToLogin();
 
             var newComment = new Comment()
             {
-                UserId = loggedInUserId.Value,
+                UserId = userId.Value,
                 PostId = postCommentViewModel.PostId,
                 Content = postCommentViewModel.Content,
                 DateCreated = DateTime.UtcNow,
@@ -152,6 +169,11 @@ namespace PingedGu.Controllers
             await _postsService.AddPostCommentAsync(newComment);
 
             var post = await _postsService.GetPostByIdAsync(postCommentViewModel.PostId);
+
+            if(userId != post.UserId) 
+                await _notificationsService.AddNewNotificationAsync(post.UserId, NotificationType.Comment, userName, postCommentViewModel.PostId);
+
+
             return PartialView("Timeline/_Post", post);
         }
 

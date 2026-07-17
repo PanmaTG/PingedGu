@@ -6,6 +6,7 @@ using PingedGu.Data;
 using PingedGu.Data.Helpers;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
+using PingedGu.Data.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ string dbConnectionString = builder.Configuration.GetConnectionString("Default")
 builder.Services.AddDbContext<WebAppDbContext>(options => options.UseSqlServer(dbConnectionString));
 
 //Services Config
+builder.Services.AddScoped<INotificationsService, NotificationsService>();
 builder.Services.AddScoped<IPostsService, PostsService>();
 builder.Services.AddScoped<ITrendingsService, TrendingsService>();
 builder.Services.AddScoped<IStoriesService, StoriesService>();
@@ -61,6 +63,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 
+// Register SignalR services
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 //Seed the database with initial data
@@ -99,5 +104,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// Hub for SignalR
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PingedGu.Data.Dtos;
 using PingedGu.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,12 @@ namespace PingedGu.Data.Services
     public class PostsService:IPostsService
     {
         private readonly WebAppDbContext _context;
-        public PostsService(WebAppDbContext context)
+        private readonly INotificationsService _notificationsService;
+
+        public PostsService(WebAppDbContext context, INotificationsService notificationsService)
         {
             _context = context;
+            _notificationsService = notificationsService;
         }
 
         public async Task<List<Post>> GetAllPostsAsync(int loggedInUserId)
@@ -121,8 +125,13 @@ namespace PingedGu.Data.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task TogglePostFavoriteAsync(int postId, int userId)
+        public async Task<GetNotificationDto> TogglePostFavoriteAsync(int postId, int userId)
         {
+            var response = new GetNotificationDto()
+            {
+                Success = true,
+                SendNotification = false
+            };
 
             //Check if user has already favorited/bookmarked the post
             var favorite = await _context.Favorites
@@ -145,11 +154,21 @@ namespace PingedGu.Data.Services
 
                 await _context.Favorites.AddAsync(newFavorite);
                 await _context.SaveChangesAsync();
+
+                response.SendNotification = true;
             }
+
+            return response;
         }
 
-        public async Task TogglePostLikeAsync(int postId, int userId)
+        public async Task<GetNotificationDto> TogglePostLikeAsync(int postId, int userId)
         {
+            var response = new GetNotificationDto()
+            {
+                Success = true,
+                SendNotification = false
+            };
+
             //Check if user has already liked the post
             var like = await _context.Likes
                 .Where(l => l.PostId == postId && l.UserId == userId)
@@ -170,7 +189,11 @@ namespace PingedGu.Data.Services
 
                 await _context.Likes.AddAsync(newLike);
                 await _context.SaveChangesAsync();
+
+                response.SendNotification = true;
+
             }
+            return response;
         }
 
         public async Task TogglePostVisibilityAsync(int postId, int userId)
