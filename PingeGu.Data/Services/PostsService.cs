@@ -11,9 +11,12 @@ namespace PingedGu.Data.Services
     public class PostsService:IPostsService
     {
         private readonly WebAppDbContext _context;
-        public PostsService(WebAppDbContext context)
+        private readonly INotificationsService _notificationsService;
+
+        public PostsService(WebAppDbContext context, INotificationsService notificationsService)
         {
             _context = context;
+            _notificationsService = notificationsService;
         }
 
         public async Task<List<Post>> GetAllPostsAsync(int loggedInUserId)
@@ -170,6 +173,10 @@ namespace PingedGu.Data.Services
 
                 await _context.Likes.AddAsync(newLike);
                 await _context.SaveChangesAsync();
+
+                //add notification to db
+                await _notificationsService.AddNewNotificationAsync(userId, "A user liked your post", "Like");
+
             }
         }
 
