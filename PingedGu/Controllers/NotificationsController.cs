@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
+using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 
 namespace PingedGu.Controllers
 {
+    [Authorize(Roles = AppRoles.User)]
     public class NotificationsController : BaseController
     {
         private readonly INotificationsService _notificationsService;

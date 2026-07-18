@@ -11,7 +11,7 @@ using PingedGu.ViewModels.Timeline;
 
 namespace PingedGu.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = AppRoles.User)]
     public class HomeController : BaseController
     {
         //1. The code here is for loading data from the database to the web app

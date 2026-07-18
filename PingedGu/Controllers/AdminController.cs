@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Services;
 
 namespace PingedGu.Controllers
 {
+    [Authorize(Roles = AppRoles.Admin)]
     public class AdminController : Controller
     {
         private readonly IAdminService _adminService;

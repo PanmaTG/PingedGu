@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
 using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Services;
@@ -6,6 +7,7 @@ using PingedGu.ViewModels.Friends;
 
 namespace PingedGu.Controllers
 {
+    [Authorize(Roles = AppRoles.User)]
     public class FriendsController : BaseController
     {
         private readonly IFriendsService _friendsService;

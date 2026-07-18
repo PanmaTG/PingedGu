@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
+using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 using PingedGu.ViewModels.Users;
 
 namespace PingedGu.Controllers
 {
+    [Authorize(Roles = AppRoles.User)]
     public class UsersController : BaseController
     {
         private readonly IUsersService _usersService;
