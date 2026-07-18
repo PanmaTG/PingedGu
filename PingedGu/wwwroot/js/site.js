@@ -1,4 +1,6 @@
-﻿document.addEventListener('DOMContentLoaded', function () {
+﻿// Password eye reveal
+// class="toggle-password" -> Views/Authentication/Login.cshtml & Views/Authentication/Register.cshtml
+document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.toggle-password').forEach(function (btn) {
         btn.addEventListener('click', function () {
             var input = document.getElementById(btn.dataset.target);
@@ -15,6 +17,7 @@
     });
 });
 
+//Resolves redirecting to page with no implemented tailwind css by clicking like or favorite button of posts in Favorites and My Profile page
 // id="posts-container" -> Views/Users/Details.cshtml & Views/Favorites/Index.cshtml
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -73,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// Reply Button
+// Reply Button disable/enable
 // Views/Shared/Timeline/_Post.cshtml
 document.addEventListener('input', function (e) {
     if (!e.target.classList.contains('reply-textarea')) return;
