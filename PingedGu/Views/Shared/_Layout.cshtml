@@ -22,13 +22,14 @@
     <div id="wrapper">
 
         @if (User.Identity.IsAuthenticated)
-            {
-                @* TOP NAV BAR *@
-                <partial name="NavBar/_TopBar"></partial>
+        {
+            @* TOP NAV BAR *@
+            @* <partial name="NavBar/_TopBar"></partial> *@
+            <partial name="NavBar/_TopBarAdmin"></partial>
 
-                @* LEFT SIDEBAR *@
-                <partial name="NavBar/_SideBar"></partial>
-            }
+            @* LEFT SIDEBAR *@
+            <partial name="NavBar/_SideBar"></partial>
+         }
 
 
 
