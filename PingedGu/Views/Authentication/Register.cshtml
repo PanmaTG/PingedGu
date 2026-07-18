@@ -70,7 +70,6 @@
                         <label asp-for="FirstName">First Name</label>
                         <div class="mt-2.5">
                             <input asp-for="FirstName" id="firstName" name="firstName" type="text" placeholder="First Name" required="" class="!w-full" />
-
                             <span asp-validation-for="FirstName" class="text-red-500 text-xs mt-1"></span>
                         </div>
                     </div>
@@ -91,15 +90,25 @@
 
                     <div>
                         <label asp-for="Password">Password</label>
-                        <div class="mt-2.5">
-                            <input asp-for="Password" id="password" name="password" type="password" placeholder="****" required="" class="!w-full" />
+                        <div class="mt-2.5 relative">
+                            <input asp-for="Password" id="password" name="password" type="password" placeholder="****" required="" class="!w-full !pr-10" />
+                            <button type="button"
+                                    class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                    data-target="password">
+                                <ion-icon name="eye-outline" class="text-lg"></ion-icon>
+                            </button>
                             <span asp-validation-for="Password" class="text-red-500 text-xs mt-1"></span>
                         </div>
                     </div>
                     <div>
                         <label asp-for="ConfirmPassword">Confirm Password</label>
-                        <div class="mt-2.5">
-                            <input asp-for="ConfirmPassword" id="confirmPassword" name="confirmPassword" type="password" placeholder="****" required="" class="!w-full" />
+                        <div class="mt-2.5 relative">
+                            <input asp-for="ConfirmPassword" id="confirmPassword" name="confirmPassword" type="password" placeholder="****" required="" class="!w-full !pr-10" />
+                            <button type="button"
+                                    class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                    data-target="confirmPassword">
+                                <ion-icon name="eye-outline" class="text-lg"></ion-icon>
+                            </button>
                             <span asp-validation-for="ConfirmPassword" class="text-red-500 text-xs mt-1"></span>
                         </div>
                     </div>
