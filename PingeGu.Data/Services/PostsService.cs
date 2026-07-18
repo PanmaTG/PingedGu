@@ -95,10 +95,21 @@ namespace PingedGu.Data.Services
             return postDb;
         }
 
-        public async Task AddPostCommentAsync(Comment comment)
+        public async Task<bool> AddPostCommentAsync(Comment comment)
         {
+            if (comment == null || string.IsNullOrWhiteSpace(comment.Content))
+                return false;
+
+            var postExists = await _context.Posts
+                .AnyAsync(p => p.Id == comment.PostId && !p.IsDeleted);
+
+            if (!postExists)
+                return false;
+
             await _context.Comments.AddAsync(comment);
             await _context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task RemovePostCommentAsync(int commentId)

@@ -15,7 +15,7 @@ namespace PingedGu.Data.Services
         Task<Post> CreatePostAsync(Post post);
         Task<Post> RemovePostAsync(int postId);
 
-        Task AddPostCommentAsync(Comment comment);
+        Task<bool> AddPostCommentAsync(Comment comment);
         Task RemovePostCommentAsync(int commentId);
 
         Task<GetNotificationDto> TogglePostLikeAsync(int postId, int userId);
