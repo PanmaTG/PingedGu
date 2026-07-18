@@ -17,7 +17,8 @@ namespace PingedGu.Data.Services
 
         public async Task<List<Post>> GetReportedPostsAsync()
         {
-            var post = await _context.Posts
+            var posts = await _context.Posts
+                .Include(n => n.User)
                 .Where(n => n.NumOfReports > 5 && !n.IsDeleted)
                 .ToListAsync();
 

@@ -2,6 +2,82 @@
 
 <main id="site__main" class="2xl:ml-[--w-side] xl:ml-[--w-side-sm] p-2.5 h-[calc(100vh-var(--m-top))] mt-[--m-top]">
     
+    <h3>Admin Panel</h3>
+    <hr />
 
+    @foreach(var post in Model)
+    {
+           
+        TimeSpan timeSpanSincePosted = DateTime.UtcNow.Subtract(post.DateCreated);
+
+        string displayTime = timeSpanSincePosted switch
+        {
+            var t when t.TotalDays > 730 => $"{(int)t.Days / 365} years ago",
+            var t when t.TotalDays == 365 => $"a year ago",
+            var t when t.TotalDays >= 60 => $"{(int)t.Days / 30} months ago",
+            var t when t.TotalDays >= 30 => $"a month ago",
+            var t when t.TotalDays >= 2 => $"{(int)t.Days} days ago",
+            var t when t.TotalDays >= 1 => $"a day ago",
+            var t when t.TotalHours > 1 => $"{(int)t.Hours} hours ago",
+            var t when t.TotalHours == 1 => $"an hour ago",
+            var t when t.TotalMinutes > 1 => $"{(int)t.Minutes} minutes ago",
+            var t when t.TotalMinutes == 1 => $"a minute ago",
+            _ => "Just now"
+        };
+
+        string defaultUserPfp = "~/images/avatar/user.png";
+        string currentUserPfp = ViewData["CurrentUserPfp"] as string ?? defaultUserPfp;
+
+        bool showAllComments = ViewData["ShowAllComment"] as bool? ?? false;
+        bool showDetails = ViewData["ShowDetails"] as bool? ?? true;
+        
+
+        <div class="bg-white rounded-xl shadow-sm text-sm font-medium \ !border-0">
+
+            @* USER POST HEADING *@
+            <div class="flex gap-3 sm:p-4 p-2.5 text-sm font-medium">
+
+                @* USER PROFILE PICTURE *@
+                <a>
+                    @* 2 '?' *@
+                    <img src="@(!string.IsNullOrEmpty(post.User.PfpUrl)
+                                 ? Url.Content("~/" + post.User.PfpUrl)
+                                 : Url.Content(defaultUserPfp))" class="w-9 h-9 rounded-full" />
+
+                </a>
+
+                @* NAME & DATE OF POSTING *@
+                <div class="flex-1">
+                    <a>
+                        <h4 class="!text-black">@post.User.FullName</h4>
+                        <div class="text-xs text-gray-500" title="@post.DateCreated.ToString("MMM. dd, yyyy HH:mmtt")">@displayTime</div>
+                    </a>
+                </div>
+ 
+            </div>
+
+            @* USER POST CONTENT *@
+            @* POST DESCRIPTION *@
+            <a>
+                <div class="px-sm-4 p-2.5 pt-0 w-full">
+                    <p class="font-normal text-black">
+                        @post.Content
+                    </p>
+                </div>
+            </a>
+
+            @* POST IMAGE *@
+            @if (!string.IsNullOrEmpty(post.ImageUrl))
+            {
+                <a>
+                    <div class="relative w-full h-full">
+                        <img src="@Url.Content("~/" + post.ImageUrl)" class="sm:rounded-lg w-full h-full object-cover" />
+                    </div>
+                </a>
+            }
+
+        </div>
+
+    }
 
 </main>
