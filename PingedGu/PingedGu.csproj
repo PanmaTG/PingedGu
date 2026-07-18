@@ -8,16 +8,22 @@
 
   <ItemGroup>
     <Compile Remove="Views\Shared\RightSideBar\**" />
+    <Compile Remove="wwwroot\images\profilepic\**" />
+    <Compile Remove="wwwroot\images\tempImgs\**" />
     <Content Remove="Views\Shared\RightSideBar\**" />
+    <Content Remove="wwwroot\images\profilepic\**" />
+    <Content Remove="wwwroot\images\tempImgs\**" />
     <EmbeddedResource Remove="Views\Shared\RightSideBar\**" />
+    <EmbeddedResource Remove="wwwroot\images\profilepic\**" />
+    <EmbeddedResource Remove="wwwroot\images\tempImgs\**" />
     <None Remove="Views\Shared\RightSideBar\**" />
+    <None Remove="wwwroot\images\profilepic\**" />
+    <None Remove="wwwroot\images\tempImgs\**" />
   </ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="wwwroot\images\avatar\" />
 		<Folder Include="wwwroot\images\uploaded\" />
-		<Folder Include="wwwroot\images\tempImgs\" />
-		<Folder Include="wwwroot\images\profilepic\" />
 		<Folder Include="wwwroot\images\slider\" />
 	</ItemGroup>
 
