@@ -22,15 +22,17 @@
     <div id="wrapper">
 
         @if (User.Identity.IsAuthenticated)
+        {
+            @if (User.IsInRole(AppRoles.User))
             {
-                @* TOP NAV BAR *@
+                @* USER - TOP NAV BAR & LEFT SIDE BAR *@
                 <partial name="NavBar/_TopBar"></partial>
-
-                @* LEFT SIDEBAR *@
                 <partial name="NavBar/_SideBar"></partial>
+            } else if (User.IsInRole(AppRoles.Admin))
+            {
+                <partial name="NavBar/_TopBarAdmin"></partial>
             }
-
-
+         }
 
         @RenderBody()
     </div>

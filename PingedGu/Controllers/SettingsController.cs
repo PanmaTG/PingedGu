@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
+using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
 using PingedGu.ViewModels.Settings;
@@ -9,7 +10,7 @@ using System.Security.Claims;
 
 namespace PingedGu.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = $"{AppRoles.User}, {AppRoles.Admin}")] 
     public class SettingsController : BaseController
     {
         private readonly IUsersService _usersService;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PingedGu.Controllers.Base;
+using PingedGu.Data.Helpers.Constants;
 using PingedGu.Data.Helpers.Enums;
 using PingedGu.Data.Models;
 using PingedGu.Data.Services;
@@ -8,7 +9,7 @@ using PingedGu.ViewModels.Stories;
 
 namespace PingedGu.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = AppRoles.User)]
     public class StoriesController : BaseController
     {
         private readonly IStoriesService _storiesService;
