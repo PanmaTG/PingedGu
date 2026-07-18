@@ -19,61 +19,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //Resolves redirecting to page with no implemented tailwind css by clicking like or favorite button of posts in Favorites and My Profile page
 // id="posts-container" -> Views/Users/Details.cshtml & Views/Favorites/Index.cshtml
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('click', function (event) {
+    const button = event.target.closest('.like-button, .favorite-button');
+    if (!button) return;
 
-    document.addEventListener('click', function (event) {
-        const button = event.target.closest('.like-button, .favorite-button');
-        if (!button) return;
+    event.preventDefault();
 
-        event.preventDefault();
+    if (button.disabled || button.classList.contains('is-processing')) return; 
+    button.classList.add('is-processing');
+    button.disabled = true; 
 
-        const form = button.closest('form');
-        const postId = form.querySelector('input[name="postId"]').value;
-        const postContainer = document.getElementById('post-' + postId);
+    const form = button.closest('form');
+    const postId = form.querySelector('input[name="postId"]').value;
+    const postContainer = document.getElementById('post-' + postId);
 
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: {}
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {}
+    })
+        .then(response => response.text())
+        .then(html => {
+            if (postContainer) postContainer.outerHTML = html;
         })
-            .then(response => response.text())
-            .then(html => {
-                if (postContainer) postContainer.outerHTML = html;
-            })
-            .catch(error => console.error('Error: ', error));
-    });
-
-    document.addEventListener('submit', function (event) {
-        const form = event.target;
-
-        const ajaxFormClasses = [
-            'add-comment-form',
-            'remove-comment-form',
-            'toggle-post-visibility-form',
-            'remove-post-form',
-            'add-post-report-form'
-        ];
-
-        const matchedClass = ajaxFormClasses.find(cls => form.classList.contains(cls));
-        if (!matchedClass) return;
-
-        event.preventDefault();
-
-        const postId = form.querySelector('input[name="postId"]').value;
-        const postContainer = document.getElementById('post-' + postId);
-
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: {}
-        })
-            .then(response => response.text())
-            .then(html => {
-                if (postContainer) postContainer.outerHTML = html;
-            })
-            .catch(error => console.error('Error: ', error));
-    });
-
+        .catch(error => {
+            console.error('Error: ', error);
+            button.disabled = false;
+            button.classList.remove('is-processing');
+        });
 });
 
 // Reply Button disable/enable

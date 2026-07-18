@@ -152,7 +152,6 @@ namespace PingedGu.Data.Services
                 SendNotification = false
             };
 
-            //Check if user has already favorited/bookmarked the post
             var favorite = await _context.Favorites
                 .Where(l => l.PostId == postId && l.UserId == userId)
                 .FirstOrDefaultAsync();
@@ -160,7 +159,15 @@ namespace PingedGu.Data.Services
             if (favorite != null)
             {
                 _context.Favorites.Remove(favorite);
-                await _context.SaveChangesAsync();
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    // Already removed by a concurrent request — nothing to do
+                }
             }
             else
             {
@@ -172,9 +179,17 @@ namespace PingedGu.Data.Services
                 };
 
                 await _context.Favorites.AddAsync(newFavorite);
-                await _context.SaveChangesAsync();
 
-                response.SendNotification = true;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    response.SendNotification = true;
+                }
+                catch (DbUpdateException ex) when (IsDuplicateKeyViolation(ex))
+                {
+                    _context.Entry(newFavorite).State = EntityState.Detached;
+                    response.SendNotification = false;
+                }
             }
 
             return response;
@@ -188,7 +203,6 @@ namespace PingedGu.Data.Services
                 SendNotification = false
             };
 
-            //Check if user has already liked the post
             var like = await _context.Likes
                 .Where(l => l.PostId == postId && l.UserId == userId)
                 .FirstOrDefaultAsync();
@@ -196,7 +210,14 @@ namespace PingedGu.Data.Services
             if (like != null)
             {
                 _context.Likes.Remove(like);
-                await _context.SaveChangesAsync();
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException) 
+                {
+                }
             }
             else
             {
@@ -207,12 +228,26 @@ namespace PingedGu.Data.Services
                 };
 
                 await _context.Likes.AddAsync(newLike);
-                await _context.SaveChangesAsync();
 
-                response.SendNotification = true;
-
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    response.SendNotification = true;
+                }
+                catch (DbUpdateException ex) when (IsDuplicateKeyViolation(ex))
+                {
+                    _context.Entry(newLike).State = EntityState.Detached;
+                    response.SendNotification = false;
+                }
             }
+
             return response;
+        }
+
+        private static bool IsDuplicateKeyViolation(DbUpdateException ex) // ← NEW, add as a private method in the same class
+        {
+            return ex.InnerException is Microsoft.Data.SqlClient.SqlException sqlEx
+                && (sqlEx.Number == 2627 || sqlEx.Number == 2601);
         }
 
         public async Task TogglePostVisibilityAsync(int postId, int userId)
