@@ -3,69 +3,8 @@
 @* LOGIN VIEW *@
 
 <div class="sm:flex h-screen overflow-hidden">
-    @* Left Side - Form for Login *@
-    <div class="relative lg:w-[580px] md:w-96 w-full p-10 bg-white shadow-xl flex items-center pt-10 z-10 overflow-y-auto">
 
-        <div class="w-full lg:max-w-sm mx-auto space-y-10">
-
-            <div>
-                <h2 class="text-2xl font-semibold mb-1.5">Sign in to your PingedGu account</h2> 
-                <p class="text-sm text-gray-700 font-normal">No PingedGu account yet?
-                    <a asp-controller="Authentication" asp-action="Register" class="text-blue-700">Register here!</a></p>
-            </div>
-
-            <form asp-controller="Authentication" asp-action="Login" method="post" class="space-y-7 text-sm text-black font-medium">
-
-                <div asp-validation-summary="ModelOnly" class="col-span-2 text-red-500"></div>
-
-                <div>
-                    <label asp-for="Email">Email Address</label>
-                    <div class="mt-2.5">
-                        <input asp-for="Email" id="email" name="email" type="email" placeholder="Email" required="" class="!w-full"/>
-                        <span asp-validation-for="Email" class="text-red-500 text-xs mt-1"></span>
-                    </div>
-                </div>
-
-                 <div>
-                    <label asp-for="Password">Password</label>
-                    <div class="mt-2.5">
-                        <input asp-for="Password" id="password" name="password" type="password" placeholder="****" required="" class="!w-full" />
-                        <span asp-validation-for="Password" class="text-red-500 text-xs mt-1"></span>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <input id="rememberme" name="rememberme" type="checkbox"/>
-                        <label for="rememberme" class="font-normal">Remember Me</label>
-                    </div>
-                    <a href="#" class="text-blue-700">Forget Password</a>
-                </div>
-
-                <div>
-                    <button type="submit" class="button bg-primary text-white w-full" >Sign in</button>
-                </div>
-
-                <div class="text-center flex items-center gap-6">
-                    <hr class="flex-1 border-slate-200"/>
-                    Or continue with
-                    <hr class="flex-1 border-slate-200"/>
-                </div>
-
-                <div class="flex gap-2">
-                    <a asp-controller="Authentication" asp-action="ExternalLogin" asp-route-provider="Google" class="button flex-1 flex items-center gap-2 text-white text-sm" style="background-color: darkorange">
-                        <ion-icon name="logo-google" class="text-lg"></ion-icon> Google 
-                    </a>
-                    <a asp-controller="Authentication" asp-action="ExternalLogin" asp-route-provider="GitHub" class="button flex-1 flex items-center gap-2 bg-black text-white text-sm">
-                        <ion-icon name="logo-github" class="text-lg"></ion-icon> Github
-                    </a>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-    @* Right Side - Image Slider *@
+    @* Left Side - Image Slider *@
     <div class="flex-1 relative bg-primary max-md:hidden">
         <div class="relative w-full h-full" tabindex="-1" uk-slideshow="animation: slide; autoplay: true">
             <ul class="uk-slideshow-items w-full h-full">
@@ -91,7 +30,7 @@
                             <h4 class="!text-white text-2xl font-semibold mt-7" uk-slideshow-parallax="y:600,0,0">
                                 Connect with PingedGus
                             </h4>
-                            <p class="!text-white text-lg mt-7 leading-8">Nuk! Nuk!</p>
+                            <p class="!text-white text-lg mt-7 leading-8">Noot! Noot!</p>
                         </div>
                     </div>
                     <div class="w-full h-96 bg-gradient-to-t from-black absolute bottom-0 left-0">
@@ -106,5 +45,69 @@
 
         </div>
 
+    </div>
+
+    @* Right Side - Form for Login *@
+    <div class="relative lg:w-[580px] md:w-96 w-full p-10 bg-white shadow-xl flex items-center pt-10 z-10 overflow-y-auto">
+
+        <div class="w-full lg:max-w-sm mx-auto space-y-10">
+
+            <div>
+                <h2 class="text-2xl font-semibold mb-1.5">Sign in to your PingedGu account</h2>
+                <p class="text-sm text-gray-700 font-normal">
+                    No PingedGu account yet?
+                    <a asp-controller="Authentication" asp-action="Register" class="text-blue-700">Register here!</a>
+                </p>
+            </div>
+
+            <form asp-controller="Authentication" asp-action="Login" method="post" class="space-y-7 text-sm text-black font-medium">
+
+                <div asp-validation-summary="ModelOnly" class="col-span-2 text-red-500"></div>
+
+                <div>
+                    <label asp-for="Email">Email Address</label>
+                    <div class="mt-2.5">
+                        <input asp-for="Email" id="email" name="email" type="email" placeholder="Email" required="" class="!w-full" />
+                        <span asp-validation-for="Email" class="text-red-500 text-xs mt-1"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for="Password">Password</label>
+                    <div class="mt-2.5">
+                        <input asp-for="Password" id="password" name="password" type="password" placeholder="****" required="" class="!w-full" />
+                        <span asp-validation-for="Password" class="text-red-500 text-xs mt-1"></span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <input id="rememberme" name="rememberme" type="checkbox" />
+                        <label for="rememberme" class="font-normal">Remember Me</label>
+                    </div>
+                    <a href="#" class="text-blue-700">Forget Password</a>
+                </div>
+
+                <div>
+                    <button type="submit" class="button bg-primary text-white w-full">Sign in</button>
+                </div>
+
+                <div class="text-center flex items-center gap-6">
+                    <hr class="flex-1 border-slate-200" />
+                    Or continue with
+                    <hr class="flex-1 border-slate-200" />
+                </div>
+
+                <div class="flex gap-2">
+                    <a asp-controller="Authentication" asp-action="ExternalLogin" asp-route-provider="Google" class="button flex-1 flex items-center gap-2 text-white text-sm" style="background-color: darkorange">
+                        <ion-icon name="logo-google" class="text-lg"></ion-icon> Google
+                    </a>
+                    <a asp-controller="Authentication" asp-action="ExternalLogin" asp-route-provider="GitHub" class="button flex-1 flex items-center gap-2 bg-black text-white text-sm">
+                        <ion-icon name="logo-github" class="text-lg"></ion-icon> Github
+                    </a>
+                </div>
+            </form>
+
+        </div>
     </div>
 </div>

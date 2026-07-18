@@ -3,7 +3,51 @@
 @* REGISTER VIEW *@
 
 <div class="sm:flex h-screen overflow-hidden">
-    @* Left Side - Form for Login *@
+
+    @* Left Side - Image Slider *@
+    <div class="flex-1 relative bg-primary max-md:hidden">
+        <div class="relative w-full h-full" tabindex="-1" uk-slideshow="animation: slide; autoplay: true">
+            <ul class="uk-slideshow-items w-full h-full">
+                <li class="w-full">
+                    <img src="~/images/slider/pingedgu-slider-3.png" alt="" class="w-full h-full object-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left " />
+
+                    <div class="absolute bottom-0 w-full uk-transition-slide-bottom-small z-10">
+                        <div class="max-w-xl w-full mx-auto pb-32 px-5 z-30 relative">
+                            <h4 class="!text-white text-2xl font-semibold mt-7" uk-slideshow-parallax="y:600,0,0">
+                                Connect with PingedGus
+                            </h4>
+                            <p class="!text-white text-lg mt-7 leading-8">Find other PingedGus, connect with them, share and interact with posts together.</p>
+                        </div>
+                    </div>
+                    <div class="w-full h-96 bg-gradient-to-t from-black absolute bottom-0 left-0">
+                    </div>
+                </li>
+                <li class="w-full">
+                    <img src="~/images/slider/pingedgu-slider-4.png" alt="" class="w-full h-full object-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left " />
+
+                    <div class="absolute bottom-0 w-full uk-transition-slide-bottom-small z-10">
+                        <div class="max-w-xl w-full mx-auto pb-32 px-5 z-30 relative">
+                            <h4 class="!text-white text-2xl font-semibold mt-7" uk-slideshow-parallax="y:600,0,0">
+                                Connect with PingedGus
+                            </h4>
+                            <p class="!text-white text-lg mt-7 leading-8">Noot! Noot!</p>
+                        </div>
+                    </div>
+                    <div class="w-full h-96 bg-gradient-to-t from-black absolute bottom-0 left-0">
+                    </div>
+                </li>
+            </ul>
+
+            <div class="flex justify-center">
+                <ul class="inline-flex flex-wrap justify-center absolute bottom-8 gap-1.5 uk-dotnav uk-slideshow-nav">
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    @* Right Side - Form for Login *@
     <div class="relative lg:w-[580px] md:w-96 w-full p-10 bg-white shadow-xl flex items-center pt-10 z-10 overflow-y-auto">
 
         <div class="w-full lg:max-w-sm mx-auto space-y-10">
@@ -83,48 +127,5 @@
             </form>
 
         </div>
-    </div>
-
-    @* Right Side - Image Slider *@
-    <div class="flex-1 relative bg-primary max-md:hidden">
-        <div class="relative w-full h-full" tabindex="-1" uk-slideshow="animation: slide; autoplay: true">
-            <ul class="uk-slideshow-items w-full h-full">
-                <li class="w-full">
-                    <img src="~/images/slider/pingedgu-slider-3.png" alt="" class="w-full h-full object-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left " />
-
-                    <div class="absolute bottom-0 w-full uk-transition-slide-bottom-small z-10">
-                        <div class="max-w-xl w-full mx-auto pb-32 px-5 z-30 relative">
-                            <h4 class="!text-white text-2xl font-semibold mt-7" uk-slideshow-parallax="y:600,0,0">
-                                Connect with PingedGus
-                            </h4>
-                            <p class="!text-white text-lg mt-7 leading-8">Find other PingedGus, connect with them, share and interact with posts together.</p>
-                        </div>
-                    </div>
-                    <div class="w-full h-96 bg-gradient-to-t from-black absolute bottom-0 left-0">
-                    </div>
-                </li>
-                <li class="w-full">
-                    <img src="~/images/slider/pingedgu-slider-4.png" alt="" class="w-full h-full object-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left " />
-
-                    <div class="absolute bottom-0 w-full uk-transition-slide-bottom-small z-10">
-                        <div class="max-w-xl w-full mx-auto pb-32 px-5 z-30 relative">
-                            <h4 class="!text-white text-2xl font-semibold mt-7" uk-slideshow-parallax="y:600,0,0">
-                                Connect with PingedGus
-                            </h4>
-                            <p class="!text-white text-lg mt-7 leading-8">Nuk! Nuk!</p>
-                        </div>
-                    </div>
-                    <div class="w-full h-96 bg-gradient-to-t from-black absolute bottom-0 left-0">
-                    </div>
-                </li>
-            </ul>
-
-            <div class="flex justify-center">
-                <ul class="inline-flex flex-wrap justify-center absolute bottom-8 gap-1.5 uk-dotnav uk-slideshow-nav">
-                </ul>
-            </div>
-
-        </div>
-
     </div>
 </div>
