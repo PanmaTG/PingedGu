@@ -21,5 +21,12 @@ namespace PingedGu.Controllers
 
             return View(reportedPosts);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveReport(int postId)
+        {
+            await _adminService.ApproveReportAsync(postId);
+            return RedirectToAction("Index");
+        }
     }
 }
