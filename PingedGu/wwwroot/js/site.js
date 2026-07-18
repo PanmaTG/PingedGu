@@ -72,3 +72,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
+
+// Reply Button
+// Views/Shared/Timeline/_Post.cshtml
+document.addEventListener('input', function (e) {
+    if (!e.target.classList.contains('reply-textarea')) return;
+
+const form = e.target.closest('.add-comment-form');
+const btn = form.querySelector('.reply-submit-btn');
+    const hasContent = e.target.value.trim().length > 0;
+
+btn.disabled = !hasContent;
+
+btn.classList.toggle('bg-gray-200', !hasContent);
+btn.classList.toggle('text-gray-400', !hasContent);
+btn.classList.toggle('cursor-not-allowed', !hasContent);
+
+btn.classList.toggle('bg-secondery', hasContent);
+btn.classList.toggle('text-gray-700', hasContent);
+btn.classList.toggle('hover:bg-gray-300', hasContent);
+btn.classList.toggle('cursor-pointer', hasContent);
+});

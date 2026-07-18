@@ -273,11 +273,16 @@
                         <textarea name="content"
                                   placeholder="Post your reply"
                                   rows="1"
-                                  class="w-full resize-none !bg-transparent px-4 py-2 focus:!border-transparent focus:!ring-transparent !text-black"
+                                  class="reply-textarea w-full resize-none !bg-transparent px-4 py-2 
+                                        focus:!border-transparent focus:!ring-transparent text-gray-700"
                                   id="replyPlaceholder"></textarea>
                     </div>
 
-                    <button type="submit" class="text-sm rounded-full py-1 px-3.5 bg-secondery text-gray-700">Reply</button>
+                    <button type="submit" class="reply-submit-btn text-sm rounded-full py-1 
+                        px-3.5 bg-gray-200 text-gray-400 text-gray-700 cursor-not-allowed transition-colors disabled">
+                        Reply
+                    </button>
+
                 </div>
             </form>
         </div>
@@ -285,3 +290,34 @@
 
     
 </div>
+
+
+<script>
+    function updateReplyButton(textarea) {
+        const form = textarea.closest('.add-comment-form');
+        const btn = form.querySelector('.reply-submit-btn');
+        const hasContent = textarea.value.trim().length > 0;
+
+        btn.disabled = !hasContent;
+
+        btn.classList.toggle('bg-gray-200', !hasContent);
+        btn.classList.toggle('text-gray-400', !hasContent);
+        btn.classList.toggle('cursor-not-allowed', !hasContent);
+
+        btn.classList.toggle('bg-secondery', hasContent);
+        btn.classList.toggle('text-gray-700', hasContent);
+        btn.classList.toggle('hover:bg-gray-300', hasContent);
+        btn.classList.toggle('cursor-pointer', hasContent);
+    }
+
+    function initReplyButtons(scope = document) {
+        scope.querySelectorAll('.reply-textarea').forEach(updateReplyButton);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => initReplyButtons());
+
+    document.addEventListener('input', function (e) {
+        if (!e.target.classList.contains('reply-textarea')) return;
+        updateReplyButton(e.target);
+    });
+</script>
