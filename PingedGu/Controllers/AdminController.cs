@@ -28,5 +28,12 @@ namespace PingedGu.Controllers
             await _adminService.ApproveReportAsync(postId);
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RejectReport(int postId)
+        {
+            await _adminService.RejectReportAsync(postId);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace PingedGu.Data.Services
     {
         Task<List<Post>> GetReportedPostsAsync();
         Task ApproveReportAsync(int postId);
+        Task RejectReportAsync(int postId);
     }
 }
