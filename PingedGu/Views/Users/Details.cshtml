@@ -29,7 +29,7 @@
         @* BOTTOM PROFILE DETAILS SECTION - user posts, etc. *@
         <div class="flex 2xl:gap-12 gap-10 mt-8 max-lg:flex-col" id="js-oversized">
             @* OWN USER POSTS SECTION *@
-            <div class="flex-1 xl\:space-y-6 space-y-3">
+            <div id="posts-container" class="flex-1 xl\:space-y-6 space-y-3">
                 @foreach(var post in Model.Posts)
                 {
                     <partial name="Timeline/_Post" model="post" 
