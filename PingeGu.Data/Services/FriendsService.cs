@@ -145,5 +145,25 @@ namespace PingedGu.Data.Services
 
             return friends;
         }
+
+        public async Task<List<UserWithFriendsCountDto>> GetFriendsWithCountAsync(int userId)
+        {
+            var friendIds = await _context.Friendships
+                .Where(f => f.SenderId == userId || f.ReceiverId == userId)
+                .Select(f => f.SenderId == userId ? f.ReceiverId : f.SenderId)
+                .ToListAsync();
+
+            var friends = await _context.Users
+                .Where(u => friendIds.Contains(u.Id))
+                .Select(u => new UserWithFriendsCountDto
+                {
+                    User = u,
+                    FriendsCount = _context.Friendships
+                        .Count(f => f.SenderId == u.Id || f.ReceiverId == u.Id)
+                })
+                .ToListAsync();
+
+            return friends;
+        }
     }
 }

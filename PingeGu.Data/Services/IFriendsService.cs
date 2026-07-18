@@ -17,5 +17,7 @@ namespace PingedGu.Data.Services
         Task<List<FriendRequest>> GetSentFriendRequestsAsync(int userId);
         Task<List<FriendRequest>> GetReceivedFriendRequestAsync(int userId);
         Task<List<Friendship>> GetFriendsAsync(int userId);
+
+        Task<List<UserWithFriendsCountDto>> GetFriendsWithCountAsync(int userId);
     }
 }
