@@ -1,4 +1,12 @@
-﻿<div id="site__sidebar" class="fixed top-0 left-0 z-[99] pt-[--m-top] overflow-hidden 
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager;
+
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+}
+
+
+<div id="site__sidebar" class="fixed top-0 left-0 z-[99] pt-[--m-top] overflow-hidden 
     transition-transform xl:duration-500 max-xl:w-full max-xl:-translate-x-full">
 
     @* <div class="p-2 max-xl:bg-white shadow-sm 2xl:w-72 sm:w-64 w-[80%] h-[calc(100vh-64px)]
@@ -36,6 +44,21 @@
                     <div class="text-black">Pages</div>
                 </div>
 
+
+                <ul class="mt-2 -space-y-2 text-black">
+                    <li>
+                        <a asp-controller="Users" asp-action="Details" asp-route-userId="@currentUser?.Id" class="flex items-center gap-2">
+                            <span class="block w-6 h-6 rounded-full overflow-hidden shrink-0">
+                                <img src="@(string.IsNullOrEmpty(currentUser?.PfpUrl) 
+                                            ? Url.Content("~/images/avatar/user.png") 
+                                            : Url.Content("~/" + currentUser.PfpUrl))"
+                                     alt="Your profile picture"
+                                     class="w-full h-full object-cover" />
+                            </span>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                </ul>
                 <ul class="mt-2 -space-y-2 text-black"> 
                     <li>
                         <a asp-controller="Settings" asp-action="Index">
