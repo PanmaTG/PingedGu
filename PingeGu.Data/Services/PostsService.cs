@@ -72,7 +72,10 @@ namespace PingedGu.Data.Services
 
         public async Task<Post> CreatePostAsync(Post post)
         {
-
+            if (string.IsNullOrWhiteSpace(post.Content))
+            {
+                throw new ArgumentException("Post content cannot be empty.");
+            }
 
             await _context.Posts.AddAsync(post);
             await _context.SaveChangesAsync();

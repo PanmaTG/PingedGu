@@ -65,6 +65,11 @@ namespace PingedGu.Controllers
             var loggedInUserId = GetUserId();
             if (loggedInUserId == null) return RedirectToLogin();
 
+            if (string.IsNullOrWhiteSpace(post.Content))
+            {
+                return BadRequest("Post content cannot be empty.");
+            }
+
             var imageUploadPath = await _filesService.UploadImageAsync(post.Image, ImageFileType.PostImage);
 
             //Create a new post
@@ -79,9 +84,9 @@ namespace PingedGu.Controllers
             };
 
             await _postsService.CreatePostAsync(newPost);
+            var createdPost = await _postsService.GetPostByIdAsync(newPost.Id);
             await _trendingsService.ProcessTrendingsForNewPostAsync(post.Content);
 
-            var createdPost = await _postsService.GetPostByIdAsync(newPost.Id);
             return PartialView("Timeline/_Post", createdPost);
         }
 
