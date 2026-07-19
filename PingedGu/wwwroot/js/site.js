@@ -53,6 +53,48 @@ document.addEventListener('click', function (event) {
         });
 });
 
+// Post submit button
+// Views/Shared/Shared/StoryModals/_CreatePost.cshtml
+document.querySelector('.create-post-form').addEventListener('submit', function (e) {
+    const content = document.getElementById('postContent').value.trim();
+    const warning = document.getElementById('contentWarning');
+
+    if (content === '') {
+        e.preventDefault();
+        warning.classList.remove('hidden');
+        return;
+    }
+
+    warning.classList.add('hidden');
+
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Posting...';
+    submitBtn.classList.remove('bg-blue-600');
+    submitBtn.classList.add('bg-blue-400', 'cursor-not-allowed');
+});
+
+// Post submit button
+// Views/Shared/Shared/StoryModals/_CreateStory.cshtml
+document.querySelector('.create-story-form').addEventListener('submit', function (e) {
+    const fileInput = document.getElementById('storyUpload');
+    const warning = document.getElementById('storyWarning');
+
+    if (!fileInput.files || fileInput.files.length === 0) {
+        e.preventDefault();
+        warning.classList.remove('hidden');
+        return;
+    }
+
+    warning.classList.add('hidden');
+
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Posting...';
+    submitBtn.classList.remove('bg-blue-600');
+    submitBtn.classList.add('bg-blue-400', 'cursor-not-allowed');
+});
+
 // Reply Button disable/enable
 // Views/Shared/Timeline/_Post.cshtml
 document.addEventListener('input', function (e) {

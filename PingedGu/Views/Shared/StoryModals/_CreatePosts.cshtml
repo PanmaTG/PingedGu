@@ -14,30 +14,31 @@
 
         <form asp-controller="Home" asp-action="CreatePost" enctype="multipart/form-data" class="create-post-form">
             @Html.AntiForgeryToken()
-            <div class="space-y-5 mt-3 p-2">
-                <textarea class="w-full !text-black placeholder:!text-gray-600 !bg-white !border-transparent focus:!border-transparent focus:!ring-transparent !font-normal !text-xl !text-left" 
-                name="content"
-                asp-for="@Model.Content"
-                rows="2"
-                placeholder="How's your day?"></textarea>
+            <div class="space-y-2 mt-3 p-2">
+                <textarea id="postContent" class="w-full !text-black placeholder:!text-gray-600 !bg-white !border-transparent focus:!border-transparent focus:!ring-transparent !font-normal !text-xl !text-left"
+                          name="content"
+                          asp-for="@Model.Content"
+                          rows="2"
+                          placeholder="How's your day?"></textarea>
+                <p id="contentWarning" class="hidden text-red-500 text-xs px-2">Please write something before posting.</p>
             </div>
 
             <div class="flex items-center gap-2 text-sm py-2 px-4 font-medium flex-wrap">
                 <input id="imageUpload" type="file" class="hidden" name="image" accept="image/png, image/jpg, image/jpeg, image/jfif" />
 
-                <div id="imagePreviewContainer" class="hidden" >
+                <div id="imagePreviewContainer" class="hidden">
                     <img id="imagePreview" src="#" class="w-full h-auto rounded" />
                 </div>
-                
-                <button type="button" id="imageUploadBtn" class="flex items-center gap-1.5 bg-sky-50 
-                text-sky-600 rounded-full py-1 px-2 border-2 border-sky-100">
+
+                <button type="button" id="imageUploadBtn" class="flex items-center gap-1.5 bg-sky-50
+                    text-sky-600 rounded-full py-1 px-2 border-2 border-sky-100">
                     <ion-icon name="image" class="text-base"></ion-icon> Image
                 </button>
             </div>
 
             <div class="p-5 flex justify-between items-center">
                 <div class="flex items-center gap-2">
-                    <button type="submit" class="button bg-blue-500 text-white py-2 px-12 text-[14px]"> Create </button>
+                    <button type="submit" class="button bg-blue-600 text-white py-2 px-12 text-[14px] transition-colors duration-150"> Create </button>
                 </div>
 
             </div>
