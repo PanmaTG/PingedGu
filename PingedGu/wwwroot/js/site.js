@@ -6,12 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
             var input = document.getElementById(btn.dataset.target);
             var icon = btn.querySelector('ion-icon');
 
+            icon.style.transition = 'transform 0.15s ease';
+
             if (input.type === 'password') {
                 input.type = 'text';
                 icon.setAttribute('name', 'eye-off-outline');
+                icon.style.transform = 'scale(1.2)';
             } else {
                 input.type = 'password';
                 icon.setAttribute('name', 'eye-outline');
+                icon.style.transform = 'scale(1)';
             }
         });
     });
