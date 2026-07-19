@@ -128,20 +128,29 @@
 
                             <div class="flex items-center gap-10">
                                 <label class="w-32 text-right">Current Password</label>
-                                <div class="flex-1">
-                                    <input type="password" name="currentPassword" placeholder="Enter your current password" class="w-full" />
+                                <div class="flex-1 relative">
+                                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter your current password" class="w-full pr-10" />
+                                    <button type="button" class="toggle-password absolute right-3 top-1/2 -translate-y-1/2" data-target="currentPassword">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                    </button>
                                 </div>
                             </div>
                             <div class="flex items-center gap-10">
                                 <label class="w-32 text-right">New Password</label>
-                                <div class="flex-1">
-                                    <input type="password" name="newPassword" placeholder="Enter your new password" class="w-full" />
+                                <div class="flex-1 relative">
+                                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter your new password" class="w-full pr-10" />
+                                    <button type="button" class="toggle-password absolute right-3 top-1/2 -translate-y-1/2" data-target="newPassword">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                    </button>
                                 </div>
                             </div>
                             <div class="flex items-center gap-10">
                                 <label class="w-32 text-right">Confirm Password</label>
-                                <div class="flex-1">
-                                    <input type="password" name="confirmPassword" placeholder="Confirm your new password" class="w-full" />
+                                <div class="flex-1 relative">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your new password" class="w-full pr-10" />
+                                    <button type="button" class="toggle-password absolute right-3 top-1/2 -translate-y-1/2" data-target="confirmPassword">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                    </button>
                                 </div>
                             </div>
 
