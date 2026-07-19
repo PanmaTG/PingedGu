@@ -14,7 +14,7 @@
                         <div class="relative overflow-hidden rounded-full md:border-[6px] border-gray-100 shrink-0 h-full w-full">
                             <img src="@(string.IsNullOrEmpty(Model.User.PfpUrl)  
                                 ? Url.Content("~/images/avatar/user.png") 
-                                : Url.Content("~/" + Model.User.PfpUrl))" />
+                                : Model.User.PfpUrl)" />
                         </div>
                     </div> 
                 </div>
@@ -66,7 +66,7 @@
                                     <div class="relative w-full aspect-square rounded-lg overflow-hidden">
                                         <img src="@(string.IsNullOrEmpty(friend.User.PfpUrl)
                                                                              ? Url.Content("~/images/avatar/user.png")
-                                                                             : Url.Content("~/" + friend.User.PfpUrl))"
+                                                                             : friend.User.PfpUrl)"
                                              class="object-cover w-full h-full inset-0" />
                                     </div>
 

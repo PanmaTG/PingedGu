@@ -41,7 +41,7 @@
                         <a>
                             @* 2 '?' *@
                             <img src="@(!string.IsNullOrEmpty(post.User.PfpUrl)
-                                        ? Url.Content("~/" + post.User.PfpUrl)
+                                        ? post.User.PfpUrl
                                         : Url.Content(defaultUserPfp))" class="w-9 h-9 rounded-full" />
                         </a>
 
@@ -86,7 +86,7 @@
                     {
                         <a>
                             <div class="relative w-full h-full">
-                                <img src="@Url.Content("~/" + post.ImageUrl)" class="sm:rounded-lg w-full h-full object-cover rounded-b-xl" />
+                                <img src="@post.ImageUrl" class="sm:rounded-lg w-full h-full object-cover rounded-b-xl" />
                             </div>
                         </a>
                     }

@@ -30,7 +30,7 @@
                         <div class="w-14 h-14 flex-shrink-0 rounded-lg relative">
                             <img src="@(string.IsNullOrEmpty(friend.PfpUrl)
                                                                 ? Url.Content("~/images/avatar/user.png")
-                                                                : Url.Content(friend.PfpUrl))" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
+                                                                : friend.PfpUrl)" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
                         </div>
 
                         <div class="flex-1">
@@ -72,7 +72,7 @@
                         <div class="w-14 h-14 flex-shrink-0 rounded-lg relative">
                             <img src="@(string.IsNullOrEmpty(request.Sender.PfpUrl)
                                                                  ? Url.Content("~/images/avatar/user.png")
-                                                                 : Url.Content(request.Sender.PfpUrl))" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
+                                                                 : request.Sender.PfpUrl)" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
                         </div>
 
                         <div class="flex-1">
@@ -123,7 +123,7 @@
                         <div class="w-14 h-14 flex-shrink-0 rounded-lg relative">
                             <img src="@(string.IsNullOrEmpty(request.Receiver.PfpUrl)
                                                                 ? Url.Content("~/images/avatar/user.png")
-                                                                : Url.Content(request.Receiver.PfpUrl))" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
+                                                                : request.Receiver.PfpUrl)" class="absolute w-full h-full inset-0 rounded-md object-cover shadow-sm" />
                         </div>
 
                         <div class="flex-1">

@@ -33,7 +33,7 @@
                 <div class="rounded-full relative bg-secondery cursor-pointer shrink-0">
                     <img src="@(string.IsNullOrEmpty(pfpUrl) 
                         ? Url.Content("~/images/avatar/user.png") 
-                        : Url.Content("~/" + pfpUrl))" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0" />
+                        : pfpUrl)" class="sm:w-9 sm:h-9 w-7 h-7 rounded-full shadow shrink-0" />
                 </div>
 
                 @* PROFILE HOVER SECTION *@
@@ -44,7 +44,7 @@
                         <div class="p-4 py-5 flex items-center gap-4">
                             <img src="@(string.IsNullOrEmpty(pfpUrl) 
                                 ? Url.Content("~/images/avatar/user.png") 
-                                : Url.Content("~/" + pfpUrl))" class="w-10 h-10 rounded-full shadow" />
+                                : pfpUrl)" class="w-10 h-10 rounded-full shadow" />
 
                             <div class="flex-1">
                                 <h4 class="text-sm font-medium !text-black">@fullName</h4>
