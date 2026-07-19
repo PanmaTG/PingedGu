@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Http;
 using PingedGu.Data.Helpers.Enums;
 using PingedGu.Data.Models;
 using System;
@@ -10,37 +12,45 @@ namespace PingedGu.Data.Services
 {
     public class FilesService : IFilesService
     {
+        private readonly BlobServiceClient _blobServiceClient;
+
+        public FilesService(string connectionString)
+        {
+            _blobServiceClient = new BlobServiceClient(connectionString);
+        }
+
         public async Task<string> UploadImageAsync(IFormFile file, ImageFileType imageFileType)
         {
-            string filePathUpload = imageFileType switch
+            string containerName = imageFileType switch
             {
-                ImageFileType.PostImage => Path.Combine("images", "posts"),
-                ImageFileType.StoryImage => Path.Combine("images", "stories"),
-                ImageFileType.ProfilePicture => Path.Combine("images", "profilePictures"),
-                ImageFileType.CoverImage => Path.Combine("images", "covers"),
+                ImageFileType.PostImage => "posts",
+                ImageFileType.StoryImage => "stories",
+                ImageFileType.ProfilePicture => "profilepicture",
+                ImageFileType.CoverImage => "covers",
                 _ => throw new ArgumentException("Invalid file type")
             };
 
-            if (file != null && file.Length > 0)
+            if (file == null || file.Length == 0)
+                return "";
+
+            // Check if container exist
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            await containerClient.CreateIfNotExistsAsync();
+
+            // Generate file name
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var blobClient = containerClient.GetBlobClient(fileName);
+
+            // Upload file to Azure Blob Storage
+            using(var stream = file.OpenReadStream())
             {
-                string rootFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                if (file.ContentType.Contains("image"))
+                await blobClient.UploadAsync(stream, new BlobHttpHeaders
                 {
-                    string rootFolderPathImages = Path.Combine(rootFolderPath, filePathUpload);
-                    Directory.CreateDirectory(rootFolderPathImages);
-
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string filePath = Path.Combine(rootFolderPathImages, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                        await file.CopyToAsync(stream);
-
-                    //Set the ImageUrl property of the new post to the relative path of the saved image
-                    return $"{filePathUpload}\\{fileName}";
-                }
+                    ContentType = file.ContentType
+                });
             }
 
-            return "";
+            return blobClient.Uri.ToString();
         }
     }
 }

@@ -14,16 +14,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(); 
 
 //Database Config
-string dbConnectionString = builder.Configuration.GetConnectionString("Default") ?? "";
+var dbConnectionString = builder.Configuration.GetConnectionString("Default") ?? "";
 //WebAppDbContext is the name of the class I created inside the Data folder
 builder.Services.AddDbContext<WebAppDbContext>(options => options.UseSqlServer(dbConnectionString));
+
+//Azure Connection string
+var blobConnectionString = builder.Configuration["AzureStorageConnectionString"];
 
 //Services Config
 builder.Services.AddScoped<INotificationsService, NotificationsService>();
 builder.Services.AddScoped<IPostsService, PostsService>();
 builder.Services.AddScoped<ITrendingsService, TrendingsService>();
 builder.Services.AddScoped<IStoriesService, StoriesService>();
-builder.Services.AddScoped<IFilesService, FilesService>();
+builder.Services.AddScoped<IFilesService>(s => new FilesService(blobConnectionString));
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IFriendsService, FriendsService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
