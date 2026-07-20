@@ -23,38 +23,38 @@ namespace PingedGu.Data.Helpers
                 }
             }
 
-            // USER W/ ROLES
-            if(!userManager.Users.Any(n => !string.IsNullOrEmpty(n.Email)))
-            {
-                var userPassword = "SPTTarkov123!";
-                var newUser = new User()
-                {
-                    UserName = "panma.tg",
-                    Email = "panma.tg@gmail.com",
-                    FullName = "Panma TG",
-                    PfpUrl = "https://preview.redd.it/whos-your-favorite-sora-v0-2g7mjaz3t64f1.jpg?width=554&format=pjpg&auto=webp&s=47aa5e4e7c0dd58d91743a1841db9308bd1c505a",
-                    EmailConfirmed = true,
-                };
+            //// USER W/ ROLES
+            //if(!userManager.Users.Any(n => !string.IsNullOrEmpty(n.Email)))
+            //{
+            //    var userPassword = "SPTTarkov123!";
+            //    var newUser = new User()
+            //    {
+            //        UserName = "panma.tg",
+            //        Email = "panma.tg@gmail.com",
+            //        FullName = "Panma TG",
+            //        PfpUrl = "https://preview.redd.it/whos-your-favorite-sora-v0-2g7mjaz3t64f1.jpg?width=554&format=pjpg&auto=webp&s=47aa5e4e7c0dd58d91743a1841db9308bd1c505a",
+            //        EmailConfirmed = true,
+            //    };
 
-                var result = await userManager.CreateAsync(newUser, userPassword);
-                if (result.Succeeded)
-                    await userManager.AddToRoleAsync(newUser, AppRoles.User);
+            //    var result = await userManager.CreateAsync(newUser, userPassword);
+            //    if (result.Succeeded)
+            //        await userManager.AddToRoleAsync(newUser, AppRoles.User);
 
 
-                var newAdmin = new User()
-                {
-                    UserName = "zefi.admin",
-                    Email = "zefi@gmail.com",
-                    FullName = "Zefi Admin",
-                    PfpUrl = "https://preview.redd.it/whos-your-favorite-sora-v0-2g7mjaz3t64f1.jpg?width=554&format=pjpg&auto=webp&s=47aa5e4e7c0dd58d91743a1841db9308bd1c505a",
-                    EmailConfirmed = true,
-                };
+            //    var newAdmin = new User()
+            //    {
+            //        UserName = "zefi.admin",
+            //        Email = "zefi@gmail.com",
+            //        FullName = "Zefi Admin",
+            //        PfpUrl = "https://preview.redd.it/whos-your-favorite-sora-v0-2g7mjaz3t64f1.jpg?width=554&format=pjpg&auto=webp&s=47aa5e4e7c0dd58d91743a1841db9308bd1c505a",
+            //        EmailConfirmed = true,
+            //    };
 
-                var resultNewAdmin = await userManager.CreateAsync(newAdmin, userPassword);
-                if (resultNewAdmin.Succeeded)
-                    await userManager.AddToRoleAsync(newAdmin, AppRoles.Admin);
+            //    var resultNewAdmin = await userManager.CreateAsync(newAdmin, userPassword);
+            //    if (resultNewAdmin.Succeeded)
+            //        await userManager.AddToRoleAsync(newAdmin, AppRoles.Admin);
 
-            }
+            //}
         }
 
         //To make this an async change void → Task
