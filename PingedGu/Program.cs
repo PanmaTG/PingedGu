@@ -76,11 +76,11 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<WebAppDbContext>();
-    await dbContext.Database.MigrateAsync();
+    //await dbContext.Database.MigrateAsync();
 
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
-    await DbInitializer.SeedUsersAndRolesAsync(userManager, roleManager);
+    //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    //var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
+    //await DbInitializer.SeedUsersAndRolesAsync(userManager, roleManager);
 
     //await DbInitializer.SeedAsync(dbContext);
 }
